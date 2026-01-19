@@ -1,245 +1,555 @@
 ---
 name: foundry-nextgen-frontend
-description: Build elegant frontend UIs following Microsoft Foundry's NextGen Design System using Vite + React + pnpm. Use when creating dashboards, agent builders, data grids, entity management interfaces, or any application matching Foundry's refined dark-themed, purple-accented aesthetic. Triggers on requests for Foundry-style UI, NextGen design system, Microsoft Foundry interfaces, or enterprise admin dashboards with data tables, detail panels, and charts.
+description: Build elegant frontend UIs following Microsoft Foundry's NextGen Design System using Vite + React + pnpm + Framer Motion. Use when creating dashboards, agent builders, data grids, entity management interfaces, or any application matching Foundry's refined dark-themed aesthetic.
 ---
 
 # Microsoft Foundry NextGen Frontend Skill
 
-Build elegant, production-ready interfaces following Microsoft Foundry's NextGen Design System - a refined dark-themed design language with purple brand accents built on Fluent 2 principles.
+Build elegant, production-ready interfaces following Microsoft Foundry's NextGen Design System - a refined **neutral dark-themed** design language with **minimal purple accents** and **subtle animations**.
+
+## ⚠️ CRITICAL: Color Usage Rules
+
+**Purple (#8251EE / #A37EF5) is ONLY for:**
+- Primary action buttons (filled background)
+- Active tab indicators (2px underline)
+- Row selection indicators (left border bar)
+- Active sidebar navigation icons
+- Links and interactive text
+- Progress indicators and sliders
+
+**Everything else uses NEUTRAL DARK GREYS:**
+- Backgrounds: Near-black (#0A0A0A, #0D0D0D)
+- Cards/Surfaces: Dark grey (#141414, #1C1C1C) with **NO visible borders** or very subtle ones
+- Text: White (#FFFFFF), grey (#A1A1A1), muted (#6B6B6B)
+- Borders: **Mostly invisible** or very subtle (#1F1F1F)
 
 ## Preferred Stack
-
-**Vite + React + pnpm** - Fast, modern, elegant.
 
 ```bash
 pnpm create vite@latest my-foundry-app --template react-ts
 cd my-foundry-app
 pnpm install
-pnpm add @fluentui/react-components @fluentui/react-icons
+pnpm add framer-motion lucide-react
 ```
 
-## When to Use
+**Required packages:**
+- `framer-motion` - for subtle, elegant animations
+- `lucide-react` - for icons
 
-- Building Microsoft Foundry-style interfaces
-- Creating agent builder UIs, entity management dashboards
-- Implementing data grids with detail panels
-- Any enterprise UI requiring elegant dark theme with purple brand colors
+## ⚠️ CRITICAL: Spacing & Padding Rules
 
-## Quick Reference
-
-### Core Design Tokens
+**Consistent spacing is non-negotiable. Use the spacing scale:**
 
 ```css
 :root {
-  /* Brand Purple Scale */
-  --brand-10: #030206;
-  --brand-20: #1A1326;
-  --brand-30: #2B1D44;
-  --brand-40: #38255E;
-  --brand-50: #472E79;
-  --brand-60: #553695;
-  --brand-70: #643FB2;
-  --brand-80: #8251EE;
-  --brand-90: #8251EE;
-  --brand-100: #9263F1;
-  --brand-110: #A175F3;
-  --brand-120: #AF86F5;
-  --brand-130: #BC98F7;
-  --brand-140: #C9AAF9;
-  --brand-150: #D5BCFB;
-  --brand-160: #E1CEFC;
-
-  /* Semantic Colors */
-  --background-primary: #030206;
-  --background-secondary: #1A1326;
-  --background-surface: #2B1D44;
-  --foreground-primary: #E1CEFC;
-  --foreground-secondary: #AF86F5;
-  --accent-primary: #8251EE;
-  --accent-cta: #E91E8C;
-
-  /* Status Colors */
-  --status-success: #0F7B0F;
-  --status-success-bg: #1B4D1B;
-  --status-warning: #F7931E;
-  --status-warning-bg: #4D3D1B;
-  --status-error: #D32F2F;
-  --status-error-bg: #4D1B1B;
-
-  /* Spacing */
-  --spacing-xs: 4px;
-  --spacing-sm: 8px;
-  --spacing-md: 16px;
-  --spacing-lg: 24px;
-  --spacing-xl: 32px;
-
-  /* Border Radius */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-
-  /* Typography */
-  --font-family: 'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif;
-  --font-size-sm: 12px;
-  --font-size-md: 14px;
-  --font-size-lg: 16px;
-  --font-size-xl: 20px;
-  --font-size-2xl: 24px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
 }
 ```
 
-### Component Quick Start
+**Standard padding patterns:**
+| Element | Padding |
+|---------|---------|
+| Page content | 32px (--space-8) |
+| Card | 20px (--space-5) |
+| Card header | 16px 20px |
+| Button | 8px 16px |
+| Input | 10px 12px |
+| Table cell | 12px 16px |
+| Modal body | 24px |
+| Badge/Tag | 4px 10px |
 
-**Badge**: `<Badge color="success|warning|error" appearance="filled|outline" size="small|medium|large">`
+**Grid gaps:**
+| Layout | Gap |
+|--------|-----|
+| Card grid | 16px (--space-4) |
+| Form fields | 20px (--space-5) |
+| Button group | 12px (--space-3) |
+| Tag group | 8px (--space-2) |
 
-**Button**: Primary (purple filled), Secondary (outline), with optional icon-only mode
+## Core Design Tokens
 
-**DataGrid**: Table with sortable columns, row selection, pagination, integrated search
+```css
+:root {
+  /* BACKGROUNDS - Neutral Darks */
+  --bg-page: #0A0A0A;
+  --bg-sidebar: #0D0D0D;
+  --bg-card: #141414;
+  --bg-surface: #1C1C1C;
+  --bg-elevated: #242424;
+  --bg-hover: rgba(255, 255, 255, 0.05);
+  --bg-active: rgba(255, 255, 255, 0.08);
 
-See `references/components.md` for full component specs.
+  /* TEXT */
+  --text-primary: #FFFFFF;
+  --text-secondary: #A1A1A1;
+  --text-muted: #6B6B6B;
+  --text-disabled: #4A4A4A;
+  --text-link: #A37EF5;
 
-## Workflow
+  /* BRAND - Use Sparingly! */
+  --brand-primary: #8251EE;
+  --brand-hover: #9366F5;
+  --brand-light: #A37EF5;
 
-1. **Identify the pattern**: Dashboard, entity list, agent builder, detail panel?
-2. **Apply design tokens**: Use CSS variables from above
-3. **Use correct components**: Match Fluent 2 patterns with NextGen styling
-4. **Follow layout patterns**: See `references/patterns.md`
+  /* BORDERS - Keep Subtle! */
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-default: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.12);
 
-## Key Principles
+  /* STATUS */
+  --success: #10B981;
+  --success-bg: rgba(16, 185, 129, 0.12);
+  --warning: #F59E0B;
+  --warning-bg: rgba(245, 158, 11, 0.12);
+  --error: #EF4444;
+  --error-bg: rgba(239, 68, 68, 0.12);
+  --info: #3B82F6;
+  --info-bg: rgba(59, 130, 246, 0.12);
 
-1. **Dark-first design**: Background is near-black (#030206), surfaces use purple-tinted darks
-2. **Purple brand accent**: Primary actions use #8251EE, CTAs can use magenta #E91E8C
-3. **Subtle depth**: Use shadow and surface elevation, not borders
-4. **Dense but readable**: Enterprise UIs balance information density with whitespace
-5. **Fluent 2 compliance**: Components follow Fluent 2 specs with NextGen color theming
-
-## File References
-
-- **Design Tokens**: See `references/design-tokens.md` for complete color, typography, and spacing scales
-- **Components**: See `references/components.md` for Badge, Button, DataGrid, Tabs, Input, Panel specs
-- **Patterns**: See `references/patterns.md` for page layouts (Entity List, Agent Builder, Dashboard)
-
-## Logo Assets
-
-- **Dark theme**: `assets/foundry-logo-dark.png` - 3D metallic purple logo with glow
-- **Light theme**: `assets/foundry-logo-light.png` - Dotted/halftone monochrome logo
-
-## React + Vite Implementation
-
-### Project Setup
-
-```bash
-pnpm create vite@latest foundry-app --template react-ts
-cd foundry-app
-pnpm add @fluentui/react-components @fluentui/react-icons
-pnpm add -D tailwindcss postcss autoprefixer
-pnpm dlx tailwindcss init -p
+  /* RADIUS */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+}
 ```
 
-### Theme Configuration
+## ⚠️ CRITICAL: Animation with Framer Motion
 
-```tsx
-// src/theme/foundryTheme.ts
-import { createDarkTheme, BrandVariants } from '@fluentui/react-components';
+**Always add subtle animations. Never skip animations.**
 
-const foundryBrand: BrandVariants = {
-  10: '#030206',
-  20: '#1A1326',
-  30: '#2B1D44',
-  40: '#38255E',
-  50: '#472E79',
-  60: '#553695',
-  70: '#643FB2',
-  80: '#8251EE',
-  90: '#8251EE',
-  100: '#9263F1',
-  110: '#A175F3',
-  120: '#AF86F5',
-  130: '#BC98F7',
-  140: '#C9AAF9',
-  150: '#D5BCFB',
-  160: '#E1CEFC',
+```jsx
+import { motion } from 'framer-motion';
+
+// Page/container fade in
+const pageVariants = {
+  hidden: { opacity: 0 },
+  visible: { 
+    opacity: 1,
+    transition: { duration: 0.3, ease: 'easeOut' }
+  }
 };
 
-export const foundryTheme = createDarkTheme(foundryBrand);
+// Stagger children (for lists, grids)
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.05,
+      delayChildren: 0.1
+    }
+  }
+};
 
-// Refined overrides for elegance
-foundryTheme.colorNeutralBackground1 = '#030206';
-foundryTheme.colorNeutralBackground2 = '#1A1326';
-foundryTheme.colorNeutralBackground3 = '#2B1D44';
-foundryTheme.colorBrandBackground = '#8251EE';
-foundryTheme.colorBrandBackgroundHover = '#9263F1';
-foundryTheme.colorBrandBackgroundPressed = '#643FB2';
+// Individual item animation
+const itemVariants = {
+  hidden: { opacity: 0, y: 8 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.3, ease: 'easeOut' }
+  }
+};
+
+// Hover scale for cards/buttons
+const hoverScale = {
+  whileHover: { scale: 1.01 },
+  whileTap: { scale: 0.99 },
+  transition: { duration: 0.15 }
+};
 ```
 
-### App Entry
+**Standard animation patterns:**
 
-```tsx
-// src/App.tsx
-import { FluentProvider } from '@fluentui/react-components';
-import { foundryTheme } from './theme/foundryTheme';
+```jsx
+// Page wrapper - always animate page entry
+<motion.div
+  initial="hidden"
+  animate="visible"
+  variants={pageVariants}
+  className="page"
+>
+  {children}
+</motion.div>
 
-export default function App() {
+// Card grid with stagger
+<motion.div
+  variants={containerVariants}
+  initial="hidden"
+  animate="visible"
+  className="card-grid"
+>
+  {items.map(item => (
+    <motion.div key={item.id} variants={itemVariants}>
+      <Card {...item} />
+    </motion.div>
+  ))}
+</motion.div>
+
+// Interactive card with hover
+<motion.div
+  className="card"
+  whileHover={{ scale: 1.01, backgroundColor: 'rgba(255,255,255,0.02)' }}
+  whileTap={{ scale: 0.99 }}
+  transition={{ duration: 0.15 }}
+>
+  {content}
+</motion.div>
+
+// Button with press feedback
+<motion.button
+  className="btn btn-primary"
+  whileHover={{ scale: 1.02 }}
+  whileTap={{ scale: 0.98 }}
+  transition={{ duration: 0.1 }}
+>
+  Create
+</motion.button>
+
+// Modal with backdrop
+<motion.div
+  className="modal-overlay"
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  exit={{ opacity: 0 }}
+>
+  <motion.div
+    className="modal"
+    initial={{ opacity: 0, scale: 0.95, y: 10 }}
+    animate={{ opacity: 1, scale: 1, y: 0 }}
+    exit={{ opacity: 0, scale: 0.95, y: 10 }}
+    transition={{ duration: 0.2, ease: 'easeOut' }}
+  >
+    {content}
+  </motion.div>
+</motion.div>
+```
+
+## Card Component (Correct Implementation)
+
+**Cards should have NO visible borders or very subtle ones.**
+
+```jsx
+import { motion } from 'framer-motion';
+
+function Card({ title, description, status, tags, meta }) {
   return (
-    <FluentProvider theme={foundryTheme}>
-      <div className="min-h-screen bg-[#030206]">
-        {/* Your app */}
+    <motion.div 
+      className="card"
+      whileHover={{ 
+        scale: 1.01,
+        backgroundColor: 'rgba(255, 255, 255, 0.02)'
+      }}
+      transition={{ duration: 0.15 }}
+    >
+      <div className="card-header">
+        <h3 className="card-title">{title}</h3>
+        {status && <StatusBadge status={status} />}
       </div>
-    </FluentProvider>
+      
+      <p className="card-description">{description}</p>
+      
+      {tags && (
+        <div className="card-tags">
+          {tags.map(tag => (
+            <span key={tag} className="tag">{tag}</span>
+          ))}
+        </div>
+      )}
+      
+      {meta && (
+        <div className="card-meta">
+          {meta}
+        </div>
+      )}
+    </motion.div>
   );
 }
 ```
 
-## Design Philosophy: Elegant Restraint
+```css
+.card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);  /* 20px */
+  /* NO border or very subtle */
+  border: 1px solid transparent;
+  /* Use subtle shadow instead of border */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
 
-1. **Refined, not busy**: Every element earns its place. Remove before adding.
-2. **Purposeful motion**: Subtle 200ms transitions. No gratuitous animation.
-3. **Breathing room**: Generous whitespace creates sophistication.
-4. **Consistent depth**: Use shadow and surface color, never borders for separation.
-5. **Typography hierarchy**: Let type scale do the work. Avoid bold overuse.
+.card:hover {
+  /* Subtle border on hover only */
+  border-color: var(--border-subtle);
+}
 
-## Tailwind Configuration
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-3);  /* 12px */
+}
 
-```js
-// tailwind.config.js
-export default {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-  theme: {
-    extend: {
-      colors: {
-        foundry: {
-          bg: '#030206',
-          surface: '#1A1326',
-          elevated: '#2B1D44',
-          accent: '#8251EE',
-          'accent-hover': '#9263F1',
-          cta: '#E91E8C',
-          text: '#E1CEFC',
-          'text-muted': '#AF86F5',
-        },
-      },
-      fontFamily: {
-        sans: ['Segoe UI Variable', 'Segoe UI', 'system-ui', 'sans-serif'],
-      },
-    },
-  },
-};
+.card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.card-description {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0 0 var(--space-4);  /* 16px bottom */
+  line-height: 1.5;
+}
+
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);  /* 8px */
+  margin-bottom: var(--space-4);
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  font-size: 12px;
+  color: var(--text-muted);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-subtle);
+}
 ```
 
-### Usage
+## Tags & Badges
 
-```tsx
-<button className="bg-foundry-accent hover:bg-foundry-accent-hover text-white px-4 py-2 rounded transition-colors duration-200">
-  Primary Action
-</button>
+```css
+/* Service/integration tags - subtle, not colorful */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+}
+
+/* Status badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  border-radius: var(--radius-sm);
+}
+
+.badge-success {
+  background: var(--success-bg);
+  color: var(--success);
+}
+
+.badge-info {
+  background: var(--info-bg);
+  color: var(--info);
+}
+
+.badge-warning {
+  background: var(--warning-bg);
+  color: var(--warning);
+}
 ```
 
-## Critical Don'ts
+## Card Grid Layout
 
-- Don't use light backgrounds - dark-theme-only system
-- Don't use Inter, Roboto, or generic fonts - use Segoe UI Variable
-- Don't use rounded-full buttons - use 4px radius for refinement
-- Don't use visible borders - prefer shadow and background elevation
-- Don't mix brand purple with other saturated hues (except status colors)
-- Don't over-animate - subtlety is elegance
-- Don't crowd elements - let the design breathe
+```css
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--space-4);  /* 16px - consistent gap */
+  padding: var(--space-8);  /* 32px page padding */
+}
+
+/* For fixed 4-column layout */
+.card-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+}
+
+/* For 3-column layout */
+.card-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+}
+```
+
+## Page Layout with Sidebar
+
+```jsx
+function AppLayout({ children }) {
+  return (
+    <div className="app-layout">
+      <Sidebar />
+      <main className="main-content">
+        <TopBar />
+        <motion.div 
+          className="page-content"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+        >
+          {children}
+        </motion.div>
+      </main>
+    </div>
+  );
+}
+```
+
+```css
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+  background: var(--bg-page);
+}
+
+.sidebar {
+  width: 56px;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.topbar {
+  height: 48px;
+  background: var(--bg-sidebar);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-6);
+}
+
+.page-content {
+  flex: 1;
+  padding: var(--space-8);  /* 32px consistent padding */
+  overflow-y: auto;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-6);  /* 24px before content */
+}
+
+.page-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+```
+
+## Buttons
+
+```jsx
+<motion.button
+  className="btn btn-primary"
+  whileHover={{ scale: 1.02 }}
+  whileTap={{ scale: 0.98 }}
+>
+  Create
+</motion.button>
+
+<motion.button
+  className="btn btn-secondary"
+  whileHover={{ scale: 1.02 }}
+  whileTap={{ scale: 0.98 }}
+>
+  Cancel
+</motion.button>
+```
+
+```css
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.btn-primary {
+  background: var(--brand-primary);
+  color: white;
+  border: none;
+}
+
+.btn-primary:hover {
+  background: var(--brand-hover);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-strong);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-hover);
+}
+```
+
+## Critical Don'ts ❌
+
+- **Don't use visible card borders** - cards blend into background
+- **Don't use inconsistent padding** - follow the spacing scale
+- **Don't forget animations** - every list, modal, page needs motion
+- **Don't use purple for cards/backgrounds** - neutral greys only
+- **Don't skip hover states** - everything interactive needs feedback
+- **Don't use hard-coded pixel values** - use CSS variables
+
+## Critical Do's ✅
+
+- Use Framer Motion for all animations
+- Use consistent spacing scale (4, 8, 12, 16, 20, 24, 32px)
+- Use 32px padding for page content areas
+- Use 16px gap for card grids
+- Use transparent or very subtle borders
+- Add hover animations to interactive elements
+- Stagger list/grid item animations
+
+## File References
+
+- **Design Tokens**: See `references/design-tokens.md`
+- **Components**: See `references/components.md`
+- **Patterns**: See `references/patterns.md`

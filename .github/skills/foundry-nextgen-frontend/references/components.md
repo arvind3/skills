@@ -1,164 +1,171 @@
-# Microsoft Foundry NextGen Components
+# Foundry NextGen Components
 
-Elegant component specifications following Fluent 2 patterns with NextGen theming.
+All components use **Framer Motion** for animations and follow **strict spacing rules**.
 
-## Table of Contents
+## Animation Variants (Required)
 
-1. [Badge](#badge)
-2. [Button](#button)
-3. [Input](#input)
-4. [Tabs](#tabs)
-5. [DataGrid](#datagrid)
-6. [Panel](#panel)
-7. [Slider](#slider)
-8. [Toggle](#toggle)
+```jsx
+import { motion, AnimatePresence } from 'framer-motion';
 
----
+// Reusable variants - put in a shared file
+export const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.3, ease: 'easeOut' } }
+};
 
-## Badge
+export const fadeInUp = {
+  hidden: { opacity: 0, y: 8 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.3, ease: 'easeOut' } }
+};
 
-Small, color-coded visual element for labeling, categorizing, or indicating status/severity.
+export const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.05, delayChildren: 0.1 }
+  }
+};
 
-### Variants
+export const scaleOnHover = {
+  whileHover: { scale: 1.01 },
+  whileTap: { scale: 0.99 },
+  transition: { duration: 0.15 }
+};
+```
 
-| Variant | Color | Background | Usage |
-|---------|-------|------------|-------|
-| Success | #0F7B0F | #1B4D1B (filled) | Completed, active, healthy |
-| Warning | #F7931E | #4D3D1B (filled) | Attention needed, pending |
-| Error | #D32F2F | #4D1B1B (filled) | Failed, critical, blocked |
-| Info | #8251EE | #2B1D44 (filled) | Informational, neutral |
-| On | #0F7B0F | transparent | Boolean on state |
-| Off | #888888 | transparent | Boolean off state |
+## Card
 
-### Appearances
+**Cards have NO visible borders.** They blend into the background.
 
-- **Filled**: Solid background with white/light text
-- **Outline**: Transparent background with colored border and text
+```jsx
+import { motion } from 'framer-motion';
 
-### Sizes
-
-| Size | Height | Padding | Font Size |
-|------|--------|---------|-----------|
-| Small | 20px | 4px 8px | 11px |
-| Medium | 24px | 4px 8px | 12px |
-| Large | 28px | 4px 12px | 14px |
-
-### Implementation
-
-```tsx
-// React with Fluent UI
-import { Badge } from '@fluentui/react-components';
-
-<Badge appearance="filled" color="success" size="medium">
-  Complete
-</Badge>
-
-// Custom HTML/CSS
-<span class="badge badge--success badge--filled">
-  <svg class="badge__icon">...</svg>
-  Complete
-</span>
+function Card({ title, description, status, tags, meta, href }) {
+  return (
+    <motion.div 
+      className="card"
+      variants={fadeInUp}
+      whileHover={{ 
+        scale: 1.01,
+        backgroundColor: 'rgba(255, 255, 255, 0.02)'
+      }}
+      transition={{ duration: 0.15 }}
+    >
+      <div className="card-header">
+        <h3 className="card-title">{title}</h3>
+        {status && <Badge variant={status.variant}>{status.label}</Badge>}
+      </div>
+      
+      <p className="card-description">{description}</p>
+      
+      {tags && (
+        <div className="card-tags">
+          {tags.map(tag => <Tag key={tag}>{tag}</Tag>)}
+        </div>
+      )}
+      
+      {meta && <div className="card-meta">{meta}</div>}
+    </motion.div>
+  );
+}
 ```
 
 ```css
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
+.card {
+  background: var(--bg-card);  /* #141414 */
+  border-radius: var(--radius-lg);  /* 8px */
+  padding: 20px;  /* var(--space-5) */
+  border: 1px solid transparent;  /* NO visible border */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.card:hover {
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;  /* var(--space-3) */
+}
+
+.card-title {
+  font-size: 15px;
   font-weight: 600;
-  line-height: 1;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.3;
 }
 
-.badge--success.badge--filled {
-  background: #1B4D1B;
-  color: #4ADE80;
+.card-description {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0 0 16px;  /* var(--space-4) bottom */
 }
 
-.badge--success.badge--outline {
-  background: transparent;
-  border: 1px solid #0F7B0F;
-  color: #0F7B0F;
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;  /* var(--space-2) */
+  margin-bottom: 16px;
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: var(--text-muted);
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 ```
 
-### Do's and Don'ts
+## Card Grid
 
-✅ Use badges to highlight status, notifications, or key information
-✅ Choose appropriate appearance (status, severity) to match meaning
-✅ Use clear, concise text within the badge
-✅ Place badge in proximity to the item it relates to
-
-❌ Don't use badges for purely decorative purposes
-❌ Don't overuse badges - dilutes their impact
-❌ Don't use excessively long text within a badge
-❌ Don't rely solely on color to convey meaning - use text or icons
-
----
-
-## Button
-
-Interactive element for triggering actions.
-
-### Variants
-
-| Variant | Background | Text | Border | Usage |
-|---------|------------|------|--------|-------|
-| Primary | #8251EE | #FFFFFF | none | Main actions |
-| Primary (CTA) | #E91E8C | #FFFFFF | none | Create, Submit |
-| Secondary | transparent | #E1CEFC | 1px #553695 | Alternative actions |
-| Subtle | transparent | #AF86F5 | none | Tertiary actions |
-| Danger | #D32F2F | #FFFFFF | none | Destructive actions |
-
-### States
+```jsx
+<motion.div
+  className="card-grid"
+  variants={staggerContainer}
+  initial="hidden"
+  animate="visible"
+>
+  {items.map(item => (
+    <motion.div key={item.id} variants={fadeInUp}>
+      <Card {...item} />
+    </motion.div>
+  ))}
+</motion.div>
+```
 
 ```css
-/* Primary Button States */
-.btn-primary {
-  background: #8251EE;
-  color: #FFFFFF;
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;  /* var(--space-4) */
 }
-.btn-primary:hover {
-  background: #9263F1;
-}
-.btn-primary:active {
-  background: #643FB2;
-}
-.btn-primary:focus-visible {
-  outline: 2px solid #8251EE;
-  outline-offset: 2px;
-}
-.btn-primary:disabled {
-  background: #472E79;
-  color: #AF86F5;
-  cursor: not-allowed;
-}
+
+/* Fixed column variants */
+.card-grid-4 { grid-template-columns: repeat(4, 1fr); }
+.card-grid-3 { grid-template-columns: repeat(3, 1fr); }
+.card-grid-2 { grid-template-columns: repeat(2, 1fr); }
 ```
 
-### Sizes
+## Buttons
 
-| Size | Height | Padding | Font Size | Icon Size |
-|------|--------|---------|-----------|-----------|
-| Small | 28px | 8px 12px | 12px | 16px |
-| Medium | 32px | 8px 16px | 14px | 20px |
-| Large | 40px | 12px 24px | 16px | 24px |
-
-### Button with Icon
-
-```tsx
-// Icon before text
-<Button icon={<AddIcon />}>Create new</Button>
-
-// Icon only (requires aria-label)
-<Button icon={<SettingsIcon />} aria-label="Settings" />
-
-// Icon after text
-<Button iconPosition="after" icon={<ChevronRightIcon />}>Next</Button>
+```jsx
+<motion.button
+  className="btn btn-primary"
+  whileHover={{ scale: 1.02 }}
+  whileTap={{ scale: 0.98 }}
+  transition={{ duration: 0.1 }}
+>
+  Create
+</motion.button>
 ```
-
-### Implementation
 
 ```css
 .btn {
@@ -166,436 +173,394 @@ Interactive element for triggering actions.
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 8px 16px;
-  border-radius: 4px;
-  font-family: var(--font-family-base);
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1;
+  padding: 8px 16px;  /* Consistent padding */
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 6px;  /* var(--radius-md) */
   cursor: pointer;
-  transition: var(--transition-colors);
+  transition: all 0.15s ease;
+}
+
+.btn-primary {
+  background: var(--brand-primary);  /* #8251EE */
+  color: white;
   border: none;
 }
+.btn-primary:hover { background: var(--brand-hover); }
 
-.btn--icon-only {
-  padding: 8px;
-  aspect-ratio: 1;
+.btn-secondary {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.btn-secondary:hover { background: rgba(255, 255, 255, 0.05); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: none;
+}
+.btn-ghost:hover { 
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+}
+
+.btn-icon {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-secondary);
+  border: none;
+}
+.btn-icon:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
 }
 ```
 
----
+## Tags
 
-## Input
-
-Text input field for user data entry.
-
-### Anatomy
-
-- Container (border, background)
-- Label (above or floating)
-- Input field
-- Helper text (below)
-- Leading/trailing icons (optional)
-
-### States
-
-| State | Background | Border | Label Color |
-|-------|------------|--------|-------------|
-| Default | #1A1326 | 1px #553695 | #AF86F5 |
-| Hover | #2B1D44 | 1px #8251EE | #AF86F5 |
-| Focus | #2B1D44 | 2px #8251EE | #8251EE |
-| Filled | #1A1326 | 1px #553695 | #AF86F5 |
-| Error | #1A1326 | 2px #D32F2F | #D32F2F |
-| Disabled | #0D0A10 | 1px #38255E | #553695 |
-
-### Implementation
+**Tags are subtle, not colorful. Grey background.**
 
 ```css
-.input-container {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.input-label {
-  font-size: 12px;
-  font-weight: 600;
-  color: #AF86F5;
-}
-
-.input-field {
-  height: 36px;
-  padding: 0 12px;
-  background: #1A1326;
-  border: 1px solid #553695;
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
   border-radius: 4px;
-  color: #E1CEFC;
-  font-size: 14px;
-  transition: var(--transition-colors);
+  background: var(--bg-surface);  /* #1C1C1C */
+  color: var(--text-secondary);  /* #A1A1A1 */
 }
 
-.input-field:hover {
-  background: #2B1D44;
-  border-color: #8251EE;
-}
-
-.input-field:focus {
-  outline: none;
-  border-color: #8251EE;
-  border-width: 2px;
-}
-
-.input-field::placeholder {
-  color: #BC98F7;
-}
+/* Special tag variants for services */
+.tag-github { background: rgba(255, 255, 255, 0.08); }
+.tag-sdk { background: rgba(255, 255, 255, 0.06); }
 ```
 
----
+## Badges (Status)
+
+**Badges use semantic colors with low opacity backgrounds.**
+
+```css
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.badge-success {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10B981;
+}
+
+.badge-info {
+  background: rgba(59, 130, 246, 0.12);
+  color: #3B82F6;
+}
+
+.badge-warning {
+  background: rgba(245, 158, 11, 0.12);
+  color: #F59E0B;
+}
+
+.badge-error {
+  background: rgba(239, 68, 68, 0.12);
+  color: #EF4444;
+}
+```
 
 ## Tabs
 
-Navigation between related content sections.
-
-### Anatomy
-
-- Tab list (container)
-- Tab items (clickable)
-- Tab panels (content)
-- Active indicator (underline)
-
-### Styles
-
-| Style | Active Indicator | Usage |
-|-------|------------------|-------|
-| Underline | 2px bottom border | Primary navigation |
-| Pill | Background fill | Compact sections |
-
-### Implementation
+```jsx
+<nav className="tabs">
+  {tabs.map(tab => (
+    <motion.button
+      key={tab.id}
+      className={`tab ${activeTab === tab.id ? 'active' : ''}`}
+      onClick={() => setActiveTab(tab.id)}
+      whileHover={{ color: '#FFFFFF' }}
+    >
+      {tab.label}
+      {activeTab === tab.id && (
+        <motion.div 
+          className="tab-indicator"
+          layoutId="activeTab"
+          transition={{ duration: 0.2 }}
+        />
+      )}
+    </motion.button>
+  ))}
+</nav>
+```
 
 ```css
-.tab-list {
+.tabs {
   display: flex;
-  gap: 0;
-  border-bottom: 1px solid #2B1D44;
+  gap: 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  margin-bottom: 24px;
 }
 
-.tab-item {
-  padding: 12px 16px;
+.tab {
+  position: relative;
+  padding: 12px 0;
   font-size: 14px;
-  font-weight: 500;
-  color: #AF86F5;
-  background: transparent;
+  color: var(--text-muted);  /* #6B6B6B */
+  background: none;
   border: none;
   cursor: pointer;
-  position: relative;
-  transition: var(--transition-colors);
 }
 
-.tab-item:hover {
-  color: #E1CEFC;
+.tab:hover { color: var(--text-primary); }
+
+.tab.active {
+  color: var(--text-primary);
+  font-weight: 500;
 }
 
-.tab-item[aria-selected="true"] {
-  color: #E1CEFC;
-  font-weight: 600;
-}
-
-.tab-item[aria-selected="true"]::after {
-  content: '';
+.tab-indicator {
   position: absolute;
   bottom: -1px;
   left: 0;
   right: 0;
   height: 2px;
-  background: #8251EE;
+  background: var(--brand-primary);  /* Purple only here */
 }
 ```
 
----
-
-## DataGrid
-
-Table component for displaying and managing data.
-
-### Anatomy
-
-- Toolbar (search, filters, actions)
-- Column headers (sortable)
-- Data rows (selectable)
-- Pagination
-- Optional: Selection column, row actions
-
-### Column Header
+## Form Inputs
 
 ```css
-.datagrid-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 16px;
-  background: #1A1326;
-  font-size: 12px;
-  font-weight: 600;
-  color: #AF86F5;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.datagrid-header--sortable {
-  cursor: pointer;
-}
-
-.datagrid-header--sorted .sort-icon {
-  color: #8251EE;
-}
-```
-
-### Data Row
-
-```css
-.datagrid-row {
-  display: flex;
-  align-items: center;
-  padding: 0;
-  background: #030206;
-  border-bottom: 1px solid #1A1326;
-  transition: var(--transition-colors);
-}
-
-.datagrid-row:hover {
-  background: #1A1326;
-}
-
-.datagrid-row--selected {
-  background: #2B1D44;
-}
-
-.datagrid-cell {
-  padding: 12px 16px;
-  font-size: 14px;
-  color: #E1CEFC;
-}
-
-.datagrid-cell--link {
-  color: #6BB3FF;
-  cursor: pointer;
-}
-
-.datagrid-cell--link:hover {
-  text-decoration: underline;
-}
-```
-
-### Selection
-
-```css
-.datagrid-checkbox {
-  width: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.selection-indicator {
-  width: 4px;
-  height: 100%;
-  background: #8251EE;
-  position: absolute;
-  left: 0;
-  opacity: 0;
-  transition: opacity var(--duration-fast);
-}
-
-.datagrid-row--selected .selection-indicator {
-  opacity: 1;
-}
-```
-
-### Pagination
-
-```css
-.pagination {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 16px;
-  font-size: 14px;
-  color: #AF86F5;
-}
-
-.pagination-info {
-  /* "1-10 of 100" */
-}
-
-.pagination-controls {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.pagination-btn {
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 4px;
-  background: transparent;
-  color: #AF86F5;
-  cursor: pointer;
-}
-
-.pagination-btn:hover {
-  background: #2B1D44;
-  color: #E1CEFC;
-}
-
-.pagination-btn--active {
-  background: #8251EE;
-  color: #FFFFFF;
-}
-```
-
----
-
-## Panel
-
-Side panel for entity details, forms, or secondary content.
-
-### Anatomy
-
-- Header (title, close button)
-- Content area (scrollable)
-- Footer (optional, actions)
-
-### Implementation
-
-```css
-.panel {
-  width: 400px;
-  height: 100%;
-  background: #1A1326;
-  border-left: 1px solid #2B1D44;
+.form-field {
   display: flex;
   flex-direction: column;
+  gap: 6px;
 }
 
-.panel-header {
-  padding: 16px;
-  border-bottom: 1px solid #2B1D44;
+.form-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.form-label .required { color: var(--error); }
+
+.input {
+  padding: 10px 12px;  /* Consistent */
+  font-size: 14px;
+  color: var(--text-primary);
+  background: var(--bg-surface);  /* #1C1C1C */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.input::placeholder { color: var(--text-muted); }
+.input:hover { border-color: rgba(255, 255, 255, 0.12); }
+.input:focus {
+  outline: none;
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 2px rgba(130, 81, 238, 0.2);
+}
+
+.form-hint {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+```
+
+## Modal
+
+```jsx
+<AnimatePresence>
+  {isOpen && (
+    <motion.div
+      className="modal-overlay"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+    >
+      <motion.div
+        className="modal"
+        initial={{ opacity: 0, scale: 0.95, y: 10 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 10 }}
+        transition={{ duration: 0.2, ease: 'easeOut' }}
+        onClick={e => e.stopPropagation()}
+      >
+        <div className="modal-header">
+          <h2 className="modal-title">{title}</h2>
+          <button className="btn-icon" onClick={onClose}>
+            <X size={16} />
+          </button>
+        </div>
+        <div className="modal-body">{children}</div>
+        <div className="modal-footer">
+          <motion.button className="btn btn-primary" whileTap={{ scale: 0.98 }}>
+            Create
+          </motion.button>
+          <motion.button className="btn btn-secondary" onClick={onClose} whileTap={{ scale: 0.98 }}>
+            Cancel
+          </motion.button>
+        </div>
+      </motion.div>
+    </motion.div>
+  )}
+</AnimatePresence>
+```
+
+```css
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal {
+  background: var(--bg-card);  /* #141414 */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  max-width: 540px;
+  width: 100%;
+  max-height: 90vh;
+  overflow: hidden;
+}
+
+.modal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.panel-title {
+.modal-title {
   font-size: 16px;
   font-weight: 600;
-  color: #E1CEFC;
+  color: var(--text-primary);
+  margin: 0;
 }
 
-.panel-content {
-  flex: 1;
+.modal-body {
+  padding: 24px;
   overflow-y: auto;
-  padding: 16px;
 }
 
-.panel-footer {
-  padding: 16px;
-  border-top: 1px solid #2B1D44;
+.modal-footer {
   display: flex;
-  gap: 8px;
   justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 ```
 
----
-
-## Slider
-
-Range input for numeric values.
-
-### Implementation
+## Sidebar
 
 ```css
-.slider {
-  width: 100%;
-  height: 4px;
-  background: #2B1D44;
-  border-radius: 2px;
-  position: relative;
+.sidebar {
+  width: 56px;
+  background: var(--bg-sidebar);  /* #0D0D0D */
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  padding: 12px 0;
+  flex-shrink: 0;
 }
 
-.slider-track {
-  height: 100%;
-  background: #E91E8C;
-  border-radius: 2px;
-}
-
-.slider-thumb {
-  width: 16px;
-  height: 16px;
-  background: #FFFFFF;
-  border-radius: 50%;
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.slider-value {
-  font-size: 12px;
-  color: #E1CEFC;
-  margin-left: 8px;
-}
-```
-
----
-
-## Toggle
-
-Boolean on/off switch.
-
-### States
-
-| State | Track | Thumb |
-|-------|-------|-------|
-| Off | #38255E | #888888 |
-| On | #8251EE | #FFFFFF |
-| Disabled Off | #2B1D44 | #553695 |
-| Disabled On | #643FB2 | #AF86F5 |
-
-### Implementation
-
-```css
-.toggle {
+.sidebar-item {
   width: 40px;
-  height: 20px;
-  background: #38255E;
-  border-radius: 10px;
-  position: relative;
+  height: 40px;
+  margin: 4px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  color: var(--text-muted);  /* #6B6B6B - grey */
   cursor: pointer;
-  transition: var(--transition-colors);
+  transition: all 0.15s ease;
 }
 
-.toggle--checked {
-  background: #8251EE;
+.sidebar-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
 }
 
-.toggle-thumb {
-  width: 16px;
-  height: 16px;
-  background: #888888;
-  border-radius: 50%;
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  transition: var(--transition-transform);
-}
-
-.toggle--checked .toggle-thumb {
-  background: #FFFFFF;
-  transform: translateX(20px);
+.sidebar-item.active {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--brand-light);  /* #A37EF5 - purple for active */
 }
 ```
+
+## Data Table
+
+```css
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th {
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: transparent;
+}
+
+.data-table td {
+  padding: 12px 16px;
+  font-size: 14px;
+  color: var(--text-primary);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.data-table tbody tr {
+  transition: background 0.15s ease;
+}
+
+.data-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.data-table tbody tr.selected {
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: inset 3px 0 0 var(--brand-primary);  /* Purple bar */
+}
+```
+
+## Spacing Reference
+
+| Element | Padding/Gap |
+|---------|-------------|
+| Page content | 32px |
+| Card | 20px |
+| Card header margin-bottom | 12px |
+| Card description margin-bottom | 16px |
+| Card tags gap | 8px |
+| Card grid gap | 16px |
+| Button | 8px 16px |
+| Tag/Badge | 4px 10px |
+| Input | 10px 12px |
+| Modal body | 24px |
+| Tabs gap | 24px |
+| Form fields gap | 20px |
