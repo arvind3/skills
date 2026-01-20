@@ -1,39 +1,101 @@
 # Agent Skills
 
-> 🚧 **Work in Progress** — This repository is actively being developed.
+> [!WARNING]
+> **Work in Progress** — This repository is actively being developed.
 
 A collection of **skills**, **prompts**, **agents**, and **MCP server configurations** designed to supercharge your AI coding agents when working with Microsoft AI SDKs and Azure services.
 
 ## What's This About?
 
-Modern coding agents (GitHub Copilot, Claude Code, OpenCode, etc.) are powerful out of the box, but they lack domain-specific knowledge about your SDKs, patterns, and best practices. This repo provides the "onboarding guides" that turn general-purpose agents into specialized experts.
+This repo embraces **context-driven development** — the practice of providing AI coding agents with precisely the right context at the right time. The quality of agent output is directly proportional to the quality and relevance of context it receives.
+
+Modern coding agents (GitHub Copilot CLI, [Claude Code](https://devblogs.microsoft.com/all-things-azure/claude-code-microsoft-foundry-enterprise-ai-coding-agent-setup/), [Codex](https://devblogs.microsoft.com/all-things-azure/codex-azure-openai-integration-fast-secure-code-development/), etc.) are powerful out of the box, but they lack domain-specific knowledge about your SDKs, patterns, and best practices. This repo provides the "onboarding guides" that turn general-purpose agents into specialized experts.
+
+> [!IMPORTANT]
+> **Don't Use All Skills at Once — Avoid Context Rot**
+>
+> Skills are designed to be used selectively. **Context rot** occurs when an agent's context window becomes cluttered with irrelevant or outdated information, degrading response quality and causing the agent to lose focus on what matters.
+>
+> Loading all skills at once will:
+> - Dilute the agent's attention across unrelated domains
+> - Waste precious context window tokens
+> - Cause the agent to conflate patterns from different frameworks
+>
+> **Only copy the specific skills that are absolutely essential for your current project.**
 
 ## Repository Structure
 
 ```
 .github/
 ├── skills/           # Modular knowledge packages for specific domains
-│   ├── azure-ai-search-python/
-│   ├── foundry-iq-agent/
-│   ├── mcp-builder/
-│   └── ...
 ├── prompts/          # Reusable prompt templates (.prompt.md)
 ├── agents/           # Agent persona definitions (.agent.md)
 ├── agents.md         # Project-wide agent instructions
-└── copilot-instructions.md
+├── copilot-instructions.md
+└── workflows/        # Automated workflows (e.g., docs sync)
 
 .vscode/
 └── mcp.json          # MCP server configurations
 ```
 
-### Skills
+## Available Skills
 
-Self-contained packages that extend agent capabilities with:
-- **Procedural knowledge** — Step-by-step workflows for complex tasks
-- **SDK patterns** — Clean code examples and best practices
-- **Tool integrations** — Scripts and references for specific frameworks
+Each skill is a self-contained knowledge package with a `SKILL.md` file. **Copy only the skills you need** to your project's `.github/skills/` directory.
 
-Current skills include: `azure-ai-search-python`, `foundry-iq-agent`, `foundry-nextgen-frontend`, `mcp-builder`, `skill-creator`, and more.
+| Skill | Location | Description |
+|-------|----------|-------------|
+| `azure-ai-search-python` | `.github/skills/azure-ai-search-python/` | Azure AI Search SDK patterns, vector/hybrid search, agentic retrieval |
+| `azure-ai-voicelive-skill` | `.github/skills/azure-ai-voicelive-skill/` | Azure AI Voice Live SDK integration |
+| `cosmos-db-python-skill` | `.github/skills/cosmos-db-python-skill/` | Cosmos DB NoSQL with Python/FastAPI, CRUD patterns |
+| `fastapi-router` | `.github/skills/fastapi-router/` | FastAPI routers with CRUD, auth, and response models |
+| `foundry-iq-agent` | `.github/skills/foundry-iq-agent/` | Foundry agents with IQ knowledge bases |
+| `foundry-nextgen-frontend` | `.github/skills/foundry-nextgen-frontend/` | NextGen Design System UI patterns (Vite + React) |
+| `issue-creator` | `.github/skills/issue-creator/` | GitHub issue creation patterns |
+| `mcp-builder` | `.github/skills/mcp-builder/` | Building MCP servers (Python/Node) |
+| `podcast-generation` | `.github/skills/podcast-generation/` | Podcast generation workflows |
+| `pydantic-models` | `.github/skills/pydantic-models/` | Pydantic v2 multi-model patterns (Base/Create/Update/Response) |
+| `react-flow-node` | `.github/skills/react-flow-node/` | React Flow custom nodes with TypeScript and Zustand |
+| `skill-creator` | `.github/skills/skill-creator/` | Guide for creating new skills |
+| `zustand-store` | `.github/skills/zustand-store/` | Zustand stores with TypeScript and subscribeWithSelector |
+
+### Using Skills with Multiple Agents
+
+If you want to use skills across multiple projects or with different agents, you can create symlinks instead of copying files:
+
+<details>
+<summary><strong>macOS/Linux</strong></summary>
+
+```bash
+# Create the skills directory if it doesn't exist
+mkdir -p /path/to/your-project/.github/skills
+
+# Symlink a specific skill
+ln -s /path/to/agent-skills/.github/skills/mcp-builder /path/to/your-project/.github/skills/mcp-builder
+```
+
+</details>
+
+<details>
+<summary><strong>Windows (Command Prompt as Administrator)</strong></summary>
+
+```cmd
+:: Create the skills directory if it doesn't exist
+mkdir "C:\path\to\your-project\.github\skills"
+
+:: Symlink a specific skill (use mklink /D for directories)
+mklink /D "C:\path\to\your-project\.github\skills\mcp-builder" "C:\path\to\agent-skills\.github\skills\mcp-builder"
+```
+
+</details>
+
+<details>
+<summary><strong>Windows (PowerShell as Administrator)</strong></summary>
+
+```powershell
+New-Item -ItemType SymbolicLink -Path "C:\path\to\your-project\.github\skills\mcp-builder" -Target "C:\path\to\agent-skills\.github\skills\mcp-builder"
+```
+
+</details>
 
 ### Prompts
 
@@ -50,13 +112,35 @@ Pre-configured Model Context Protocol servers in `.vscode/mcp.json` for tools li
 - Microsoft Docs, DeepWiki, Context7
 - Sequential Thinking, Memory, and more
 
+## Scaling to Larger Codebases
+
+For larger codebases where static skills aren't enough, consider these approaches:
+
+- **Graph RAG for Code** — Systems that build a retrieval-augmented generation layer over your codebase, enabling semantic search across functions, classes, and modules
+- **AST-based Memory Systems** — Tools that maintain a hierarchical graph representation of your code's abstract syntax tree, allowing agents to navigate and understand code structure
+- **Context Graph** — Memory systems that build knowledge graphs from your codebase, tracking relationships between components, dependencies, and call patterns
+
+These approaches help agents maintain understanding of large codebases without cramming everything into the context window.
+
+## Foundry Documentation via Context7
+
+This repo includes indexed Microsoft Foundry documentation available through [Context7](https://context7.com). If you want Foundry docs accessible to your agent:
+
+**Use this Context7 URL:** https://context7.com/microsoft/agent-skills
+
+A GitHub workflow (`.github/workflows/update-llms-txt.md`) runs weekly to automatically sync the latest Foundry documentation updates to Context7. This ensures the indexed docs stay current with Microsoft Learn.
+
+> [!NOTE]
+> We're working towards streamlining this directly from Foundry itself. For now, use the Context7 integration.
+
 ## Quick Start
 
-1. **Clone this repo** into your workspace or copy specific skills you need
+1. **Copy only the skills you need** to your project's `.github/skills/` directory (or use symlinks)
 2. **Configure your agent** to use the instruction files:
    - For VS Code Copilot: Skills are auto-discovered from `.github/skills/`
    - For Claude: Reference `SKILL.md` files in your project instructions
 3. **Use MCP servers** by copying `.vscode/mcp.json` to your project
+4. **(Optional)** Add Context7 MCP server for Foundry docs access
 
 ## Contributing
 
