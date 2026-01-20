@@ -1,14 +1,19 @@
-# Pydantic Models Skill
+---
+name: pydantic-models
+description: Create Pydantic models following the multi-model pattern with Base, Create, Update, Response, and InDB variants. Use when defining API request/response schemas, database models, or data validation in Python applications using Pydantic v2.
+---
 
-This skill provides templates and patterns for creating Pydantic models in CoreAI DIY.
+# Pydantic Models
 
-## Files
+Create Pydantic models following the multi-model pattern for clean API contracts.
 
-- `template.py` - Complete multi-model pattern template
+## Quick Start
+
+Copy the template from [assets/template.py](assets/template.py) and replace placeholders:
+- `{{ResourceName}}` → PascalCase name (e.g., `Project`)
+- `{{resource_name}}` → snake_case name (e.g., `project`)
 
 ## Multi-Model Pattern
-
-CoreAI DIY uses a multi-model pattern for Pydantic:
 
 | Model | Purpose |
 |-------|---------|
@@ -18,9 +23,8 @@ CoreAI DIY uses a multi-model pattern for Pydantic:
 | `Response` | API response with all fields |
 | `InDB` | Database document with `doc_type` |
 
-## Key Patterns
+## camelCase Aliases
 
-### camelCase Aliases
 ```python
 class MyModel(BaseModel):
     workspace_id: str = Field(..., alias="workspaceId")
@@ -30,7 +34,8 @@ class MyModel(BaseModel):
         populate_by_name = True  # Accept both snake_case and camelCase
 ```
 
-### Optional Update Fields
+## Optional Update Fields
+
 ```python
 class MyUpdate(BaseModel):
     """All fields optional for PATCH requests."""
@@ -38,17 +43,16 @@ class MyUpdate(BaseModel):
     description: Optional[str] = None
 ```
 
-### Database Document
+## Database Document
+
 ```python
 class MyInDB(MyResponse):
     """Adds doc_type for Cosmos DB queries."""
     doc_type: str = "my_resource"
 ```
 
-## Checklist
+## Integration Steps
 
-After creating new models:
-
-1. [ ] Create models in `src/backend/app/models/`
-2. [ ] Export from `src/backend/app/models/__init__.py`
-3. [ ] Add corresponding TypeScript types
+1. Create models in `src/backend/app/models/`
+2. Export from `src/backend/app/models/__init__.py`
+3. Add corresponding TypeScript types
