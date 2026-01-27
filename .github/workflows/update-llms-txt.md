@@ -1,12 +1,17 @@
 ---
 on:
-  schedule: weekly
+  schedule: "0 3 * * *"  # 7 PM PST (3 AM UTC) daily
   workflow_dispatch:
 permissions:
   contents: read
   issues: read
   pull-requests: read
-network: defaults
+network:
+  allowed:
+    - defaults
+    - learn.microsoft.com
+    - pypi.org
+    - files.pythonhosted.org
 tools:
   github:
   bash: ["python3", "pip", "git", "diff"]
