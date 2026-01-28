@@ -1,9 +1,6 @@
 ---
 name: skill-creator
-description: |
-  Guide for creating effective skills for AI coding agents working with Azure SDKs and Microsoft Foundry services.
-  Use when creating new skills or updating existing skills. Triggers on "create a skill", "new skill for [X]",
-  "skill for Azure [service]", "update skill", "teach agent about [SDK]".
+description: Guide for creating effective skills for AI coding agents working with Azure SDKs and Microsoft Foundry services. Use when creating new skills or updating existing skills.
 license: Complete terms in LICENSE.txt
 ---
 
