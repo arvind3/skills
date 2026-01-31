@@ -10,67 +10,33 @@ scenarios:
   # Basic Chat Completion
   - name: basic_chat_completion
     prompt: |
-      Create a basic Azure AI Inference chat completion in C#.
-      Include proper authentication with API key, client creation,
-      and a simple question-answer interaction.
+      Create a basic chat completion example using Azure.AI.Inference SDK.
+      Include proper authentication with DefaultAzureCredential,
+      ChatCompletionsClient creation, and extracting the response content.
     expected_patterns:
-      - "using Azure.AI.Inference"
+      - "DefaultAzureCredential"
       - "ChatCompletionsClient"
-      - "AzureKeyCredential"
       - "ChatCompletionsOptions"
       - "ChatRequestSystemMessage"
       - "ChatRequestUserMessage"
-      - "Complete"
+      - "client\\.Complete"
+      - "Choices\\[0\\]\\.Message\\.Content"
     forbidden_patterns:
-      - "using Azure.AI.OpenAI"
       - "AzureOpenAIClient"
-      - "CreateChatCompletion"
-      - "new SystemMessage"
-      - "new UserMessage"
+      - "SystemMessage"
+      - "UserMessage"
+      - "response\\.Content"
     tags:
       - basic
       - authentication
+      - chat-completions
     mock_response: |
       using Azure;
       using Azure.AI.Inference;
+      using Azure.Identity;
+      using System;
 
       var endpoint = new Uri(Environment.GetEnvironmentVariable("AZURE_AI_CHAT_ENDPOINT"));
-      var credential = new AzureKeyCredential(Environment.GetEnvironmentVariable("AZURE_AI_CHAT_KEY"));
-
-      var client = new ChatCompletionsClient(endpoint, credential, new AzureAIInferenceClientOptions());
-
-      var requestOptions = new ChatCompletionsOptions()
-      {
-          Messages =
-          {
-              new ChatRequestSystemMessage("You are a helpful assistant."),
-              new ChatRequestUserMessage("How many feet are in a mile?"),
-          },
-      };
-
-      Response<ChatCompletions> response = client.Complete(requestOptions);
-      Console.WriteLine(response.Value.Content);
-
-  # DefaultAzureCredential Authentication
-  - name: default_azure_credential
-    prompt: |
-      Create an Azure AI Inference client using DefaultAzureCredential
-      instead of API key. This is the recommended approach for production.
-    expected_patterns:
-      - "using Azure.Identity"
-      - "DefaultAzureCredential"
-      - "ChatCompletionsClient"
-    forbidden_patterns:
-      - "AzureKeyCredential"
-      - "AZURE_AI_CHAT_KEY"
-    tags:
-      - authentication
-      - best-practice
-    mock_response: |
-      using Azure.Identity;
-      using Azure.AI.Inference;
-
-      var endpoint = new Uri("https://myresource.services.ai.azure.com/models");
       var client = new ChatCompletionsClient(endpoint, new DefaultAzureCredential());
 
       var requestOptions = new ChatCompletionsOptions()
@@ -78,34 +44,87 @@ scenarios:
           Messages =
           {
               new ChatRequestSystemMessage("You are a helpful assistant."),
-              new ChatRequestUserMessage("Hello!"),
+              new ChatRequestUserMessage("What is the capital of France?"),
           },
       };
 
-      Response<ChatCompletions> response = await client.CompleteAsync(requestOptions);
-      Console.WriteLine(response.Value.Choices[0].Message.Content);
+      Response<ChatCompletions> response = client.Complete(requestOptions);
+      Console.WriteLine($"Assistant: {response.Value.Choices[0].Message.Content}");
 
   # Async Chat Completion
   - name: async_chat_completion
     prompt: |
-      Create an async chat completion using Azure.AI.Inference in C#.
-      Use CompleteAsync and proper async/await patterns.
+      Create an async chat completion example using CompleteAsync method.
+      Use proper async/await patterns and task-based concurrency.
     expected_patterns:
       - "async"
-      - "await"
-      - "CompleteAsync"
+      - "await client\\.CompleteAsync"
       - "Task"
+      - "ChatRequestSystemMessage"
+      - "ChatRequestUserMessage"
     forbidden_patterns:
-      - "client.Complete("
+      - "client\\.Complete\\("
+      - "\\.Result"
     tags:
       - async
-      - best-practice
+      - chat-completions
+      - advanced
     mock_response: |
       using Azure;
       using Azure.AI.Inference;
       using Azure.Identity;
+      using System;
+      using System.Threading.Tasks;
 
-      public async Task<string> GetChatResponseAsync(string userMessage)
+      async Task Main()
+      {
+          var endpoint = new Uri(Environment.GetEnvironmentVariable("AZURE_AI_CHAT_ENDPOINT"));
+          var client = new ChatCompletionsClient(endpoint, new DefaultAzureCredential());
+
+          var requestOptions = new ChatCompletionsOptions()
+          {
+              Messages =
+              {
+                  new ChatRequestSystemMessage("You are helpful."),
+                  new ChatRequestUserMessage("Hello!"),
+              },
+          };
+
+          Response<ChatCompletions> response = await client.CompleteAsync(requestOptions);
+          Console.WriteLine(response.Value.Choices[0].Message.Content);
+      }
+
+      await Main();
+
+  # Streaming Chat Completion
+  - name: streaming_chat_completion
+    prompt: |
+      Create a streaming chat completion example that processes
+      chat updates in real-time. Use CompleteStreamingAsync and iterate
+      through ContentUpdate values.
+    expected_patterns:
+      - "CompleteStreamingAsync"
+      - "StreamingResponse<StreamingChatCompletionsUpdate>"
+      - "await foreach"
+      - "ContentUpdate"
+      - "StringBuilder"
+    forbidden_patterns:
+      - "CompleteAsync"
+      - "stream=true"
+      - "client\\.Complete\\("
+    tags:
+      - streaming
+      - chat-completions
+      - advanced
+    mock_response: |
+      using Azure;
+      using Azure.AI.Inference;
+      using Azure.Identity;
+      using System;
+      using System.Text;
+      using System.Threading.Tasks;
+
+      async Task Main()
       {
           var endpoint = new Uri(Environment.GetEnvironmentVariable("AZURE_AI_CHAT_ENDPOINT"));
           var client = new ChatCompletionsClient(endpoint, new DefaultAzureCredential());
@@ -115,36 +134,50 @@ scenarios:
               Messages =
               {
                   new ChatRequestSystemMessage("You are a helpful assistant."),
-                  new ChatRequestUserMessage(userMessage),
+                  new ChatRequestUserMessage("Write a short poem about Azure."),
               },
           };
 
-          Response<ChatCompletions> response = await client.CompleteAsync(requestOptions);
-          return response.Value.Choices[0].Message.Content;
+          StreamingResponse<StreamingChatCompletionsUpdate> response = 
+              await client.CompleteStreamingAsync(requestOptions);
+
+          StringBuilder contentBuilder = new();
+          await foreach (StreamingChatCompletionsUpdate chatUpdate in response)
+          {
+              if (!string.IsNullOrEmpty(chatUpdate.ContentUpdate))
+              {
+                  contentBuilder.Append(chatUpdate.ContentUpdate);
+                  Console.Write(chatUpdate.ContentUpdate);
+              }
+          }
+          Console.WriteLine();
       }
 
-  # Streaming Chat Completion
-  - name: streaming_chat_completion
+      await Main();
+
+  # Multi-modal Chat (Images)
+  - name: multimodal_chat_with_images
     prompt: |
-      Implement streaming chat completion using Azure.AI.Inference in C#.
-      Use CompleteStreamingAsync and process StreamingChatCompletionsUpdate.
+      Create a multi-modal chat example that includes images.
+      Use ChatMessageTextContentItem and ChatMessageImageContentItem
+      to construct a message with both text and image content.
     expected_patterns:
-      - "CompleteStreamingAsync"
-      - "StreamingResponse"
-      - "StreamingChatCompletionsUpdate"
-      - "await foreach"
-      - "ContentUpdate"
+      - "ChatMessageTextContentItem"
+      - "ChatMessageImageContentItem"
+      - "new Uri"
+      - "ChatRequestUserMessage"
     forbidden_patterns:
-      - "stream: true"
-      - "Stream = true"
+      - "ChatMessage"
+      - "ImageUrl"
     tags:
-      - streaming
-      - advanced
+      - multimodal
+      - images
+      - chat-completions
     mock_response: |
       using Azure;
       using Azure.AI.Inference;
       using Azure.Identity;
-      using System.Text;
+      using System;
 
       var endpoint = new Uri(Environment.GetEnvironmentVariable("AZURE_AI_CHAT_ENDPOINT"));
       var client = new ChatCompletionsClient(endpoint, new DefaultAzureCredential());
@@ -153,52 +186,46 @@ scenarios:
       {
           Messages =
           {
-              new ChatRequestSystemMessage("You are a helpful assistant."),
-              new ChatRequestUserMessage("Write a poem about Azure."),
+              new ChatRequestSystemMessage("You are a helpful assistant that describes images."),
+              new ChatRequestUserMessage(
+                  new ChatMessageTextContentItem("What's in this image?"),
+                  new ChatMessageImageContentItem(new Uri("https://example.com/image.jpg"))
+              ),
           },
       };
 
-      StreamingResponse<StreamingChatCompletionsUpdate> response = 
-          await client.CompleteStreamingAsync(requestOptions);
-
-      StringBuilder contentBuilder = new();
-      await foreach (StreamingChatCompletionsUpdate chatUpdate in response)
-      {
-          if (!string.IsNullOrEmpty(chatUpdate.ContentUpdate))
-          {
-              Console.Write(chatUpdate.ContentUpdate);
-              contentBuilder.Append(chatUpdate.ContentUpdate);
-          }
-      }
-
-      Console.WriteLine();
-      Console.WriteLine($"Full response: {contentBuilder}");
+      Response<ChatCompletions> response = client.Complete(requestOptions);
+      Console.WriteLine(response.Value.Choices[0].Message.Content);
 
   # Function Calling / Tool Use
-  - name: function_calling
+  - name: function_tool_calling
     prompt: |
-      Implement function calling (tools) with Azure.AI.Inference in C#.
-      Define a weather function tool and handle the tool call response.
+      Create a function calling example with ChatCompletionsFunctionToolDefinition.
+      Define a get_weather function, handle tool calls, and execute the function.
+      Include proper ToolCall handling and ChatRequestToolMessage for results.
     expected_patterns:
       - "ChatCompletionsFunctionToolDefinition"
       - "FunctionDefinition"
+      - "get_weather"
       - "ToolCalls"
       - "ChatCompletionsFunctionToolCall"
       - "ChatRequestToolMessage"
-      - "Parameters = BinaryData"
     forbidden_patterns:
       - "FunctionToolDefinition"
+      - "tools="
     tags:
       - function-calling
       - tools
+      - advanced
     mock_response: |
       using Azure;
       using Azure.AI.Inference;
       using Azure.Identity;
+      using System;
+      using System.Collections.Generic;
 
-      var client = new ChatCompletionsClient(
-          new Uri(Environment.GetEnvironmentVariable("AZURE_AI_CHAT_ENDPOINT")),
-          new DefaultAzureCredential());
+      var endpoint = new Uri(Environment.GetEnvironmentVariable("AZURE_AI_CHAT_ENDPOINT"));
+      var client = new ChatCompletionsClient(endpoint, new DefaultAzureCredential());
 
       var getWeatherTool = new ChatCompletionsFunctionToolDefinition(
           new FunctionDefinition("get_weather")
@@ -224,8 +251,8 @@ scenarios:
           Tools = { getWeatherTool }
       };
 
-      Response<ChatCompletions> response = await client.CompleteAsync(requestOptions);
-
+      Response<ChatCompletions> response = client.Complete(requestOptions);
+      
       var assistantMessage = response.Value.Choices[0].Message;
       if (assistantMessage.ToolCalls?.Count > 0)
       {
@@ -233,86 +260,50 @@ scenarios:
           {
               if (toolCall is ChatCompletionsFunctionToolCall functionCall)
               {
-                  // Execute the function
-                  string result = functionCall.Name == "get_weather" 
-                      ? "{\"temperature\": 72, \"condition\": \"sunny\"}" 
-                      : "{}";
-                  
+                  string result = "72°F and sunny";
                   requestOptions.Messages.Add(new ChatRequestAssistantMessage(assistantMessage));
                   requestOptions.Messages.Add(new ChatRequestToolMessage(result, functionCall.Id));
               }
           }
           
-          // Get final response
-          response = await client.CompleteAsync(requestOptions);
+          response = client.Complete(requestOptions);
+          Console.WriteLine(response.Value.Choices[0].Message.Content);
       }
-
-      Console.WriteLine(response.Value.Choices[0].Message.Content);
-
-  # Multi-modal Chat (Images)
-  - name: multimodal_chat
-    prompt: |
-      Create a multi-modal chat that sends an image URL to the model
-      for description using Azure.AI.Inference in C#.
-    expected_patterns:
-      - "ChatMessageTextContentItem"
-      - "ChatMessageImageContentItem"
-      - "new Uri"
-    tags:
-      - multi-modal
-      - images
-    mock_response: |
-      using Azure;
-      using Azure.AI.Inference;
-      using Azure.Identity;
-
-      var client = new ChatCompletionsClient(
-          new Uri(Environment.GetEnvironmentVariable("AZURE_AI_CHAT_ENDPOINT")),
-          new DefaultAzureCredential());
-
-      var requestOptions = new ChatCompletionsOptions()
-      {
-          Messages =
-          {
-              new ChatRequestSystemMessage("You are a helpful assistant that describes images."),
-              new ChatRequestUserMessage(
-                  new ChatMessageTextContentItem("What's in this image?"),
-                  new ChatMessageImageContentItem(new Uri("https://example.com/image.jpg"))
-              ),
-          },
-      };
-
-      Response<ChatCompletions> response = await client.CompleteAsync(requestOptions);
-      Console.WriteLine(response.Value.Choices[0].Message.Content);
 
   # Text Embeddings
   - name: text_embeddings
     prompt: |
-      Create text embeddings using the EmbeddingsClient from Azure.AI.Inference.
-      Process multiple strings and extract the embedding vectors.
+      Create a text embeddings example using EmbeddingsClient.
+      Generate embeddings for multiple text inputs and extract the embedding vectors.
     expected_patterns:
       - "EmbeddingsClient"
       - "EmbeddingsOptions"
-      - "EmbeddingsResult"
-      - "EmbeddingItem"
-      - "ToObjectFromJson"
+      - "client\\.Embed"
+      - "ToObjectFromJson<List<float>>"
+      - "foreach"
+      - "item\\.Embedding"
     forbidden_patterns:
+      - "embedding as float"
+      - "item\\.Embedding\\.Value"
       - "ChatCompletionsClient"
     tags:
       - embeddings
+      - vectors
     mock_response: |
       using Azure;
       using Azure.AI.Inference;
+      using Azure.Identity;
+      using System;
+      using System.Collections.Generic;
 
       var endpoint = new Uri(Environment.GetEnvironmentVariable("AZURE_AI_EMBEDDINGS_ENDPOINT"));
       var credential = new AzureKeyCredential(Environment.GetEnvironmentVariable("AZURE_AI_EMBEDDINGS_KEY"));
-
       var client = new EmbeddingsClient(endpoint, credential, new AzureAIInferenceClientOptions());
 
       var input = new List<string> { "King", "Queen", "Jack", "Page" };
       var requestOptions = new EmbeddingsOptions(input);
 
-      Response<EmbeddingsResult> response = await client.EmbedAsync(requestOptions);
+      Response<EmbeddingsResult> response = client.Embed(requestOptions);
 
       foreach (EmbeddingItem item in response.Value.Data)
       {
@@ -320,137 +311,185 @@ scenarios:
           Console.WriteLine($"Index: {item.Index}, Embedding length: {embedding.Count}");
       }
 
-  # Error Handling
-  - name: error_handling
+  # Error Handling with RequestFailedException
+  - name: error_handling_with_retry
     prompt: |
-      Implement proper error handling for Azure.AI.Inference chat completion
-      in C#. Handle RequestFailedException with status code checks.
+      Create an error handling example that catches RequestFailedException,
+      checks the Status code, and implements retry logic for rate limiting (429).
     expected_patterns:
       - "RequestFailedException"
-      - "ex.Status"
       - "catch"
+      - "ex\\.Status"
       - "429"
+      - "try"
     forbidden_patterns:
-      - "catch (Exception ex)"
+      - "catch \\(Exception"
+      - "Empty catch"
     tags:
       - error-handling
-      - best-practice
+      - resilience
     mock_response: |
       using Azure;
       using Azure.AI.Inference;
       using Azure.Identity;
+      using System;
+      using System.Threading.Tasks;
 
-      var client = new ChatCompletionsClient(
-          new Uri(Environment.GetEnvironmentVariable("AZURE_AI_CHAT_ENDPOINT")),
-          new DefaultAzureCredential());
+      async Task Main()
+      {
+          var endpoint = new Uri(Environment.GetEnvironmentVariable("AZURE_AI_CHAT_ENDPOINT"));
+          var client = new ChatCompletionsClient(endpoint, new DefaultAzureCredential());
+
+          var requestOptions = new ChatCompletionsOptions()
+          {
+              Messages =
+              {
+                  new ChatRequestUserMessage("Hello!"),
+              },
+          };
+
+          try
+          {
+              Response<ChatCompletions> response = await client.CompleteAsync(requestOptions);
+              Console.WriteLine(response.Value.Choices[0].Message.Content);
+          }
+          catch (RequestFailedException ex)
+          {
+              Console.WriteLine($"Status: {ex.Status}");
+              Console.WriteLine($"Error: {ex.Message}");
+              
+              switch (ex.Status)
+              {
+                  case 429:
+                      Console.WriteLine("Rate limited - implement backoff");
+                      break;
+                  case 401:
+                      Console.WriteLine("Unauthorized - check credentials");
+                      break;
+              }
+          }
+      }
+
+      await Main();
+
+  # Model Information Retrieval
+  - name: get_model_info
+    prompt: |
+      Create an example that retrieves model information using GetModelInfoAsync.
+      Display the model name, type, and provider information.
+    expected_patterns:
+      - "GetModelInfoAsync"
+      - "ModelInfo"
+      - "Value\\.ModelName"
+      - "Value\\.ModelType"
+      - "Value\\.ModelProviderName"
+    forbidden_patterns:
+      - "GetModelInfo\\(\\)"
+      - "\\.ModelName"
+    tags:
+      - model-info
+      - basic
+    mock_response: |
+      using Azure;
+      using Azure.AI.Inference;
+      using Azure.Identity;
+      using System;
+      using System.Threading.Tasks;
+
+      async Task Main()
+      {
+          var endpoint = new Uri(Environment.GetEnvironmentVariable("AZURE_AI_CHAT_ENDPOINT"));
+          var client = new ChatCompletionsClient(endpoint, new DefaultAzureCredential());
+
+          Response<ModelInfo> modelInfo = await client.GetModelInfoAsync();
+          
+          Console.WriteLine($"Model name: {modelInfo.Value.ModelName}");
+          Console.WriteLine($"Model type: {modelInfo.Value.ModelType}");
+           Console.WriteLine($"Model provider: {modelInfo.Value.ModelProviderName}");
+       }
+
+       await Main();
+
+  # Image Embeddings
+  - name: image_embeddings
+    prompt: |
+      Create an image embeddings example using ImageEmbeddingsClient.
+      Generate embeddings for images from URLs using ImageEmbeddingsOptions.
+    expected_patterns:
+      - "ImageEmbeddingsClient"
+      - "ImageEmbeddingsOptions"
+      - "ImageEmbeddingInput"
+      - "new Uri"
+      - "EmbedAsync"
+    forbidden_patterns:
+      - "EmbeddingsClient with ImageEmbeddingInput"
+      - "EmbeddingsOptions"
+    tags:
+      - embeddings
+      - images
+      - advanced
+    mock_response: |
+      using Azure;
+      using Azure.AI.Inference;
+      using Azure.Identity;
+      using System;
+      using System.Threading.Tasks;
+
+      async Task Main()
+      {
+          var endpoint = new Uri(Environment.GetEnvironmentVariable("AZURE_AI_EMBEDDINGS_ENDPOINT"));
+          var credential = new AzureKeyCredential(Environment.GetEnvironmentVariable("AZURE_AI_EMBEDDINGS_KEY"));
+          var client = new ImageEmbeddingsClient(endpoint, credential, new AzureAIInferenceClientOptions());
+
+          var requestOptions = new ImageEmbeddingsOptions()
+          {
+              Input = 
+              {
+                  new ImageEmbeddingInput(new Uri("https://example.com/image.jpg")),
+              }
+          };
+
+          Response<EmbeddingsResult> response = await client.EmbedAsync(requestOptions);
+          Console.WriteLine($"Got {response.Value.Data.Count} embeddings");
+      }
+
+      await Main();
+
+  # Temperature and Additional Parameters
+  - name: temperature_and_parameters
+    prompt: |
+      Create a chat completion example that demonstrates Temperature for controlling
+      output creativity and MaxTokens to limit response length.
+    expected_patterns:
+      - "Temperature"
+      - "MaxTokens"
+      - "0\\.[0-9]"
+      - "ChatCompletionsOptions"
+    forbidden_patterns:
+      - "temperature as string"
+      - "max_tokens"
+    tags:
+      - parameters
+      - configuration
+    mock_response: |
+      using Azure;
+      using Azure.AI.Inference;
+      using Azure.Identity;
+      using System;
+
+      var endpoint = new Uri(Environment.GetEnvironmentVariable("AZURE_AI_CHAT_ENDPOINT"));
+      var client = new ChatCompletionsClient(endpoint, new DefaultAzureCredential());
 
       var requestOptions = new ChatCompletionsOptions()
       {
           Messages =
           {
-              new ChatRequestUserMessage("Hello!"),
+              new ChatRequestSystemMessage("You are a helpful assistant."),
+              new ChatRequestUserMessage("Write a haiku about coding."),
           },
+          Temperature = 0.7f,
+          MaxTokens = 100,
       };
 
-      try
-      {
-          Response<ChatCompletions> response = await client.CompleteAsync(requestOptions);
-          Console.WriteLine(response.Value.Content);
-      }
-      catch (RequestFailedException ex)
-      {
-          Console.WriteLine($"Status: {ex.Status}");
-          Console.WriteLine($"Error: {ex.Message}");
-          
-          switch (ex.Status)
-          {
-              case 429:
-                  Console.WriteLine("Rate limited - implement exponential backoff");
-                  break;
-              case 400:
-                  Console.WriteLine("Bad request - check parameters");
-                  break;
-              case 401:
-                  Console.WriteLine("Unauthorized - check credentials");
-                  break;
-              default:
-                  throw;
-          }
-      }
-
-  # Get Model Information
-  - name: get_model_info
-    prompt: |
-      Retrieve model information from the Azure AI Inference endpoint
-      using GetModelInfo in C#.
-    expected_patterns:
-      - "GetModelInfo"
-      - "ModelInfo"
-      - "ModelName"
-      - "ModelType"
-    tags:
-      - model-info
-    mock_response: |
-      using Azure;
-      using Azure.AI.Inference;
-      using Azure.Identity;
-
-      var client = new ChatCompletionsClient(
-          new Uri(Environment.GetEnvironmentVariable("AZURE_AI_CHAT_ENDPOINT")),
-          new DefaultAzureCredential());
-
-      Response<ModelInfo> modelInfo = await client.GetModelInfoAsync();
-
-      Console.WriteLine($"Model name: {modelInfo.Value.ModelName}");
-      Console.WriteLine($"Model type: {modelInfo.Value.ModelType}");
-      Console.WriteLine($"Model provider: {modelInfo.Value.ModelProviderName}");
-
-  # Dependency Injection
-  - name: dependency_injection
-    prompt: |
-      Configure Azure.AI.Inference ChatCompletionsClient for dependency 
-      injection in an ASP.NET Core application.
-    expected_patterns:
-      - "AddAzureClients"
-      - "AddChatCompletionsClient"
-      - "UseCredential"
-      - "DefaultAzureCredential"
-    tags:
-      - dependency-injection
-      - aspnet
-    mock_response: |
-      using Azure.Identity;
-      using Azure.AI.Inference;
-      using Microsoft.Extensions.Azure;
-
-      var builder = WebApplication.CreateBuilder(args);
-
-      // Register Azure AI Inference client
-      builder.Services.AddAzureClients(clientBuilder =>
-      {
-          var endpoint = builder.Configuration["AzureAI:Endpoint"];
-          clientBuilder.AddChatCompletionsClient(new Uri(endpoint));
-          clientBuilder.UseCredential(new DefaultAzureCredential());
-      });
-
-      var app = builder.Build();
-
-      // Use in a minimal API endpoint
-      app.MapPost("/chat", async (ChatCompletionsClient client, ChatRequest request) =>
-      {
-          var options = new ChatCompletionsOptions()
-          {
-              Messages =
-              {
-                  new ChatRequestSystemMessage("You are a helpful assistant."),
-                  new ChatRequestUserMessage(request.Message),
-              },
-          };
-
-          var response = await client.CompleteAsync(options);
-          return Results.Ok(new { Response = response.Value.Content });
-      });
-
-      app.Run();
-
-      public record ChatRequest(string Message);
+      Response<ChatCompletions> response = client.Complete(requestOptions);
+      Console.WriteLine(response.Value.Choices[0].Message.Content);

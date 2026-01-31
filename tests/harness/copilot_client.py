@@ -20,6 +20,7 @@ if TYPE_CHECKING:
 # Try to import Copilot SDK (optional dependency)
 try:
     from github_copilot_sdk import CopilotClient, Session
+
     COPILOT_SDK_AVAILABLE = True
 except ImportError:
     COPILOT_SDK_AVAILABLE = False
@@ -30,7 +31,7 @@ except ImportError:
 @dataclass
 class GenerationResult:
     """Result of code generation."""
-    
+
     code: str
     prompt: str
     skill_name: str
@@ -43,7 +44,7 @@ class GenerationResult:
 @dataclass
 class GenerationConfig:
     """Configuration for code generation."""
-    
+
     model: str = "gpt-4"
     max_tokens: int = 2000
     temperature: float = 0.3
@@ -56,33 +57,42 @@ class MockCopilotClient:
     Mock client for testing without Copilot SDK.
     Returns predefined responses for test scenarios.
     """
-    
+
     def __init__(self):
         self._mock_responses: dict[str, str] = {}
-    
-    def add_mock_response(self, prompt_contains: str, response: str) -> None:
-        """Add a mock response for prompts containing specific text."""
-        self._mock_responses[prompt_contains.lower()] = response
-    
+
+    def add_mock_response(self, scenario_name: str, response: str) -> None:
+        """Add a mock response for a specific scenario."""
+        self._mock_responses[scenario_name] = response
+
     def generate(
-        self, 
-        prompt: str, 
+        self,
+        prompt: str,
         skill_context: str = "",
-        config: GenerationConfig | None = None
+        config: GenerationConfig | None = None,
+        scenario_name: str = "",
     ) -> GenerationResult:
-        """Generate a mock response."""
-        prompt_lower = prompt.lower()
-        
-        for key, response in self._mock_responses.items():
-            if key in prompt_lower:
-                return GenerationResult(
-                    code=response,
-                    prompt=prompt,
-                    skill_name="mock",
-                    model="mock",
-                )
-        
-        # Default mock response
+        """Generate a mock response.
+
+        Args:
+            prompt: The user prompt
+            skill_context: Additional context (unused in mock mode)
+            config: Generation config (unused in mock mode)
+            scenario_name: Name of the test scenario to retrieve the mock response
+
+        Returns:
+            GenerationResult with the mock response code
+        """
+        # If scenario_name is provided, use it to look up the response
+        if scenario_name and scenario_name in self._mock_responses:
+            return GenerationResult(
+                code=self._mock_responses[scenario_name],
+                prompt=prompt,
+                skill_name="mock",
+                model="mock",
+            )
+
+        # Default mock response (fallback for missing scenario)
         return GenerationResult(
             code="# No mock response configured for this prompt\npass",
             prompt=prompt,
@@ -94,61 +104,56 @@ class MockCopilotClient:
 class SkillCopilotClient:
     """
     Client for generating code using GitHub Copilot SDK with skill context.
-    
+
     Features:
     - Loads skill content as context
     - Manages conversation sessions
     - Extracts code from responses
     - Falls back to mock client if SDK unavailable
     """
-    
+
     SKILLS_DIR = Path(".github/skills")
-    
-    def __init__(
-        self, 
-        base_path: Path | None = None,
-        use_mock: bool = False
-    ):
+
+    def __init__(self, base_path: Path | None = None, use_mock: bool = False):
         self.base_path = base_path or Path.cwd()
         self.skills_dir = self.base_path / self.SKILLS_DIR
         self._use_mock = use_mock or not COPILOT_SDK_AVAILABLE
-        
+
         if self._use_mock:
             self._client = MockCopilotClient()
         else:
             self._client = self._create_copilot_client()
-        
+
         self._skill_cache: dict[str, str] = {}
-    
+
     def _create_copilot_client(self) -> CopilotClient:
         """Create and configure the Copilot SDK client."""
         if not COPILOT_SDK_AVAILABLE:
             raise RuntimeError(
-                "Copilot SDK not available. Install with: "
-                "pip install github-copilot-sdk"
+                "Copilot SDK not available. Install with: pip install github-copilot-sdk"
             )
-        
+
         # Initialize Copilot client
         # This assumes copilot CLI is installed and authenticated
         return CopilotClient()
-    
+
     def load_skill_context(self, skill_name: str) -> str:
         """Load skill content as context for code generation."""
         if skill_name in self._skill_cache:
             return self._skill_cache[skill_name]
-        
+
         skill_dir = self.skills_dir / skill_name
         if not skill_dir.exists():
             raise FileNotFoundError(f"Skill not found: {skill_name}")
-        
+
         context_parts = []
-        
+
         # Load main SKILL.md
         skill_md = skill_dir / "SKILL.md"
         if skill_md.exists():
             context_parts.append(f"# Skill: {skill_name}\n\n")
             context_parts.append(skill_md.read_text(encoding="utf-8"))
-        
+
         # Load reference files
         refs_dir = skill_dir / "references"
         if refs_dir.exists():
@@ -156,20 +161,28 @@ class SkillCopilotClient:
                 if ref_file.name != "acceptance-criteria.md":  # Skip test criteria
                     context_parts.append(f"\n\n# Reference: {ref_file.stem}\n\n")
                     context_parts.append(ref_file.read_text(encoding="utf-8"))
-        
+
         context = "\n".join(context_parts)
         self._skill_cache[skill_name] = context
         return context
-    
+
     def generate(
         self,
         prompt: str,
         skill_name: str,
-        config: GenerationConfig | None = None
+        config: GenerationConfig | None = None,
+        scenario_name: str = "",
     ) -> GenerationResult:
-        """Generate code using Copilot with skill context."""
+        """Generate code using Copilot with skill context.
+
+        Args:
+            prompt: The user prompt for code generation
+            skill_name: Name of the skill to use for context
+            config: Generation configuration
+            scenario_name: Name of the test scenario (for mock mode lookup)
+        """
         config = config or GenerationConfig()
-        
+
         # Build full prompt with skill context
         if config.include_skill_context:
             skill_context = self.load_skill_context(skill_name)
@@ -177,13 +190,13 @@ class SkillCopilotClient:
         else:
             full_prompt = prompt
             skill_context = ""
-        
+
         if self._use_mock:
-            return self._client.generate(prompt, skill_context, config)
-        
+            return self._client.generate(prompt, skill_context, config, scenario_name=scenario_name)
+
         # Use real Copilot SDK
         return self._generate_with_copilot(full_prompt, skill_name, config)
-    
+
     def _build_prompt(self, user_prompt: str, skill_context: str) -> str:
         """Build the full prompt with skill context."""
         return f"""You are an expert Python developer. Use the following skill documentation as reference for correct SDK usage patterns.
@@ -198,33 +211,30 @@ class SkillCopilotClient:
 
 Generate only Python code. Follow the patterns from the skill documentation exactly.
 """
-    
+
     def _generate_with_copilot(
-        self,
-        prompt: str,
-        skill_name: str,
-        config: GenerationConfig
+        self, prompt: str, skill_name: str, config: GenerationConfig
     ) -> GenerationResult:
         """Generate code using the actual Copilot SDK."""
         import time
-        
+
         start_time = time.time()
-        
+
         # Create session and send message
         session = self._client.create_session()
-        
+
         response = session.send_message(
             prompt,
             model=config.model,
             max_tokens=config.max_tokens,
             temperature=config.temperature,
         )
-        
+
         duration_ms = (time.time() - start_time) * 1000
-        
+
         # Extract code from response
         code = self._extract_code(response.content)
-        
+
         return GenerationResult(
             code=code,
             prompt=prompt,
@@ -233,64 +243,62 @@ Generate only Python code. Follow the patterns from the skill documentation exac
             duration_ms=duration_ms,
             raw_response=response.content,
         )
-    
+
     def _extract_code(self, response: str) -> str:
         """Extract Python code from a response."""
         import re
-        
+
         # Look for code blocks
-        code_blocks = re.findall(
-            r'```(?:python)?\n(.*?)```',
-            response,
-            re.DOTALL
-        )
-        
+        code_blocks = re.findall(r"```(?:python)?\n(.*?)```", response, re.DOTALL)
+
         if code_blocks:
             return "\n\n".join(block.strip() for block in code_blocks)
-        
+
         # If no code blocks, try to find Python-like content
-        lines = response.split('\n')
+        lines = response.split("\n")
         code_lines = []
         in_code = False
-        
+
         for line in lines:
             # Heuristic: lines starting with import, def, class, or indented
-            if (line.startswith('import ') or 
-                line.startswith('from ') or
-                line.startswith('def ') or
-                line.startswith('class ') or
-                line.startswith('    ') or
-                line.startswith('\t')):
+            if (
+                line.startswith("import ")
+                or line.startswith("from ")
+                or line.startswith("def ")
+                or line.startswith("class ")
+                or line.startswith("    ")
+                or line.startswith("\t")
+            ):
                 in_code = True
                 code_lines.append(line)
-            elif in_code and line.strip() == '':
+            elif in_code and line.strip() == "":
                 code_lines.append(line)
-            elif in_code and not line.startswith('#') and line.strip():
+            elif in_code and not line.startswith("#") and line.strip():
                 # Non-code line, might be end of code
                 if not line[0].isalpha():
                     code_lines.append(line)
-        
-        return '\n'.join(code_lines).strip() or response
-    
-    def add_mock_response(self, prompt_contains: str, response: str) -> None:
-        """Add a mock response (only works in mock mode)."""
+
+        return "\n".join(code_lines).strip() or response
+
+    def add_mock_response(self, scenario_name: str, response: str) -> None:
+        """Add a mock response for a specific test scenario.
+
+        Args:
+            scenario_name: Name of the test scenario
+            response: The mock response code to return for this scenario
+        """
         if isinstance(self._client, MockCopilotClient):
-            self._client.add_mock_response(prompt_contains, response)
+            self._client.add_mock_response(scenario_name, response)
 
 
 def check_copilot_available() -> bool:
     """Check if Copilot SDK and CLI are available."""
     if not COPILOT_SDK_AVAILABLE:
         return False
-    
+
     # Check if copilot CLI is installed
     try:
-        result = subprocess.run(
-            ["copilot", "--version"],
-            capture_output=True,
-            text=True,
-            timeout=5
-        )
+        result = subprocess.run(["copilot", "--version"], capture_output=True, text=True, timeout=5)
         return result.returncode == 0
     except (subprocess.TimeoutExpired, FileNotFoundError):
         return False
@@ -300,13 +308,13 @@ def check_copilot_available() -> bool:
 if __name__ == "__main__":
     print(f"Copilot SDK available: {COPILOT_SDK_AVAILABLE}")
     print(f"Copilot CLI available: {check_copilot_available()}")
-    
+
     if len(sys.argv) > 1:
         skill_name = sys.argv[1]
         prompt = sys.argv[2] if len(sys.argv) > 2 else "Create a basic agent"
-        
+
         client = SkillCopilotClient(use_mock=not check_copilot_available())
-        
+
         try:
             result = client.generate(prompt, skill_name)
             print(f"\nGenerated code for {skill_name}:")

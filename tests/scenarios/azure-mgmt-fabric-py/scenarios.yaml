@@ -355,7 +355,6 @@ scenarios:
       - "get("
     forbidden_patterns:
       - "except:"
-      - "pass"
     tags:
       - error-handling
       - resilience

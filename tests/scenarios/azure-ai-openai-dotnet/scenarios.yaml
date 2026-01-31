@@ -96,7 +96,7 @@ scenarios:
       - "AssistantChatMessage"
       - "CompleteChat"
     forbidden_patterns:
-      - 'ChatMessage\('
+      - 'new ChatMessage\('
     tags:
       - chat
       - conversation
@@ -171,7 +171,7 @@ scenarios:
       - "AsyncCollectionResult"
       - "await foreach"
     forbidden_patterns:
-      - 'foreach \(StreamingChatCompletionUpdate'
+      - '(?<!await\s)foreach \(StreamingChatCompletionUpdate'
     tags:
       - async
       - streaming
