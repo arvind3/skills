@@ -303,6 +303,20 @@ Orchestrates the full evaluation:
 - Real generated code may have different patterns
 - Review acceptance criteria for flexibility
 
+## Test Coverage Summary
+
+| Skill | Scenarios | Status |
+|-------|-----------|--------|
+| `azure-ai-agents-py` | 7 | ✅ Complete |
+| `azure-ai-projects-py` | 12 | ✅ Complete |
+| `foundry-iq-py` | 10 | ✅ Complete |
+| `pydantic-models-py` | 5 | ✅ Complete |
+
+For a complete list of skills with acceptance criteria, run:
+```bash
+uv run --project tests python -m tests.harness.runner --list
+```
+
 ## Contributing
 
 1. Add acceptance criteria for new skills
