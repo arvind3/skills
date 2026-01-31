@@ -580,6 +580,26 @@ uv run pytest test_skills.py -v
 
 See [`tests/README.md`](tests/README.md) for instructions on adding acceptance criteria and scenarios for new skills.
 
+### Ralph Loop & Sensei Patterns
+
+The test harness implements iterative quality improvement patterns inspired by [Sensei](https://github.com/microsoft/GitHub-Copilot-for-Azure/tree/main/.github/skills/sensei):
+
+**Ralph Loop** — An iterative code generation and improvement system that:
+1. **Generate** code for a given skill/scenario
+2. **Evaluate** against acceptance criteria (score 0-100)
+3. **Analyze** failures and build LLM-actionable feedback
+4. **Re-generate** with feedback until quality threshold is met
+5. **Report** on quality improvements across iterations
+
+**Sensei-style Scoring** — Skills are evaluated on frontmatter compliance:
+
+| Score | Requirements |
+|-------|--------------|
+| **Low** | Basic description only |
+| **Medium** | Description > 150 chars, has trigger keywords |
+| **Medium-High** | Has "USE FOR:" triggers AND "DO NOT USE FOR:" anti-triggers |
+| **High** | Triggers + anti-triggers + compatibility field |
+
 ---
 
 ## Contributing
