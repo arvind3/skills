@@ -4,29 +4,6 @@ Skills, custom agents, AGENTS.md templates, and MCP configurations for AI coding
 
 > **Blog post:** [Context-Driven Development: Agent Skills for Microsoft Foundry and Azure](https://devblogs.microsoft.com/all-things-azure/context-driven-development-agent-skills-for-microsoft-foundry-and-azure/)
 
-![Context-Driven Development Architecture](https://raw.githubusercontent.com/microsoft/agent-skills/main/.github/assets/agent-skills-image.png)
-
----
-
-## What's Inside
-
-| Resource | Description |
-|----------|-------------|
-| **[127 Skills](#skill-catalog)** | Domain-specific knowledge for Azure SDK and Foundry development |
-| **[Custom Agents](#agents)** | Role-specific agents (backend, frontend, infrastructure, planner) |
-| **[AGENTS.md](AGENTS.md)** | Template for configuring agent behavior in your projects |
-| **[MCP Configs](#mcp-servers)** | Pre-configured servers for docs, GitHub, browser automation |
-| **[Live Docs](https://context7.com/microsoft/agent-skills)** | Context7-indexed Foundry documentation, updated daily |
-
----
-
-Coding agents like [Copilot CLI](https://github.com/features/copilot/cli) are powerful, but they lack domain knowledge about your SDKs. The patterns are already in their weights from pretraining. All you need is the right activation context to surface them.
-
-> [!IMPORTANT]
-> **Use skills selectively.** Loading all skills causes context rot: diluted attention, wasted tokens, conflated patterns. Only copy skills essential for your current project.
-
----
-
 ## Quick Start
 
 ```bash
@@ -70,6 +47,29 @@ ln -s ../.github/skills .claude/skills
 ```
 
 </details>
+
+---
+
+![Context-Driven Development Architecture](https://raw.githubusercontent.com/microsoft/agent-skills/main/.github/assets/agent-skills-image.png)
+
+---
+
+## What's Inside
+
+| Resource | Description |
+|----------|-------------|
+| **[127 Skills](#skill-catalog)** | Domain-specific knowledge for Azure SDK and Foundry development |
+| **[Custom Agents](#agents)** | Role-specific agents (backend, frontend, infrastructure, planner) |
+| **[AGENTS.md](AGENTS.md)** | Template for configuring agent behavior in your projects |
+| **[MCP Configs](#mcp-servers)** | Pre-configured servers for docs, GitHub, browser automation |
+| **[Live Docs](https://context7.com/microsoft/agent-skills)** | Context7-indexed Foundry documentation, updated daily |
+
+---
+
+Coding agents like [Copilot CLI](https://github.com/features/copilot/cli) are powerful, but they lack domain knowledge about your SDKs. The patterns are already in their weights from pretraining. All you need is the right activation context to surface them.
+
+> [!IMPORTANT]
+> **Use skills selectively.** Loading all skills causes context rot: diluted attention, wasted tokens, conflated patterns. Only copy skills essential for your current project.
 
 ---
 
