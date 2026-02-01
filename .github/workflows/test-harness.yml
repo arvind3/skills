@@ -34,11 +34,21 @@ jobs:
         run: pnpm test:run
 
       - name: Run skill evaluations (all skills)
+        id: harness
         working-directory: tests
-        continue-on-error: true
         run: |
+          # Run harness and capture exit code (don't fail the step yet)
+          set +e
           pnpm harness --all --mock --output markdown --output-file results.md
+          HARNESS_EXIT=$?
           pnpm harness --all --mock --output json --output-file results.json
+          set -e
+          
+          # Store result for later steps
+          echo "exit_code=$HARNESS_EXIT" >> $GITHUB_OUTPUT
+          
+          # Always exit 0 here so we can write summary
+          exit 0
 
       - name: Write job summary
         if: always()
@@ -48,6 +58,23 @@ jobs:
             cat results.md >> $GITHUB_STEP_SUMMARY
           else
             echo "⚠️ No results file found" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          # Show overall status
+          if [ "${{ steps.harness.outputs.exit_code }}" != "0" ]; then
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "---" >> $GITHUB_STEP_SUMMARY
+            echo "⚠️ **Some skills have failing scenarios.** See details above." >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Check evaluation results
+        if: always()
+        run: |
+          if [ "${{ steps.harness.outputs.exit_code }}" != "0" ]; then
+            echo "::warning::Some skills have failing scenarios"
+            # Don't fail the job - this is informational during development
+            # Uncomment the line below to enforce passing evaluations:
+            # exit 1
           fi
 
       - name: Upload results
