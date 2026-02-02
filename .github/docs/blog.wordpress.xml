@@ -14,7 +14,7 @@ The repo contains:
  	<li><strong>Prompts</strong>: Reusable templates for code reviews, component creation, endpoints</li>
  	<li><strong>Agents</strong>: Persona definitions (backend, frontend, infrastructure, planner, presenter, scaffolder)</li>
  	<li><strong>MCP Servers</strong>: Pre-configured servers for GitHub, Playwright, Microsoft Docs, Context7</li>
- 	<li><strong>Context7 Integration</strong>: Indexed Foundry documentation at <a href="https://context7.com/microsoft/agent-skills">context7.com/microsoft/agent-skills</a></li>
+ 	<li><strong>Context7 Integration</strong>: Indexed Foundry documentation at <a href="https://context7.com/llmstxt/microsoft_github_io_agent-skills_llms-full_txt">Context7</a>, updated daily via GitHub Actions</li>
  	<li><strong>GitHub Pages Site</strong>: Browse skills at <a href="https://microsoft.github.io/agent-skills/">microsoft.github.io/agent-skills</a></li>
 </ul>
 <h2>Systems Thinking First, Then Skills</h2>
@@ -82,9 +82,9 @@ Then remove the servers you do not need. This gives your agent access to:
 <h3>(Optional) Use Context7 for Foundry Docs</h3>
 For real-time Foundry documentation access, add the Context7 MCP server or use directly:
 
-<strong>Context7 URL:</strong> <a href="https://context7.com/microsoft/agent-skills">https://context7.com/microsoft/agent-skills</a>
+<strong>Context7 URL:</strong> <a href="https://context7.com/llmstxt/microsoft_github_io_agent-skills_llms-full_txt">context7.com/llmstxt/microsoft_github_io_agent-skills_llms-full_txt</a>
 
-A GitHub workflow runs weekly to sync the latest Foundry documentation updates automatically.
+A GitHub workflow runs daily to sync the latest Foundry documentation updates automatically.
 <h2>Available Skills</h2>
 <strong>129 skills total</strong> — 5 core + 124 language-specific (Python, .NET, TypeScript, Java).
 
@@ -194,9 +194,9 @@ For now, start with <a href="https://github.com/microsoft/agent-skills">github.c
 <h2>Resources</h2>
 <ul>
  	<li><a href="https://github.com/microsoft/agent-skills">Agent Skills Repository</a></li>
+ 	<li><a href="https://microsoft.github.io/agent-skills/">GitHub Pages: Browse Skills</a></li>
  	<li><a href="https://skills.sh/microsoft/agent-skills">skills.sh: Install Skills</a></li>
- 	<li><a href="https://skillsmp.com/skills/microsoft-agent-skills-github-skills-azure-ai-voicelive-skill-skill-md">skillsmp.com: Browse Skills</a></li>
- 	<li><a href="https://context7.com/microsoft/agent-skills">Context7: Foundry Docs</a></li>
+ 	<li><a href="https://context7.com/llmstxt/microsoft_github_io_agent-skills_llms-full_txt">Context7: Foundry Docs</a></li>
  	<li><a href="https://github.com/github/copilot-sdk">Copilot SDK</a></li>
  	<li><a href="https://devblogs.microsoft.com/all-things-azure/claude-code-microsoft-foundry-enterprise-ai-coding-agent-setup/">Claude Code + Foundry Setup Guide</a></li>
  	<li><a href="https://devblogs.microsoft.com/all-things-azure/codex-azure-openai-integration-fast-secure-code-development/">Codex + Azure OpenAI Integration</a></li>
