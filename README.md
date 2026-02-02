@@ -62,7 +62,7 @@ Coding agents like [Copilot CLI](https://github.com/features/copilot/cli) are po
 
 | Resource | Description |
 |----------|-------------|
-| **[129 Skills](#skill-catalog)** | Domain-specific knowledge for Azure SDK and Foundry development |
+| **[130 Skills](#skill-catalog)** | Domain-specific knowledge for Azure SDK and Foundry development |
 | **[Custom Agents](#agents)** | Role-specific agents (backend, frontend, infrastructure, planner) |
 | **[AGENTS.md](AGENTS.md)** | Template for configuring agent behavior in your projects |
 | **[MCP Configs](#mcp-servers)** | Pre-configured servers for docs, GitHub, browser automation |
@@ -587,14 +587,14 @@ pnpm test
 
 ### Test Coverage Summary
 
-**129 skills with 1135 test scenarios** — all skills have acceptance criteria and test scenarios.
+**130 skills with 1176 test scenarios** — all skills have acceptance criteria and test scenarios.
 
 | Language | Skills | Scenarios | Top Skills by Scenarios |
 |----------|--------|-----------|-------------------------|
 | Core | 5 | 40 | `azd-deployment` (8), `github-issue-creator` (8), `mcp-builder` (8) |
-| Python | 42 | 365 | `azure-ai-projects-py` (12), `pydantic-models-py` (12), `azure-ai-translation-text-py` (11) |
+| Python | 43 | 374 | `azure-ai-projects-py` (12), `pydantic-models-py` (12), `azure-ai-translation-text-py` (11) |
 | .NET | 29 | 296 | `azure-resource-manager-redis-dotnet` (14), `azure-resource-manager-sql-dotnet` (14), `azure-ai-projects-dotnet` (13) |
-| TypeScript | 24 | 255 | `azure-storage-blob-ts` (17), `azure-servicebus-ts` (14), `azure-ai-contentsafety-ts` (12) |
+| TypeScript | 25 | 255 | `azure-storage-blob-ts` (17), `azure-servicebus-ts` (14), `azure-ai-contentsafety-ts` (12) |
 | Java | 28 | 179 | `azure-identity-java` (12), `azure-storage-blob-java` (12), `azure-ai-agents-persistent-java` (11) |
 
 ### Adding Test Coverage
