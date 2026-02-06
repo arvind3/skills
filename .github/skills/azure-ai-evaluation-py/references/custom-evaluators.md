@@ -1,426 +1,450 @@
 # Custom Evaluators Reference
 
-Patterns for creating custom evaluators with Azure AI Evaluation SDK.
+Create custom evaluators when built-in evaluators don't meet your needs using the `azure-ai-projects` SDK.
+
+## Evaluator Types
+
+| Type | Best For | Requires LLM |
+|------|----------|--------------|
+| **Code-based** | Pattern matching, format validation, deterministic rules | No |
+| **Prompt-based** | Subjective judgment, semantic analysis, nuanced evaluation | Yes |
 
 ## Code-Based Evaluators
 
-### Simple Function Evaluator
+Use Python code for deterministic evaluation logic.
 
-Use the `@evaluator` decorator for simple metrics:
-
-```python
-from azure.ai.evaluation import evaluator
-
-@evaluator
-def word_count_evaluator(response: str) -> dict:
-    """Count words in response."""
-    return {"word_count": len(response.split())}
-
-@evaluator
-def response_length_evaluator(response: str) -> dict:
-    """Measure response length in characters."""
-    return {
-        "char_count": len(response),
-        "is_concise": len(response) < 500
-    }
-
-# Usage
-result = word_count_evaluator(response="Hello world")
-# {"word_count": 2}
-```
-
-### Multi-Input Evaluator
-
-Evaluators can accept multiple inputs:
+### Basic Code Evaluator
 
 ```python
-from azure.ai.evaluation import evaluator
-
-@evaluator
-def keyword_coverage_evaluator(
-    query: str,
-    response: str,
-    required_keywords: list[str] | None = None
-) -> dict:
-    """Check if response covers required keywords from query."""
-    if required_keywords is None:
-        # Extract keywords from query
-        required_keywords = [w.lower() for w in query.split() if len(w) > 3]
-    
-    response_lower = response.lower()
-    covered = [kw for kw in required_keywords if kw in response_lower]
-    
-    coverage = len(covered) / len(required_keywords) if required_keywords else 1.0
-    
-    return {
-        "keyword_coverage": coverage,
-        "keywords_found": covered,
-        "keywords_missing": [kw for kw in required_keywords if kw not in response_lower]
-    }
-```
-
-### Class-Based Evaluator
-
-For evaluators needing initialization or state:
-
-```python
-from azure.ai.evaluation import evaluator
-
-class DomainSpecificEvaluator:
-    """Evaluator with domain-specific vocabulary."""
-    
-    def __init__(self, domain_terms: list[str], threshold: float = 0.5):
-        self.domain_terms = [t.lower() for t in domain_terms]
-        self.threshold = threshold
-    
-    def __call__(self, response: str) -> dict:
-        response_lower = response.lower()
-        matches = sum(1 for term in self.domain_terms if term in response_lower)
-        score = matches / len(self.domain_terms) if self.domain_terms else 0
-        
-        return {
-            "domain_relevance": score,
-            "domain_terms_found": matches,
-            "passes_threshold": score >= self.threshold
-        }
-
-# Usage
-azure_evaluator = DomainSpecificEvaluator(
-    domain_terms=["azure", "cloud", "microsoft", "deployment", "resource"],
-    threshold=0.4
+from azure.ai.projects import AIProjectClient
+from azure.ai.projects.models import (
+    EvaluatorVersion,
+    EvaluatorCategory,
+    EvaluatorType,
+    CodeBasedEvaluatorDefinition,
+    EvaluatorMetric,
+    EvaluatorMetricType,
+    EvaluatorMetricDirection,
 )
+from azure.identity import DefaultAzureCredential
+import os
 
-result = azure_evaluator(response="Deploy your app to Azure cloud resources.")
+endpoint = os.environ["AZURE_AI_PROJECT_ENDPOINT"]
+
+with (
+    DefaultAzureCredential() as credential,
+    AIProjectClient(endpoint=endpoint, credential=credential) as project_client,
+):
+    evaluator = project_client.evaluators.create_version(
+        name="word_count_evaluator",
+        evaluator_version=EvaluatorVersion(
+            evaluator_type=EvaluatorType.CUSTOM,
+            categories=[EvaluatorCategory.QUALITY],
+            display_name="Word Count",
+            description="Counts words in response and checks for conciseness",
+            definition=CodeBasedEvaluatorDefinition(
+                code_text='''
+def grade(sample, item) -> dict:
+    response = item.get("response", "")
+    word_count = len(response.split())
+    return {
+        "word_count": word_count,
+        "is_concise": word_count < 100
+    }
+''',
+                data_schema={
+                    "type": "object",
+                    "properties": {
+                        "response": {"type": "string"}
+                    },
+                    "required": ["response"]
+                },
+                metrics={
+                    "word_count": EvaluatorMetric(
+                        type=EvaluatorMetricType.ORDINAL,
+                        desirable_direction=EvaluatorMetricDirection.DECREASE,
+                        min_value=0,
+                        max_value=10000,
+                    ),
+                    "is_concise": EvaluatorMetric(
+                        type=EvaluatorMetricType.BINARY,
+                    ),
+                },
+            ),
+        ),
+    )
+    print(f"Created evaluator: {evaluator.name} (version {evaluator.version})")
 ```
 
-### Async Evaluator
-
-For evaluators that need async operations:
+### Code Evaluator: Keyword Checker
 
 ```python
-import asyncio
-from azure.ai.evaluation import evaluator
-
-@evaluator
-async def async_validation_evaluator(response: str, context: str) -> dict:
-    """Async evaluator for external validation."""
-    # Simulate async validation (e.g., external API call)
-    await asyncio.sleep(0.1)
+evaluator = project_client.evaluators.create_version(
+    name="disclaimer_checker",
+    evaluator_version=EvaluatorVersion(
+        evaluator_type=EvaluatorType.CUSTOM,
+        categories=[EvaluatorCategory.QUALITY],
+        display_name="Disclaimer Checker",
+        description="Verifies required disclaimers are present in response",
+        definition=CodeBasedEvaluatorDefinition(
+            code_text='''
+def grade(sample, item) -> dict:
+    response = item.get("response", "").lower()
+    required_keywords = ["disclaimer", "not financial advice", "consult a professional"]
     
-    # Check factual consistency
-    context_words = set(context.lower().split())
-    response_words = set(response.lower().split())
-    overlap = len(context_words & response_words)
+    found = [kw for kw in required_keywords if kw in response]
+    missing = [kw for kw in required_keywords if kw not in response]
+    
+    score = len(found) / len(required_keywords) if required_keywords else 1.0
     
     return {
-        "context_overlap": overlap,
-        "validation_status": "valid" if overlap > 5 else "needs_review"
+        "compliance_score": score,
+        "missing_disclaimers": ", ".join(missing) if missing else "none",
+        "passes": score >= 0.8
     }
+''',
+            data_schema={
+                "type": "object",
+                "properties": {"response": {"type": "string"}},
+                "required": ["response"]
+            },
+            metrics={
+                "compliance_score": EvaluatorMetric(
+                    type=EvaluatorMetricType.ORDINAL,
+                    desirable_direction=EvaluatorMetricDirection.INCREASE,
+                    min_value=0.0,
+                    max_value=1.0,
+                ),
+                "passes": EvaluatorMetric(type=EvaluatorMetricType.BINARY),
+            },
+        ),
+    ),
+)
+```
+
+### Code Evaluator: JSON Format Validator
+
+```python
+evaluator = project_client.evaluators.create_version(
+    name="json_format_checker",
+    evaluator_version=EvaluatorVersion(
+        evaluator_type=EvaluatorType.CUSTOM,
+        categories=[EvaluatorCategory.QUALITY],
+        display_name="JSON Format Validator",
+        description="Checks if response is valid JSON with required fields",
+        definition=CodeBasedEvaluatorDefinition(
+            code_text='''
+import json
+
+def grade(sample, item) -> dict:
+    response = item.get("response", "")
+    required_fields = item.get("required_fields", [])
+    
+    try:
+        parsed = json.loads(response)
+        is_valid_json = True
+        
+        if required_fields:
+            missing = [f for f in required_fields if f not in parsed]
+            has_required_fields = len(missing) == 0
+        else:
+            has_required_fields = True
+            missing = []
+            
+    except json.JSONDecodeError:
+        is_valid_json = False
+        has_required_fields = False
+        missing = required_fields
+    
+    return {
+        "is_valid_json": is_valid_json,
+        "has_required_fields": has_required_fields,
+        "missing_fields": ", ".join(missing) if missing else "none"
+    }
+''',
+            data_schema={
+                "type": "object",
+                "properties": {
+                    "response": {"type": "string"},
+                    "required_fields": {"type": "array", "items": {"type": "string"}}
+                },
+                "required": ["response"]
+            },
+            metrics={
+                "is_valid_json": EvaluatorMetric(type=EvaluatorMetricType.BINARY),
+                "has_required_fields": EvaluatorMetric(type=EvaluatorMetricType.BINARY),
+            },
+        ),
+    ),
+)
 ```
 
 ## Prompt-Based Evaluators
 
-### Using Azure OpenAI Client
+Use LLM judgment for subjective evaluation.
 
-Create evaluators that use LLM judgment:
+### Basic Prompt Evaluator
 
 ```python
-from azure.ai.evaluation import AzureOpenAIModelConfiguration
+from azure.ai.projects.models import PromptBasedEvaluatorDefinition
 
-class PromptBasedEvaluator:
-    """LLM-based evaluator using custom prompts."""
-    
-    EVALUATION_PROMPT = """You are an expert evaluator. Rate the following response.
+evaluator = project_client.evaluators.create_version(
+    name="helpfulness_evaluator",
+    evaluator_version=EvaluatorVersion(
+        evaluator_type=EvaluatorType.CUSTOM,
+        categories=[EvaluatorCategory.QUALITY],
+        display_name="Helpfulness Evaluator",
+        description="Evaluates how helpful the response is to the user",
+        definition=PromptBasedEvaluatorDefinition(
+            prompt_text='''
+You are an expert evaluator. Rate the helpfulness of the AI assistant's response.
 
 Query: {query}
 Response: {response}
 
-Rate the response on a scale of 1-5 for:
-1. Accuracy: Is the information correct?
-2. Completeness: Does it fully answer the query?
-3. Clarity: Is it easy to understand?
+Scoring (1-5):
+1 = Not helpful at all, doesn't address the query
+2 = Slightly helpful, partially addresses the query
+3 = Moderately helpful, addresses most of the query
+4 = Very helpful, fully addresses the query
+5 = Extremely helpful, exceeds expectations
 
-Return ONLY a JSON object with keys: accuracy, completeness, clarity (integers 1-5).
-"""
-    
-    def __init__(self, model_config: dict):
-        from openai import AzureOpenAI
-        
-        self.client = AzureOpenAI(
-            azure_endpoint=model_config["azure_endpoint"],
-            api_key=model_config.get("api_key"),
-            api_version=model_config.get("api_version", "2024-06-01")
-        )
-        self.deployment = model_config["azure_deployment"]
-    
-    def __call__(self, query: str, response: str) -> dict:
-        import json
-        
-        prompt = self.EVALUATION_PROMPT.format(query=query, response=response)
-        
-        completion = self.client.chat.completions.create(
-            model=self.deployment,
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0,
-            response_format={"type": "json_object"}
-        )
-        
-        result = json.loads(completion.choices[0].message.content)
-        
-        # Add aggregate score
-        result["overall_score"] = (
-            result["accuracy"] + result["completeness"] + result["clarity"]
-        ) / 3
-        
-        return result
-```
-
-### Multi-Criteria Prompt Evaluator
-
-```python
-class MultiCriteriaEvaluator:
-    """Evaluate against multiple criteria with detailed feedback."""
-    
-    CRITERIA = {
-        "technical_accuracy": "Is the technical information correct and precise?",
-        "best_practices": "Does it follow industry best practices?",
-        "security": "Are security considerations addressed?",
-        "performance": "Are performance implications considered?"
-    }
-    
-    PROMPT_TEMPLATE = """Evaluate this response against the criterion.
-
-Query: {query}
-Response: {response}
-Context: {context}
-
-Criterion: {criterion_name}
-Definition: {criterion_definition}
-
-Provide:
-1. Score (1-5): 1=poor, 5=excellent
-2. Reason: Brief explanation (1-2 sentences)
-
-Return JSON: {{"score": <int>, "reason": "<string>"}}
-"""
-    
-    def __init__(self, model_config: dict, criteria: dict | None = None):
-        from openai import AzureOpenAI
-        
-        self.client = AzureOpenAI(
-            azure_endpoint=model_config["azure_endpoint"],
-            api_key=model_config.get("api_key"),
-            api_version=model_config.get("api_version", "2024-06-01")
-        )
-        self.deployment = model_config["azure_deployment"]
-        self.criteria = criteria or self.CRITERIA
-    
-    def __call__(
-        self,
-        query: str,
-        response: str,
-        context: str = ""
-    ) -> dict:
-        import json
-        
-        results = {}
-        scores = []
-        
-        for name, definition in self.criteria.items():
-            prompt = self.PROMPT_TEMPLATE.format(
-                query=query,
-                response=response,
-                context=context,
-                criterion_name=name,
-                criterion_definition=definition
-            )
-            
-            completion = self.client.chat.completions.create(
-                model=self.deployment,
-                messages=[{"role": "user", "content": prompt}],
-                temperature=0,
-                response_format={"type": "json_object"}
-            )
-            
-            criterion_result = json.loads(completion.choices[0].message.content)
-            results[f"{name}_score"] = criterion_result["score"]
-            results[f"{name}_reason"] = criterion_result["reason"]
-            scores.append(criterion_result["score"])
-        
-        results["aggregate_score"] = sum(scores) / len(scores)
-        return results
-```
-
-## Composite Custom Evaluators
-
-### Combining Multiple Evaluators
-
-```python
-from azure.ai.evaluation import (
-    GroundednessEvaluator,
-    RelevanceEvaluator,
-    evaluate
+Return ONLY valid JSON: {"score": <1-5>, "reason": "<brief explanation>"}
+''',
+            init_parameters={
+                "type": "object",
+                "properties": {
+                    "deployment_name": {"type": "string", "description": "Model deployment name"}
+                },
+                "required": ["deployment_name"]
+            },
+            data_schema={
+                "type": "object",
+                "properties": {
+                    "query": {"type": "string"},
+                    "response": {"type": "string"}
+                },
+                "required": ["query", "response"]
+            },
+            metrics={
+                "score": EvaluatorMetric(
+                    type=EvaluatorMetricType.ORDINAL,
+                    desirable_direction=EvaluatorMetricDirection.INCREASE,
+                    min_value=1,
+                    max_value=5,
+                ),
+            },
+        ),
+    ),
 )
-
-class ComprehensiveEvaluator:
-    """Combine built-in and custom evaluators."""
-    
-    def __init__(self, model_config: dict):
-        self.groundedness = GroundednessEvaluator(model_config)
-        self.relevance = RelevanceEvaluator(model_config)
-        self.custom_domain = DomainSpecificEvaluator(
-            domain_terms=["azure", "cloud", "api"]
-        )
-    
-    def __call__(
-        self,
-        query: str,
-        context: str,
-        response: str
-    ) -> dict:
-        results = {}
-        
-        # Run built-in evaluators
-        ground_result = self.groundedness(
-            query=query, context=context, response=response
-        )
-        rel_result = self.relevance(
-            query=query, context=context, response=response
-        )
-        
-        # Run custom evaluator
-        domain_result = self.custom_domain(response=response)
-        
-        # Combine results
-        results.update(ground_result)
-        results.update(rel_result)
-        results.update(domain_result)
-        
-        # Calculate weighted score
-        results["composite_score"] = (
-            ground_result.get("groundedness", 0) * 0.4 +
-            rel_result.get("relevance", 0) * 0.4 +
-            domain_result.get("domain_relevance", 0) * 5 * 0.2  # Scale to 1-5
-        )
-        
-        return results
 ```
 
-## Using Custom Evaluators in Batch Evaluation
-
-### With evaluate() Function
+### Prompt Evaluator: Brand Tone Checker
 
 ```python
-from azure.ai.evaluation import evaluate
+evaluator = project_client.evaluators.create_version(
+    name="brand_tone_checker",
+    evaluator_version=EvaluatorVersion(
+        evaluator_type=EvaluatorType.CUSTOM,
+        categories=[EvaluatorCategory.QUALITY],
+        display_name="Brand Tone Checker",
+        description="Evaluates if response matches company brand voice guidelines",
+        definition=PromptBasedEvaluatorDefinition(
+            prompt_text='''
+You are evaluating if an AI assistant's response matches brand voice guidelines.
 
-# Define custom evaluators
-@evaluator
-def format_checker(response: str) -> dict:
-    has_code = "```" in response
-    has_list = any(line.strip().startswith(("-", "*", "1.")) 
-                   for line in response.split("\n"))
-    return {
-        "has_code_blocks": has_code,
-        "has_lists": has_list,
-        "is_structured": has_code or has_list
-    }
+Brand Guidelines:
+- Professional but friendly
+- Avoid jargon, use simple language
+- Always offer next steps or additional help
+- Never use negative language about competitors
+- End with a helpful call-to-action
 
-domain_eval = DomainSpecificEvaluator(["python", "azure", "sdk"])
+Response to evaluate:
+{response}
 
-# Run batch evaluation
-result = evaluate(
-    data="test_data.jsonl",
-    evaluators={
-        "format": format_checker,
-        "domain": domain_eval,
-        "groundedness": GroundednessEvaluator(model_config)
+Score the response from 1-5:
+5 = Perfectly matches brand voice
+4 = Mostly matches, minor issues
+3 = Partially matches
+2 = Significant tone issues
+1 = Does not match brand voice
+
+Return ONLY valid JSON: {"score": <1-5>, "reason": "<brief explanation>", "suggestions": "<improvement suggestions>"}
+''',
+            init_parameters={
+                "type": "object",
+                "properties": {"deployment_name": {"type": "string"}},
+                "required": ["deployment_name"]
+            },
+            data_schema={
+                "type": "object",
+                "properties": {"response": {"type": "string"}},
+                "required": ["response"]
+            },
+            metrics={
+                "score": EvaluatorMetric(
+                    type=EvaluatorMetricType.ORDINAL,
+                    min_value=1,
+                    max_value=5,
+                ),
+            },
+        ),
+    ),
+)
+```
+
+### Prompt Evaluator: Factual Accuracy
+
+```python
+evaluator = project_client.evaluators.create_version(
+    name="factual_accuracy_checker",
+    evaluator_version=EvaluatorVersion(
+        evaluator_type=EvaluatorType.CUSTOM,
+        categories=[EvaluatorCategory.QUALITY],
+        display_name="Factual Accuracy",
+        description="Checks if response claims are supported by context",
+        definition=PromptBasedEvaluatorDefinition(
+            prompt_text='''
+Evaluate whether the response contains only facts supported by the provided context.
+
+Context (source of truth):
+{context}
+
+Response to evaluate:
+{response}
+
+Analysis steps:
+1. Identify each factual claim in the response
+2. Check if each claim is supported by the context
+3. Note any unsupported or fabricated claims
+
+Scoring (1-5):
+1 = Mostly fabricated or incorrect
+2 = Many unsupported claims
+3 = Mixed: some facts but notable errors
+4 = Mostly factual, minor issues
+5 = Fully factual, no unsupported claims
+
+Return ONLY valid JSON: {"score": <1-5>, "reason": "<explanation>", "unsupported_claims": ["<list of unsupported claims>"]}
+''',
+            init_parameters={
+                "type": "object",
+                "properties": {"deployment_name": {"type": "string"}},
+                "required": ["deployment_name"]
+            },
+            data_schema={
+                "type": "object",
+                "properties": {
+                    "context": {"type": "string"},
+                    "response": {"type": "string"}
+                },
+                "required": ["context", "response"]
+            },
+            metrics={
+                "score": EvaluatorMetric(
+                    type=EvaluatorMetricType.ORDINAL,
+                    min_value=1,
+                    max_value=5,
+                ),
+            },
+        ),
+    ),
+)
+```
+
+## Using Custom Evaluators
+
+### In Testing Criteria
+
+```python
+testing_criteria = [
+    # Built-in evaluator
+    {
+        "type": "azure_ai_evaluator",
+        "name": "coherence",
+        "evaluator_name": "builtin.coherence",
+        "data_mapping": {"query": "{{item.query}}", "response": "{{item.response}}"},
+        "initialization_parameters": {"deployment_name": "gpt-4o-mini"}
     },
-    evaluator_config={
-        "default": {
-            "column_mapping": {
-                "query": "${data.question}",
-                "context": "${data.context}",
-                "response": "${data.answer}"
-            }
-        }
-    }
-)
-
-print(result["metrics"])
-```
-
-### Column Mapping for Custom Evaluators
-
-```python
-result = evaluate(
-    data="data.jsonl",
-    evaluators={
-        "keyword_coverage": keyword_coverage_evaluator
+    # Custom code-based evaluator
+    {
+        "type": "azure_ai_evaluator",
+        "name": "word_count",
+        "evaluator_name": "word_count_evaluator",
+        "data_mapping": {"response": "{{item.response}}"}
     },
-    evaluator_config={
-        "keyword_coverage": {
-            "column_mapping": {
-                "query": "${data.user_query}",
-                "response": "${data.model_response}",
-                "required_keywords": "${data.expected_keywords}"
-            }
-        }
+    # Custom prompt-based evaluator
+    {
+        "type": "azure_ai_evaluator",
+        "name": "helpfulness",
+        "evaluator_name": "helpfulness_evaluator",
+        "initialization_parameters": {"deployment_name": "gpt-4o-mini"},
+        "data_mapping": {"query": "{{item.query}}", "response": "{{item.response}}"}
+    },
+]
+
+eval_object = openai_client.evals.create(
+    name="Mixed Evaluators Test",
+    data_source_config=data_source_config,
+    testing_criteria=testing_criteria,
+)
+```
+
+## Managing Custom Evaluators
+
+### List Custom Evaluators
+
+```python
+evaluators = project_client.evaluators.list_latest_versions(type="custom")
+for e in evaluators:
+    print(f"{e.name} (v{e.version}): {e.display_name}")
+```
+
+### Get Evaluator Details
+
+```python
+evaluator = project_client.evaluators.get_version(
+    name="helpfulness_evaluator",
+    version="latest"
+)
+print(f"Data Schema: {evaluator.definition.data_schema}")
+print(f"Metrics: {evaluator.definition.metrics}")
+```
+
+### Update Evaluator
+
+```python
+updated = project_client.evaluators.update_version(
+    name="word_count_evaluator",
+    version="1",
+    evaluator_version={
+        "description": "Updated description",
+        "display_name": "Word Count v2",
     }
 )
 ```
 
-## Evaluator Testing Patterns
-
-### Unit Testing Custom Evaluators
+### Delete Evaluator
 
 ```python
-import pytest
-from my_evaluators import word_count_evaluator, DomainSpecificEvaluator
-
-class TestWordCountEvaluator:
-    def test_empty_response(self):
-        result = word_count_evaluator(response="")
-        assert result["word_count"] == 0
-    
-    def test_simple_response(self):
-        result = word_count_evaluator(response="Hello world")
-        assert result["word_count"] == 2
-    
-    def test_multiline_response(self):
-        result = word_count_evaluator(response="Hello\nworld\ntest")
-        assert result["word_count"] == 3
-
-class TestDomainSpecificEvaluator:
-    @pytest.fixture
-    def evaluator(self):
-        return DomainSpecificEvaluator(
-            domain_terms=["azure", "cloud"],
-            threshold=0.5
-        )
-    
-    def test_full_coverage(self, evaluator):
-        result = evaluator(response="Azure cloud services")
-        assert result["domain_relevance"] == 1.0
-        assert result["passes_threshold"] is True
-    
-    def test_partial_coverage(self, evaluator):
-        result = evaluator(response="Deploy to Azure")
-        assert result["domain_relevance"] == 0.5
-        assert result["passes_threshold"] is True
-    
-    def test_no_coverage(self, evaluator):
-        result = evaluator(response="Hello world")
-        assert result["domain_relevance"] == 0.0
-        assert result["passes_threshold"] is False
+project_client.evaluators.delete_version(
+    name="word_count_evaluator",
+    version="1"
+)
 ```
 
 ## Best Practices
 
-1. **Return dictionaries** - All evaluators must return `dict` with metric names as keys
-2. **Use descriptive metric names** - Include evaluator context in key names (e.g., `domain_relevance` not just `score`)
-3. **Handle edge cases** - Empty inputs, missing fields, None values
-4. **Keep evaluators focused** - One evaluator = one concept (combine with composite evaluators)
-5. **Document input requirements** - Clear docstrings explaining expected inputs
-6. **Test thoroughly** - Unit tests for all custom evaluators before batch evaluation
-7. **Consider async** - Use async for evaluators with I/O operations
-8. **Normalize scores** - Keep scores in consistent ranges (0-1 or 1-5)
+1. **Use code-based for deterministic logic** - Pattern matching, format validation, keyword checking
+2. **Use prompt-based for subjective judgment** - Quality assessment, tone evaluation, semantic analysis
+3. **Always define data_schema** - Ensures correct data mapping
+4. **Define meaningful metrics** - Use appropriate types (ORDINAL, BINARY)
+5. **Test before production** - Run evaluator on sample data first
+6. **Version your evaluators** - Create new versions instead of modifying existing ones
+
+## Related Documentation
+
+- [Custom Evaluators](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/evaluation-evaluators/custom-evaluators)
+- [Code-based evaluator sample](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/ai/azure-ai-projects/samples/evaluations/sample_eval_catalog_code_based_evaluators.py)
+- [Prompt-based evaluator sample](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/ai/azure-ai-projects/samples/evaluations/sample_eval_catalog_prompt_based_evaluators.py)

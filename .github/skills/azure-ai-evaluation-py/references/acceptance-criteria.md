@@ -1,6 +1,6 @@
-# Azure AI Evaluation SDK Acceptance Criteria
+# Azure AI Projects SDK Acceptance Criteria
 
-**SDK**: `azure-ai-evaluation`
+**SDK**: `azure-ai-projects`
 **Repository**: https://github.com/Azure/azure-sdk-for-python
 **Commit**: `main`
 **Purpose**: Skill testing acceptance criteria for validating generated code correctness
@@ -11,342 +11,500 @@
 
 ### 1.1 ✅ CORRECT: Core SDK Imports
 ```python
-from azure.ai.evaluation import (
-    # Core
-    evaluate,
-    AzureOpenAIModelConfiguration,
-    
-    # Quality Evaluators
-    GroundednessEvaluator,
-    GroundednessProEvaluator,
-    RelevanceEvaluator,
-    CoherenceEvaluator,
-    FluencyEvaluator,
-    SimilarityEvaluator,
-    RetrievalEvaluator,
-    
-    # NLP Evaluators
-    F1ScoreEvaluator,
-    RougeScoreEvaluator,
-    GleuScoreEvaluator,
-    BleuScoreEvaluator,
-    MeteorScoreEvaluator,
-    
-    # Safety Evaluators
-    ViolenceEvaluator,
-    SexualEvaluator,
-    SelfHarmEvaluator,
-    HateUnfairnessEvaluator,
-    IndirectAttackEvaluator,
-    ProtectedMaterialEvaluator,
-    CodeVulnerabilityEvaluator,
-    UngroundedAttributesEvaluator,
-    
-    # Agent Evaluators
-    IntentResolutionEvaluator,
-    ResponseCompletenessEvaluator,
-    TaskAdherenceEvaluator,
-    ToolCallAccuracyEvaluator,
-    
-    # Composite Evaluators
-    QAEvaluator,
-    ContentSafetyEvaluator,
-    
-    # Graders
-    AzureOpenAILabelGrader,
-    AzureOpenAIStringCheckGrader,
-    AzureOpenAITextSimilarityGrader,
-    AzureOpenAIScoreModelGrader,
-    AzureOpenAIPythonGrader,
-    
-    # Custom evaluator decorator
-    evaluator,
+from azure.ai.projects import AIProjectClient
+from azure.identity import DefaultAzureCredential
+
+# For inline data sources
+from openai.types.evals.create_eval_jsonl_run_data_source_param import (
+    CreateEvalJSONLRunDataSourceParam,
+    SourceFileContent,
+    SourceFileContentContent,
+)
+from openai.types.eval_create_params import DataSourceConfigCustom
+
+# For custom evaluators
+from azure.ai.projects.models import (
+    EvaluatorVersion,
+    EvaluatorCategory,
+    EvaluatorType,
+    CodeBasedEvaluatorDefinition,
+    PromptBasedEvaluatorDefinition,
+    EvaluatorMetric,
+    EvaluatorMetricType,
+    EvaluatorMetricDirection,
 )
 ```
 
-### 1.2 ✅ CORRECT: Authentication Imports
+### 1.2 ❌ INCORRECT: Using Deprecated SDK
 ```python
-from azure.identity import DefaultAzureCredential
-```
-
-### 1.3 ❌ INCORRECT: Wrong Import Paths
-```python
-# WRONG - evaluators are not in a submodule
-from azure.ai.evaluation.evaluators import GroundednessEvaluator
-
-# WRONG - model configuration is not under models
-from azure.ai.evaluation.models import AzureOpenAIModelConfiguration
-
-# WRONG - non-existent imports
-from azure.ai.evaluation import Evaluator
-from azure.ai.evaluation import PromptChatTarget  # Does not exist
+# WRONG - azure-ai-evaluation is deprecated, use azure-ai-projects
+from azure.ai.evaluation import evaluate
+from azure.ai.evaluation import GroundednessEvaluator
+from azure.ai.evaluation import AzureOpenAIModelConfiguration
 ```
 
 ---
 
-## 2. Evaluator setup
+## 2. Client Setup
 
-### 2.1 ✅ CORRECT: Dict Model Configuration (API key)
+### 2.1 ✅ CORRECT: AIProjectClient with Managed Identity
 ```python
-model_config = {
-    "azure_endpoint": os.environ["AZURE_OPENAI_ENDPOINT"],
-    "api_key": os.environ["AZURE_OPENAI_API_KEY"],
-    "azure_deployment": os.environ["AZURE_OPENAI_DEPLOYMENT"],
-}
-```
-
-### 2.2 ✅ CORRECT: AzureOpenAIModelConfiguration (Managed Identity)
-```python
-from azure.ai.evaluation import AzureOpenAIModelConfiguration
+import os
+from azure.ai.projects import AIProjectClient
 from azure.identity import DefaultAzureCredential
 
+endpoint = os.environ["AZURE_AI_PROJECT_ENDPOINT"]
+
+with (
+    DefaultAzureCredential() as credential,
+    AIProjectClient(endpoint=endpoint, credential=credential) as project_client,
+):
+    openai_client = project_client.get_openai_client()
+    # Use openai_client.evals.*
+```
+
+### 2.2 ✅ CORRECT: Environment Variable
+```python
+# Endpoint format: https://<account>.services.ai.azure.com/api/projects/<project>
+os.environ["AZURE_AI_PROJECT_ENDPOINT"] = "https://myaccount.services.ai.azure.com/api/projects/myproject"
+os.environ["AZURE_AI_MODEL_DEPLOYMENT_NAME"] = "gpt-4o-mini"
+```
+
+### 2.3 ❌ INCORRECT: Wrong Client Setup
+```python
+# WRONG - not using context manager
+client = AIProjectClient(endpoint=endpoint, credential=credential)
+# Missing proper resource cleanup
+
+# WRONG - using old SDK patterns
+from azure.ai.evaluation import AzureOpenAIModelConfiguration
 model_config = AzureOpenAIModelConfiguration(
     azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
-    credential=DefaultAzureCredential(),
-    azure_deployment=os.environ["AZURE_OPENAI_DEPLOYMENT"],
-    api_version="2024-06-01",
-)
-```
-
-### 2.3 ✅ CORRECT: Azure AI Project for Safety Evaluators
-```python
-azure_ai_project = {
-    "subscription_id": os.environ["AZURE_SUBSCRIPTION_ID"],
-    "resource_group_name": os.environ["AZURE_RESOURCE_GROUP"],
-    "project_name": os.environ["AZURE_AI_PROJECT_NAME"],
-}
-```
-
-### 2.4 ✅ CORRECT: Reasoning Model Configuration
-```python
-# For o1/o3 reasoning models
-groundedness = GroundednessEvaluator(model_config, is_reasoning_model=True)
-coherence = CoherenceEvaluator(model_config, is_reasoning_model=True)
-```
-
-### 2.5 ❌ INCORRECT: Wrong Config Keys
-```python
-# WRONG - keys must be azure_endpoint and azure_deployment
-model_config = {
-    "endpoint": os.environ["AZURE_OPENAI_ENDPOINT"],
-    "deployment_name": os.environ["AZURE_OPENAI_DEPLOYMENT"],
-}
-```
-
----
-
-## 3. Quality evaluators
-
-### 3.1 ✅ CORRECT: AI-Assisted Evaluators
-```python
-groundedness = GroundednessEvaluator(model_config)
-result = groundedness(
-    query="What is Azure AI?",
-    context="Azure AI is Microsoft's AI platform.",
-    response="Azure AI provides AI services and tools."
-)
-
-coherence = CoherenceEvaluator(model_config)
-result = coherence(
-    query="Explain Azure Functions.",
-    response="Azure Functions is a serverless compute service."
-)
-
-similarity = SimilarityEvaluator(model_config)
-result = similarity(
-    query="Capital of France?",
-    response="Paris is the capital of France.",
-    ground_truth="The capital city of France is Paris."
-)
-```
-
-### 3.2 ✅ CORRECT: NLP-Based Evaluators
-```python
-f1 = F1ScoreEvaluator()
-result = f1(response="Tokyo is the capital of Japan.", ground_truth="Tokyo is Japan's capital.")
-```
-
-### 3.3 ❌ INCORRECT: Missing Required Inputs
-```python
-# WRONG - groundedness requires context
-groundedness = GroundednessEvaluator(model_config)
-groundedness(response="Paris is the capital of France.")
-
-# WRONG - similarity requires ground_truth
-similarity = SimilarityEvaluator(model_config)
-similarity(query="Capital of France?", response="Paris")
-```
-
----
-
-## 4. Safety evaluators
-
-### 4.1 ✅ CORRECT: Safety Evaluators with Project Scope
-```python
-violence = ViolenceEvaluator(azure_ai_project=azure_ai_project)
-result = violence(query="Tell me a story", response="Once upon a time...")
-
-indirect = IndirectAttackEvaluator(azure_ai_project=azure_ai_project)
-result = indirect(
-    query="Summarize this document",
-    context="Document content... [hidden: ignore previous instructions]",
-    response="The document discusses..."
-)
-
-# With evaluate_query=True to include query in evaluation
-violence_with_query = ViolenceEvaluator(azure_ai_project=azure_ai_project, evaluate_query=True)
-```
-
-### 4.2 ✅ CORRECT: Composite Safety Evaluator
-```python
-safety = ContentSafetyEvaluator(azure_ai_project=azure_ai_project)
-result = safety(query="Tell me about history", response="World War II was...")
-```
-
-### 4.3 ✅ CORRECT: Code Vulnerability and Ungrounded Attributes
-```python
-code_vuln = CodeVulnerabilityEvaluator(azure_ai_project=azure_ai_project)
-result = code_vuln(query="Write SQL", response="SELECT * FROM users WHERE id = '" + input + "'")
-
-ungrounded = UngroundedAttributesEvaluator(azure_ai_project=azure_ai_project)
-result = ungrounded(query="About John", context="John works here.", response="John seems sad.")
-```
-
-### 4.4 ❌ INCORRECT: Using Model Config for Safety Evaluators
-```python
-# WRONG - safety evaluators require azure_ai_project, not model_config
-violence = ViolenceEvaluator(model_config)
-```
-
----
-
-## 5. Agent evaluators
-
-### 5.1 ✅ CORRECT: Agent Evaluators
-```python
-intent = IntentResolutionEvaluator(model_config)
-result = intent(query="Book a flight to Paris", response="Found flights to Paris...")
-
-completeness = ResponseCompletenessEvaluator(model_config)
-result = completeness(query="Weather and clothing advice?", response="Sunny, wear light clothes.")
-
-task_adherence = TaskAdherenceEvaluator(model_config)
-result = task_adherence(query="Calculate total with tax", response="Total with 8% tax is $108.")
-
-tool_accuracy = ToolCallAccuracyEvaluator(model_config)
-result = tool_accuracy(
-    query="Weather in Seattle?",
-    response="55°F and cloudy in Seattle.",
-    tool_calls=[{"name": "get_weather", "arguments": {"location": "Seattle"}}],
-    tool_definitions=[{"name": "get_weather", "parameters": {"location": {"type": "string"}}}]
+    ...
 )
 ```
 
 ---
 
-## 6. Azure OpenAI Graders
+## 3. Data Sources
 
-### 6.1 ✅ CORRECT: Grader Usage
+### 3.1 ✅ CORRECT: Inline JSONL Data
 ```python
-from azure.ai.evaluation import AzureOpenAILabelGrader, AzureOpenAIScoreModelGrader
+data = [
+    {"query": "What is Azure?", "response": "Azure is Microsoft's cloud platform."},
+    {"query": "What is AI?", "response": "AI is artificial intelligence."},
+]
 
-label_grader = AzureOpenAILabelGrader(
-    model_config=model_config,
-    labels=["positive", "negative", "neutral"],
-    passing_labels=["positive"]
+data_source = CreateEvalJSONLRunDataSourceParam(
+    type="jsonl",
+    source=SourceFileContent(
+        type="file_content",
+        content=[
+            SourceFileContentContent(
+                item=item,
+                sample={},  # Empty for non-agent evaluations
+            )
+            for item in data
+        ],
+    ),
 )
 
-score_grader = AzureOpenAIScoreModelGrader(
-    model_config=model_config,
-    pass_threshold=0.7
+data_source_config = DataSourceConfigCustom(
+    type="custom",
+    item_schema={
+        "type": "object",
+        "properties": {
+            "query": {"type": "string"},
+            "response": {"type": "string"},
+        },
+        "required": ["query", "response"],
+    },
+    include_sample_schema=False,  # Set to True for agent evaluations
+)
+```
+
+### 3.2 ✅ CORRECT: Agent Data with Tool Calls
+```python
+data_source = CreateEvalJSONLRunDataSourceParam(
+    type="jsonl",
+    source=SourceFileContent(
+        type="file_content",
+        content=[
+            SourceFileContentContent(
+                item={"query": "Weather in Seattle?"},
+                sample={
+                    "output_text": "It's 55°F and cloudy in Seattle.",
+                    "output_items": [
+                        {
+                            "type": "tool_call",
+                            "tool_call_id": "call_123",
+                            "name": "get_weather",
+                            "arguments": {"location": "Seattle"},
+                            "result": {"temp": "55", "condition": "cloudy"},
+                        }
+                    ],
+                },
+            )
+        ],
+    ),
 )
 
-# Use in evaluate()
+data_source_config = DataSourceConfigCustom(
+    type="custom",
+    item_schema={
+        "type": "object",
+        "properties": {"query": {"type": "string"}},
+        "required": ["query"],
+    },
+    include_sample_schema=True,  # Required for agent evaluations
+)
+```
+
+### 3.3 ❌ INCORRECT: Missing Schema
+```python
+# WRONG - data_source_config must include item_schema
+data_source_config = DataSourceConfigCustom(type="custom")
+
+# WRONG - agent evaluations must have include_sample_schema=True
+data_source_config = DataSourceConfigCustom(
+    type="custom",
+    item_schema={"type": "object", ...},
+    include_sample_schema=False,  # Wrong for agent evaluations
+)
+```
+
+---
+
+## 4. Testing Criteria (Evaluators)
+
+### 4.1 ✅ CORRECT: Built-in Evaluator with Data Mapping
+```python
+testing_criteria = [
+    {
+        "type": "azure_ai_evaluator",
+        "name": "coherence",  # Your label for this evaluation
+        "evaluator_name": "builtin.coherence",  # Built-in evaluator ID
+        "data_mapping": {
+            "query": "{{item.query}}",
+            "response": "{{item.response}}",
+        },
+        "initialization_parameters": {"deployment_name": "gpt-4o-mini"},
+    },
+]
+```
+
+### 4.2 ✅ CORRECT: Safety Evaluators
+```python
+testing_criteria = [
+    {
+        "type": "azure_ai_evaluator",
+        "name": "violence_check",
+        "evaluator_name": "builtin.violence",
+        "data_mapping": {
+            "query": "{{item.query}}",
+            "response": "{{item.response}}",
+        },
+    },
+    {
+        "type": "azure_ai_evaluator",
+        "name": "groundedness_check",
+        "evaluator_name": "builtin.groundedness",
+        "data_mapping": {
+            "query": "{{item.query}}",
+            "context": "{{item.context}}",
+            "response": "{{item.response}}",
+        },
+    },
+]
+```
+
+### 4.3 ✅ CORRECT: Agent Evaluators with sample Mapping
+```python
+testing_criteria = [
+    {
+        "type": "azure_ai_evaluator",
+        "name": "intent_resolution",
+        "evaluator_name": "builtin.intent_resolution",
+        "data_mapping": {
+            "query": "{{item.query}}",
+            "response": "{{sample.output_text}}",  # Use sample for agent outputs
+        },
+        "initialization_parameters": {"deployment_name": "gpt-4o-mini"},
+    },
+    {
+        "type": "azure_ai_evaluator",
+        "name": "tool_call_accuracy",
+        "evaluator_name": "builtin.tool_call_accuracy",
+        "data_mapping": {
+            "query": "{{item.query}}",
+            "response": "{{sample.output_items}}",  # JSON with tool calls
+        },
+        "initialization_parameters": {"deployment_name": "gpt-4o-mini"},
+    },
+]
+```
+
+### 4.4 ✅ CORRECT: OpenAI Graders
+```python
+testing_criteria = [
+    # Label grader (classification)
+    {
+        "type": "label_model",
+        "name": "sentiment_classifier",
+        "model": "gpt-4o-mini",
+        "input": [
+            {"role": "user", "content": "Classify sentiment: {{item.response}}"}
+        ],
+        "labels": ["positive", "negative", "neutral"],
+        "passing_labels": ["positive", "neutral"],
+    },
+    # String check grader (pattern matching)
+    {
+        "type": "string_check",
+        "name": "contains_disclaimer",
+        "input": "{{item.response}}",
+        "operation": "contains",
+        "reference": "Please consult a professional",
+    },
+    # Text similarity grader
+    {
+        "type": "text_similarity",
+        "name": "semantic_match",
+        "input": "{{item.response}}",
+        "reference": "{{item.expected}}",
+        "evaluation_metric": "fuzzy_match",
+        "pass_threshold": 0.8,
+    },
+]
+```
+
+### 4.5 ❌ INCORRECT: Wrong Testing Criteria Format
+```python
+# WRONG - using old azure-ai-evaluation patterns
+testing_criteria = {"groundedness": GroundednessEvaluator(model_config)}
+
+# WRONG - missing evaluator_name prefix
+testing_criteria = [
+    {
+        "type": "azure_ai_evaluator",
+        "evaluator_name": "coherence",  # Must be "builtin.coherence"
+        ...
+    },
+]
+
+# WRONG - wrong data mapping syntax
+testing_criteria = [
+    {
+        ...
+        "data_mapping": {
+            "query": "${data.query}",  # Old syntax, use {{item.query}}
+        },
+    },
+]
+```
+
+---
+
+## 5. Creating and Running Evaluations
+
+### 5.1 ✅ CORRECT: Create Evaluation
+```python
+eval_object = openai_client.evals.create(
+    name="My Evaluation",
+    data_source_config=data_source_config,
+    testing_criteria=testing_criteria,
+)
+print(f"Created eval: {eval_object.id}")
+```
+
+### 5.2 ✅ CORRECT: Run Evaluation
+```python
+run = openai_client.evals.runs.create(
+    eval_id=eval_object.id,
+    name="Run 1",
+    data_source=data_source,
+)
+print(f"Run ID: {run.id}, Status: {run.status}")
+```
+
+### 5.3 ✅ CORRECT: Poll for Completion
+```python
+import time
+
+while run.status not in ["completed", "failed", "cancelled"]:
+    time.sleep(5)
+    run = openai_client.evals.runs.retrieve(
+        eval_id=eval_object.id,
+        run_id=run.id,
+    )
+    print(f"Status: {run.status}")
+```
+
+### 5.4 ✅ CORRECT: Retrieve Results
+```python
+output_items = list(openai_client.evals.runs.output_items.list(
+    eval_id=eval_object.id,
+    run_id=run.id,
+))
+
+for item in output_items:
+    for result in item.results:
+        print(f"{result.name}: {result.score}")
+```
+
+### 5.5 ❌ INCORRECT: Using Old SDK evaluate() Function
+```python
+# WRONG - using deprecated azure-ai-evaluation
+from azure.ai.evaluation import evaluate
+
 result = evaluate(
     data="data.jsonl",
-    evaluators={"sentiment": label_grader, "quality": score_grader}
+    evaluators={"groundedness": groundedness},
 )
 ```
 
 ---
 
-## 7. Custom evaluators
+## 6. Custom Evaluators
 
-### 7.1 ✅ CORRECT: Decorated Function Evaluator
+### 6.1 ✅ CORRECT: Code-Based Evaluator
 ```python
+evaluator = project_client.evaluators.create_version(
+    name="word_count",
+    evaluator_version=EvaluatorVersion(
+        evaluator_type=EvaluatorType.CUSTOM,
+        categories=[EvaluatorCategory.QUALITY],
+        display_name="Word Count",
+        description="Counts words in response",
+        definition=CodeBasedEvaluatorDefinition(
+            code_text='''
+def grade(sample, item) -> dict:
+    return {"word_count": len(item.get("response", "").split())}
+''',
+            data_schema={
+                "type": "object",
+                "properties": {"response": {"type": "string"}},
+                "required": ["response"],
+            },
+            metrics={
+                "word_count": EvaluatorMetric(
+                    type=EvaluatorMetricType.ORDINAL,
+                    min_value=0,
+                    max_value=10000,
+                ),
+            },
+        ),
+    ),
+)
+```
+
+### 6.2 ✅ CORRECT: Using Custom Evaluator in Testing Criteria
+```python
+testing_criteria = [
+    {
+        "type": "azure_ai_evaluator",
+        "name": "word_count_check",
+        "evaluator_name": "word_count",  # Custom evaluator name (no builtin. prefix)
+        "data_mapping": {"response": "{{item.response}}"},
+    },
+]
+```
+
+### 6.3 ❌ INCORRECT: Old Custom Evaluator Pattern
+```python
+# WRONG - using decorator from deprecated SDK
 from azure.ai.evaluation import evaluator
 
 @evaluator
-def word_count_evaluator(response: str) -> dict:
-    return {"word_count": len(response.split())}
-```
+def my_evaluator(response: str) -> dict:
+    return {"score": 1.0}
 
-### 7.2 ✅ CORRECT: Class-Based Evaluator
-```python
-class DomainSpecificEvaluator:
-    def __init__(self, domain_terms: list[str]):
-        self.domain_terms = [term.lower() for term in domain_terms]
-
+# WRONG - class-based evaluator from old SDK
+class MyEvaluator:
     def __call__(self, response: str) -> dict:
-        hits = sum(1 for term in self.domain_terms if term in response.lower())
-        return {"domain_hits": hits}
-```
-
-### 7.3 ❌ INCORRECT: Non-Dict Return
-```python
-@evaluator
-def bad_evaluator(response: str) -> float:
-    return 0.5  # WRONG - evaluators must return dict
+        return {"score": 1.0}
 ```
 
 ---
 
-## 8. Batch evaluation
+## 7. Listing Built-in Evaluators
 
-### 8.1 ✅ CORRECT: evaluate() with Column Mapping
+### 7.1 ✅ CORRECT: Discover Available Evaluators
 ```python
-result = evaluate(
-    data="data.jsonl",
-    evaluators={
-        "groundedness": groundedness,
-        "relevance": relevance,
+# List all built-in evaluators
+evaluators = project_client.evaluators.list_latest_versions(type="builtin")
+for e in evaluators:
+    print(f"builtin.{e.name}: {e.description}")
+    print(f"  Categories: {[str(c) for c in e.categories]}")
+    print(f"  Data Schema: {e.definition.data_schema}")
+```
+
+### 7.2 ✅ CORRECT: Get Evaluator Details
+```python
+evaluator = project_client.evaluators.get_version(
+    name="coherence",
+    version="latest"
+)
+print(f"Required inputs: {evaluator.definition.data_schema}")
+print(f"Metrics: {evaluator.definition.metrics}")
+```
+
+---
+
+## 8. Agent Evaluation with Target
+
+### 8.1 ✅ CORRECT: Evaluate Azure AI Agent
+```python
+# Data source that calls an agent target
+data_source = {
+    "type": "azure_ai_target_completions",
+    "target": {
+        "type": "azure_ai_agent",
+        "agent_id": "my_agent_id",  # Your agent ID
     },
-    evaluator_config={
-        "default": {
-            "column_mapping": {
-                "query": "${data.query}",
-                "context": "${data.context}",
-                "response": "${data.response}",
-            }
-        }
+}
+
+testing_criteria = [
+    {
+        "type": "azure_ai_evaluator",
+        "name": "intent_resolution",
+        "evaluator_name": "builtin.intent_resolution",
+        "data_mapping": {
+            "query": "{{item.query}}",
+            "response": "{{sample.output_text}}",
+        },
+        "initialization_parameters": {"deployment_name": "gpt-4o-mini"},
     },
-    # Optional: Add tags for experiment tracking
-    tags={"experiment": "v1", "model": "gpt-4o"}
+]
+
+run = openai_client.evals.runs.create(
+    eval_id=eval_object.id,
+    name="Agent Evaluation Run",
+    data_source=data_source,
 )
 ```
 
-### 8.2 ✅ CORRECT: evaluate() on Target
+### 8.2 ❌ INCORRECT: Using Old Target Pattern
 ```python
-from my_app import chat_app
+# WRONG - using deprecated evaluate() with target
+from azure.ai.evaluation import evaluate
 
 result = evaluate(
     data="queries.jsonl",
-    target=chat_app,
-    evaluators={"groundedness": groundedness},
-    evaluator_config={
-        "default": {
-            "column_mapping": {
-                "query": "${data.query}",
-                "context": "${outputs.context}",
-                "response": "${outputs.response}",
-            }
-        }
-    },
+    target=my_agent_function,  # Old pattern
+    evaluators={"intent": IntentResolutionEvaluator(model_config)},
 )
 ```
 
-### 8.3 ❌ INCORRECT: Evaluators Not in Dict
-```python
-# WRONG - evaluators must be a dict of name -> evaluator
-evaluate(data="data.jsonl", evaluators=[groundedness, relevance])
-```
+---
+
+## Summary: Key Differences from Deprecated SDK
+
+| Deprecated (`azure-ai-evaluation`) | Current (`azure-ai-projects`) |
+|---|---|
+| `from azure.ai.evaluation import evaluate` | `openai_client.evals.create()` / `.runs.create()` |
+| `GroundednessEvaluator(model_config)` | `"evaluator_name": "builtin.groundedness"` |
+| `model_config = {...}` | `initialization_parameters = {...}` |
+| `column_mapping: {"query": "${data.query}"}` | `data_mapping: {"query": "{{item.query}}"}` |
+| `@evaluator` decorator | `project_client.evaluators.create_version()` |
+| Synchronous evaluate() call | Async create eval → create run → poll → retrieve |

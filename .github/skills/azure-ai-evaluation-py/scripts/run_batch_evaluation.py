@@ -2,53 +2,50 @@
 """
 Batch Evaluation CLI Tool
 
-Run batch evaluations on test datasets using Azure AI Evaluation SDK.
-Supports quality, safety, agent, and custom evaluators with Foundry integration.
+Run batch evaluations on test datasets using Azure AI Projects SDK.
+Supports quality, safety, agent evaluators, and OpenAI graders.
 
 Usage:
-    python run_batch_evaluation.py --data test_data.jsonl --evaluators groundedness relevance
-    python run_batch_evaluation.py --data test_data.jsonl --evaluators qa --output results.json
-    python run_batch_evaluation.py --data test_data.jsonl --safety --log-to-foundry
+    python run_batch_evaluation.py --data test_data.jsonl --evaluators coherence relevance
+    python run_batch_evaluation.py --data test_data.jsonl --evaluators coherence --output results.json
+    python run_batch_evaluation.py --data test_data.jsonl --safety
     python run_batch_evaluation.py --data test_data.jsonl --agent --evaluators intent_resolution task_adherence
-    python run_batch_evaluation.py --data test_data.jsonl --tags experiment=v1 model=gpt-4o
 
 Environment Variables:
-    AZURE_OPENAI_ENDPOINT      - Azure OpenAI endpoint URL
-    AZURE_OPENAI_API_KEY       - Azure OpenAI API key (optional if using DefaultAzureCredential)
-    AZURE_OPENAI_DEPLOYMENT    - Model deployment name (default: gpt-4o-mini)
-    AZURE_SUBSCRIPTION_ID      - Azure subscription ID (for safety evaluators)
-    AZURE_RESOURCE_GROUP       - Azure resource group (for safety evaluators)
-    AZURE_AI_PROJECT_NAME      - Azure AI project name (for safety evaluators)
+    AZURE_AI_PROJECT_ENDPOINT     - Azure AI project endpoint (required)
+    AZURE_AI_MODEL_DEPLOYMENT_NAME - Model deployment name (default: gpt-4o-mini)
 """
 
 import argparse
 import json
 import os
 import sys
+import time
 from pathlib import Path
 from typing import Any
 
+from azure.ai.projects import AIProjectClient
 from azure.identity import DefaultAzureCredential
+from openai.types.evals.create_eval_jsonl_run_data_source_param import (
+    CreateEvalJSONLRunDataSourceParam,
+    SourceFileContent,
+    SourceFileContentContent,
+)
+from openai.types.eval_create_params import DataSourceConfigCustom
 
 
-# Available evaluators by category
+# Built-in evaluators by category
 QUALITY_EVALUATORS = [
-    "groundedness",
-    "groundedness_pro",
-    "relevance",
     "coherence",
+    "relevance",
     "fluency",
-    "similarity",
-    "retrieval",
+    "groundedness",
 ]
-NLP_EVALUATORS = ["f1", "rouge", "bleu", "gleu", "meteor"]
 SAFETY_EVALUATORS = [
     "violence",
     "sexual",
     "self_harm",
     "hate_unfairness",
-    "code_vulnerability",
-    "ungrounded_attributes",
 ]
 AGENT_EVALUATORS = [
     "intent_resolution",
@@ -56,188 +53,254 @@ AGENT_EVALUATORS = [
     "task_adherence",
     "tool_call_accuracy",
 ]
-COMPOSITE_EVALUATORS = ["qa", "content_safety"]
+NLP_EVALUATORS = ["f1", "rouge", "bleu", "gleu", "meteor"]
 
 
-def get_model_config() -> dict[str, Any]:
-    """Build model configuration from environment variables."""
-    endpoint = os.environ.get("AZURE_OPENAI_ENDPOINT")
-    if not endpoint:
-        raise ValueError("AZURE_OPENAI_ENDPOINT environment variable required")
-
-    api_key = os.environ.get("AZURE_OPENAI_API_KEY")
-    deployment = os.environ.get("AZURE_OPENAI_DEPLOYMENT", "gpt-4o-mini")
-
-    config = {
-        "azure_endpoint": endpoint,
-        "azure_deployment": deployment,
-        "api_version": "2024-06-01",
-    }
-
-    if api_key:
-        config["api_key"] = api_key
-    else:
-        config["credential"] = DefaultAzureCredential()
-
-    return config
+def load_jsonl(path: str) -> list[dict]:
+    """Load JSONL file into list of dicts."""
+    data = []
+    with open(path, "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                data.append(json.loads(line))
+    return data
 
 
-def get_project_scope() -> dict[str, str] | None:
-    """Get Azure AI project scope for safety evaluators."""
-    subscription_id = os.environ.get("AZURE_SUBSCRIPTION_ID")
-    resource_group = os.environ.get("AZURE_RESOURCE_GROUP")
-    project_name = os.environ.get("AZURE_AI_PROJECT_NAME")
+def build_data_source(
+    data: list[dict],
+    is_agent: bool = False,
+) -> CreateEvalJSONLRunDataSourceParam:
+    """Build data source from loaded data."""
+    content = []
+    for item in data:
+        if is_agent:
+            # Agent data: extract sample fields from item
+            sample = {
+                "output_text": item.pop("output_text", item.get("response", "")),
+            }
+            if "output_items" in item:
+                sample["output_items"] = item.pop("output_items")
+            content.append(SourceFileContentContent(item=item, sample=sample))
+        else:
+            content.append(SourceFileContentContent(item=item, sample={}))
 
-    if not all([subscription_id, resource_group, project_name]):
-        return None
-
-    return {
-        "subscription_id": subscription_id,
-        "resource_group_name": resource_group,
-        "project_name": project_name,
-    }
-
-
-def build_evaluators(
-    evaluator_names: list[str],
-    model_config: dict[str, Any],
-    project_scope: dict[str, str] | None,
-    is_reasoning_model: bool = False,
-) -> dict[str, Any]:
-    """Build evaluator instances from names."""
-    from azure.ai.evaluation import (
-        GroundednessEvaluator,
-        GroundednessProEvaluator,
-        RelevanceEvaluator,
-        CoherenceEvaluator,
-        FluencyEvaluator,
-        SimilarityEvaluator,
-        RetrievalEvaluator,
-        F1ScoreEvaluator,
-        RougeScoreEvaluator,
-        BleuScoreEvaluator,
-        GleuScoreEvaluator,
-        MeteorScoreEvaluator,
-        QAEvaluator,
-        IntentResolutionEvaluator,
-        ResponseCompletenessEvaluator,
-        TaskAdherenceEvaluator,
-        ToolCallAccuracyEvaluator,
+    return CreateEvalJSONLRunDataSourceParam(
+        type="jsonl",
+        source=SourceFileContent(type="file_content", content=content),
     )
 
-    evaluators = {}
 
-    # Quality evaluators (AI-assisted)
-    quality_map = {
-        "groundedness": GroundednessEvaluator,
-        "relevance": RelevanceEvaluator,
-        "coherence": CoherenceEvaluator,
-        "fluency": FluencyEvaluator,
-        "similarity": SimilarityEvaluator,
-        "retrieval": RetrievalEvaluator,
-    }
+def build_data_source_config(
+    data: list[dict],
+    is_agent: bool = False,
+) -> DataSourceConfigCustom:
+    """Build data source config based on data schema."""
+    # Infer schema from first item
+    if not data:
+        raise ValueError("Data is empty")
 
-    # Agent evaluators
-    agent_map = {
-        "intent_resolution": IntentResolutionEvaluator,
-        "response_completeness": ResponseCompletenessEvaluator,
-        "task_adherence": TaskAdherenceEvaluator,
-        "tool_call_accuracy": ToolCallAccuracyEvaluator,
-    }
+    first_item = data[0]
+    properties = {}
+    required = []
 
-    # NLP evaluators
-    nlp_map = {
-        "f1": F1ScoreEvaluator,
-        "rouge": RougeScoreEvaluator,
-        "bleu": BleuScoreEvaluator,
-        "gleu": GleuScoreEvaluator,
-        "meteor": MeteorScoreEvaluator,
-    }
+    for key in first_item:
+        if key not in ["output_text", "output_items"]:  # Agent fields go in sample
+            properties[key] = {"type": "string"}
+            required.append(key)
+
+    return DataSourceConfigCustom(
+        type="custom",
+        item_schema={
+            "type": "object",
+            "properties": properties,
+            "required": required,
+        },
+        include_sample_schema=is_agent,
+    )
+
+
+def build_testing_criteria(
+    evaluator_names: list[str],
+    deployment_name: str,
+    is_agent: bool = False,
+) -> list[dict]:
+    """Build testing criteria for the specified evaluators."""
+    criteria = []
 
     for name in evaluator_names:
-        if name in quality_map:
-            if is_reasoning_model:
-                evaluators[name] = quality_map[name](model_config, is_reasoning_model=True)
+        # Determine data mapping based on evaluator type
+        if name in QUALITY_EVALUATORS:
+            if name == "groundedness":
+                data_mapping = {
+                    "query": "{{item.query}}",
+                    "context": "{{item.context}}",
+                    "response": "{{item.response}}",
+                }
             else:
-                evaluators[name] = quality_map[name](model_config)
-        elif name == "groundedness_pro":
-            if not project_scope:
-                print(f"Warning: Skipping {name} - requires Azure AI project config")
-                continue
-            evaluators[name] = GroundednessProEvaluator(azure_ai_project=project_scope)
-        elif name in agent_map:
-            evaluators[name] = agent_map[name](model_config)
-        elif name in nlp_map:
-            evaluators[name] = nlp_map[name]()
-        elif name == "qa":
-            evaluators[name] = QAEvaluator(model_config)
-        elif name in SAFETY_EVALUATORS or name == "content_safety":
-            if not project_scope:
-                print(f"Warning: Skipping {name} - requires Azure AI project config")
-                continue
-            evaluators[name] = build_safety_evaluator(name, project_scope)
+                data_mapping = {
+                    "query": "{{item.query}}",
+                    "response": "{{item.response}}",
+                }
+            needs_model = True
+
+        elif name in SAFETY_EVALUATORS:
+            data_mapping = {
+                "query": "{{item.query}}",
+                "response": "{{item.response}}",
+            }
+            needs_model = False  # Safety evaluators may not need deployment
+
+        elif name in AGENT_EVALUATORS:
+            if is_agent:
+                if name == "tool_call_accuracy":
+                    data_mapping = {
+                        "query": "{{item.query}}",
+                        "response": "{{sample.output_items}}",
+                    }
+                else:
+                    data_mapping = {
+                        "query": "{{item.query}}",
+                        "response": "{{sample.output_text}}",
+                    }
+            else:
+                data_mapping = {
+                    "query": "{{item.query}}",
+                    "response": "{{item.response}}",
+                }
+            needs_model = True
+
+        elif name in NLP_EVALUATORS:
+            data_mapping = {
+                "response": "{{item.response}}",
+                "ground_truth": "{{item.ground_truth}}",
+            }
+            needs_model = False
+
         else:
             print(f"Warning: Unknown evaluator '{name}', skipping")
+            continue
 
-    return evaluators
+        criterion = {
+            "type": "azure_ai_evaluator",
+            "name": name,
+            "evaluator_name": f"builtin.{name}",
+            "data_mapping": data_mapping,
+        }
 
+        if needs_model:
+            criterion["initialization_parameters"] = {"deployment_name": deployment_name}
 
-def build_safety_evaluator(name: str, project_scope: dict[str, str]) -> Any:
-    """Build safety evaluator instance."""
-    from azure.ai.evaluation import (
-        ViolenceEvaluator,
-        SexualEvaluator,
-        SelfHarmEvaluator,
-        HateUnfairnessEvaluator,
-        ContentSafetyEvaluator,
-        CodeVulnerabilityEvaluator,
-        UngroundedAttributesEvaluator,
-    )
+        criteria.append(criterion)
 
-    safety_map = {
-        "violence": ViolenceEvaluator,
-        "sexual": SexualEvaluator,
-        "self_harm": SelfHarmEvaluator,
-        "hate_unfairness": HateUnfairnessEvaluator,
-        "content_safety": ContentSafetyEvaluator,
-        "code_vulnerability": CodeVulnerabilityEvaluator,
-        "ungrounded_attributes": UngroundedAttributesEvaluator,
-    }
-
-    return safety_map[name](azure_ai_project=project_scope)
+    return criteria
 
 
 def run_evaluation(
+    endpoint: str,
     data_path: str,
-    evaluators: dict[str, Any],
-    column_mapping: dict[str, str],
-    project_scope: dict[str, str] | None = None,
-    log_to_foundry: bool = False,
-    tags: dict[str, str] | None = None,
+    evaluator_names: list[str],
+    deployment_name: str,
+    is_agent: bool = False,
 ) -> dict[str, Any]:
-    """Run batch evaluation."""
-    from azure.ai.evaluation import evaluate
+    """Run batch evaluation using Azure AI Projects SDK."""
+    # Load data
+    data = load_jsonl(data_path)
+    print(f"Loaded {len(data)} items from {data_path}")
 
-    eval_config = {"default": {"column_mapping": column_mapping}}
+    # Build data source and config
+    data_source = build_data_source(data, is_agent=is_agent)
+    data_source_config = build_data_source_config(data, is_agent=is_agent)
 
-    kwargs = {
-        "data": data_path,
-        "evaluators": evaluators,
-        "evaluator_config": eval_config,
-    }
+    # Build testing criteria
+    testing_criteria = build_testing_criteria(
+        evaluator_names,
+        deployment_name,
+        is_agent=is_agent,
+    )
 
-    if log_to_foundry and project_scope:
-        kwargs["azure_ai_project"] = project_scope
+    if not testing_criteria:
+        raise ValueError("No valid testing criteria configured")
 
-    if tags:
-        kwargs["tags"] = tags
+    print(f"Configured {len(testing_criteria)} evaluators")
 
-    return evaluate(**kwargs)
+    # Create client and run evaluation
+    with (
+        DefaultAzureCredential() as credential,
+        AIProjectClient(endpoint=endpoint, credential=credential) as project_client,
+    ):
+        openai_client = project_client.get_openai_client()
+
+        # Create evaluation definition
+        eval_object = openai_client.evals.create(
+            name=f"Batch Evaluation - {Path(data_path).stem}",
+            data_source_config=data_source_config,
+            testing_criteria=testing_criteria,
+        )
+        print(f"Created evaluation: {eval_object.id}")
+
+        # Create and run evaluation
+        run = openai_client.evals.runs.create(
+            eval_id=eval_object.id,
+            name="CLI Run",
+            data_source=data_source,
+        )
+        print(f"Started run: {run.id}")
+
+        # Poll for completion
+        while run.status not in ["completed", "failed", "cancelled"]:
+            print(f"Status: {run.status}...")
+            time.sleep(5)
+            run = openai_client.evals.runs.retrieve(
+                eval_id=eval_object.id,
+                run_id=run.id,
+            )
+
+        if run.status != "completed":
+            raise RuntimeError(f"Evaluation run {run.status}: {getattr(run, 'error', 'Unknown error')}")
+
+        print(f"Run completed: {run.status}")
+
+        # Retrieve results
+        output_items = list(
+            openai_client.evals.runs.output_items.list(
+                eval_id=eval_object.id,
+                run_id=run.id,
+            )
+        )
+
+        # Aggregate metrics
+        metrics: dict[str, list[float]] = {}
+        rows = []
+
+        for output_item in output_items:
+            row_results = {}
+            for result in output_item.results:
+                if result.score is not None:
+                    if result.name not in metrics:
+                        metrics[result.name] = []
+                    metrics[result.name].append(result.score)
+                    row_results[result.name] = result.score
+            rows.append(row_results)
+
+        # Calculate averages
+        avg_metrics = {}
+        for name, scores in metrics.items():
+            avg_metrics[name] = sum(scores) / len(scores) if scores else 0.0
+
+        return {
+            "eval_id": eval_object.id,
+            "run_id": run.id,
+            "status": run.status,
+            "metrics": avg_metrics,
+            "rows": rows,
+            "total_items": len(output_items),
+        }
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Run batch evaluation on test datasets",
+        description="Run batch evaluation on test datasets using Azure AI Projects SDK",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__,
     )
@@ -247,84 +310,46 @@ def main():
         "--evaluators",
         "-e",
         nargs="+",
-        default=["groundedness", "relevance", "coherence"],
+        default=["coherence", "relevance"],
         help=f"Evaluators to run. Quality: {QUALITY_EVALUATORS}, "
-        f"NLP: {NLP_EVALUATORS}, Agent: {AGENT_EVALUATORS}, Composite: {COMPOSITE_EVALUATORS}",
+        f"Safety: {SAFETY_EVALUATORS}, Agent: {AGENT_EVALUATORS}, NLP: {NLP_EVALUATORS}",
     )
     parser.add_argument(
-        "--safety", action="store_true", help="Include all safety evaluators"
-    )
-    parser.add_argument(
-        "--agent", action="store_true", help="Include all agent evaluators"
-    )
-    parser.add_argument(
-        "--reasoning-model",
+        "--safety",
         action="store_true",
-        help="Use reasoning model configuration (for o1/o3 models)",
-    )
-    parser.add_argument("--output", "-o", help="Output file for results (JSON)")
-    parser.add_argument(
-        "--log-to-foundry", action="store_true", help="Log results to Foundry project"
+        help="Include all safety evaluators",
     )
     parser.add_argument(
-        "--tags",
-        nargs="*",
-        help="Tags for experiment tracking (format: key=value)",
+        "--agent",
+        action="store_true",
+        help="Include all agent evaluators (uses sample.output_text for response)",
     )
     parser.add_argument(
-        "--query-column",
-        default="query",
-        help="Column name for query in data (default: query)",
+        "--output",
+        "-o",
+        help="Output file for results (JSON)",
     )
     parser.add_argument(
-        "--context-column",
-        default="context",
-        help="Column name for context in data (default: context)",
-    )
-    parser.add_argument(
-        "--response-column",
-        default="response",
-        help="Column name for response in data (default: response)",
-    )
-    parser.add_argument(
-        "--ground-truth-column",
-        default="ground_truth",
-        help="Column name for ground truth in data (default: ground_truth)",
+        "--deployment",
+        default=None,
+        help="Model deployment name (overrides AZURE_AI_MODEL_DEPLOYMENT_NAME)",
     )
 
     args = parser.parse_args()
+
+    # Validate environment
+    endpoint = os.environ.get("AZURE_AI_PROJECT_ENDPOINT")
+    if not endpoint:
+        print("Error: AZURE_AI_PROJECT_ENDPOINT environment variable required")
+        sys.exit(1)
+
+    deployment = args.deployment or os.environ.get("AZURE_AI_MODEL_DEPLOYMENT_NAME", "gpt-4o-mini")
 
     # Validate data file
     data_path = Path(args.data)
     if not data_path.exists():
         print(f"Error: Data file not found: {args.data}")
         sys.exit(1)
-
-    # Build column mapping
-    column_mapping = {
-        "query": f"${{data.{args.query_column}}}",
-        "context": f"${{data.{args.context_column}}}",
-        "response": f"${{data.{args.response_column}}}",
-        "ground_truth": f"${{data.{args.ground_truth_column}}}",
-    }
-
-    # Get configurations
-    try:
-        model_config = get_model_config()
-    except ValueError as e:
-        print(f"Error: {e}")
-        sys.exit(1)
-
-    project_scope = get_project_scope()
-
-    # Parse tags
-    tags = None
-    if args.tags:
-        tags = {}
-        for tag in args.tags:
-            if "=" in tag:
-                key, value = tag.split("=", 1)
-                tags[key] = value
 
     # Build evaluator list
     evaluator_names = list(args.evaluators)
@@ -333,64 +358,48 @@ def main():
     if args.agent:
         evaluator_names.extend(AGENT_EVALUATORS)
 
-    # Build evaluators
-    evaluators = build_evaluators(
-        evaluator_names,
-        model_config,
-        project_scope,
-        is_reasoning_model=args.reasoning_model,
-    )
+    # Remove duplicates while preserving order
+    seen = set()
+    unique_evaluators = []
+    for e in evaluator_names:
+        if e not in seen:
+            seen.add(e)
+            unique_evaluators.append(e)
+    evaluator_names = unique_evaluators
 
-    if not evaluators:
-        print("Error: No valid evaluators configured")
-        sys.exit(1)
-
-    print(f"Running evaluation with: {list(evaluators.keys())}")
+    print(f"Running evaluation with: {evaluator_names}")
     print(f"Data file: {args.data}")
-    if tags:
-        print(f"Tags: {tags}")
+    print(f"Deployment: {deployment}")
+    print(f"Agent mode: {args.agent}")
 
     # Run evaluation
     try:
         result = run_evaluation(
+            endpoint=endpoint,
             data_path=str(data_path),
-            evaluators=evaluators,
-            column_mapping=column_mapping,
-            project_scope=project_scope,
-            log_to_foundry=args.log_to_foundry,
-            tags=tags,
+            evaluator_names=evaluator_names,
+            deployment_name=deployment,
+            is_agent=args.agent,
         )
     except Exception as e:
         print(f"Error during evaluation: {e}")
         sys.exit(1)
 
     # Output results
-    metrics = result.get("metrics", {})
-
     print("\n=== Evaluation Results ===")
-    for metric, value in sorted(metrics.items()):
-        if isinstance(value, float):
-            print(f"  {metric}: {value:.4f}")
-        else:
-            print(f"  {metric}: {value}")
-
-    if "studio_url" in result:
-        print(f"\nView in Foundry: {result['studio_url']}")
+    print(f"Eval ID: {result['eval_id']}")
+    print(f"Run ID: {result['run_id']}")
+    print(f"Status: {result['status']}")
+    print(f"Total Items: {result['total_items']}")
+    print("\nMetrics:")
+    for metric, value in sorted(result["metrics"].items()):
+        print(f"  {metric}: {value:.4f}")
 
     # Save to file if requested
     if args.output:
         output_path = Path(args.output)
         with open(output_path, "w", encoding="utf-8") as f:
-            json.dump(
-                {
-                    "metrics": metrics,
-                    "studio_url": result.get("studio_url"),
-                    "rows": result.get("rows", []),
-                },
-                f,
-                indent=2,
-                default=str,
-            )
+            json.dump(result, f, indent=2, default=str)
         print(f"\nResults saved to: {args.output}")
 
     print("\nEvaluation complete!")
