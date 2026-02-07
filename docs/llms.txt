@@ -1,334 +1,1409 @@
-# Microsoft Foundry
+# Azure AI Foundry Documentation
 
-> Microsoft Foundry (formerly Azure AI Foundry) is a unified Azure platform-as-a-service for enterprise AI operations, model builders, and application development. It provides a comprehensive set of AI capabilities for building agents, deploying models, and developing generative AI applications with built-in enterprise-readiness including tracing, monitoring, evaluations, and safety controls.
+This file provides an index of Azure AI Foundry documentation.
+Each link includes a brief description of the content.
 
-Important information:
+## What is Microsoft Foundry (new)?
 
-- Microsoft Foundry unifies agents, models, and tools under a single management grouping
-- The platform supports two portal versions: Foundry (classic) and Foundry (new)
-- Foundry projects are the recommended project type for building agents and working with models
-- The Foundry SDK is available for Python, C#, JavaScript/TypeScript, and Java
-- All URLs require `?view=foundry` parameter to access the new documentation
+- [What is Microsoft Foundry (new)?](https://learn.microsoft.com/en-us/azure/ai-foundry/what-is-foundry?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Quickstart: Create resources
+
+- [Quickstart: Create resources](https://learn.microsoft.com/en-us/azure/ai-foundry/tutorials/quickstart-create-foundry-resources?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Quickstart: Chat with an agent
+
+- [Quickstart: Chat with an agent](https://learn.microsoft.com/en-us/azure/ai-foundry/quickstarts/get-started-code?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Tutorial: Idea to prototype
+
+- [Tutorial: Idea to prototype](https://learn.microsoft.com/en-us/azure/ai-foundry/tutorials/developer-journey-idea-to-prototype?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Ask AI
+
+- [Ask AI](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/ask-ai?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Agent development overview
+
+- [Agent development overview](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/overview?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## FAQ
+
+- [FAQ](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/faq?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+- [FAQ](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/concepts/foundry-iq-faq?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Quotas, limits, models and region support
+
+- [Quotas, limits, models and region support](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/concepts/limits-quotas-regions?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Development lifecycle
+
+- [Development lifecycle](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/concepts/development-lifecycle?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Agent runtime components
+
+- [Agent runtime components](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/concepts/runtime-components?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Agent identity
+
+- [Agent identity](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/concepts/agent-identity?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Hosted agents
+
+- [Hosted agents](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/concepts/hosted-agents?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Capability hosts
+
+- [Capability hosts](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/concepts/capability-hosts?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Create a workflow
+
+- [Create a workflow](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/concepts/workflow?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Quickstart - Deploy your first hosted agent
+
+- [Quickstart - Deploy your first hosted agent](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/quickstarts/quickstart-hosted-agent?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Deploy a hosted agent
+
+- [Deploy a hosted agent](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/deploy-hosted-agent?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Manage hosted agent lifecycle
+
+- [Manage hosted agent lifecycle](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/manage-hosted-agent?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## System message design
+
+- [System message design](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/advanced-prompt-engineering?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Safety system messages
+
+- [Safety system messages](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/system-message?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+- [Safety system messages](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/safety-system-message-templates?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Safety system message templates
+
+- [Safety system message templates](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/safety-system-message-templates?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Publish and share agents
+
+- [Publish and share agents](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/publish-agent?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Publish to Microsoft 365 Copilot and Teams
+
+- [Publish to Microsoft 365 Copilot and Teams](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/publish-copilot?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Agent 365
+
+- [Agent 365](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/agent-365?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Service monitoring
+
+- [Service monitoring](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/metrics?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Monitor agents in the dashboard
+
+- [Monitor agents in the dashboard](https://learn.microsoft.com/en-us/azure/ai-foundry/observability/how-to/how-to-monitor-agents-dashboard?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+- [Monitor agents in the dashboard](https://learn.microsoft.com/en-us/azure/ai-foundry/observability/how-to/how-to-monitor-agents-dashboard?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Trace agent overview
+
+- [Trace agent overview](https://learn.microsoft.com/en-us/azure/ai-foundry/observability/concepts/trace-agent-concept?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Set up tracing
+
+- [Set up tracing](https://learn.microsoft.com/en-us/azure/ai-foundry/observability/how-to/trace-agent-setup?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+- [Set up tracing](https://learn.microsoft.com/en-us/azure/ai-foundry/observability/how-to/trace-agent-setup?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Tracing integrations
+
+- [Tracing integrations](https://learn.microsoft.com/en-us/azure/ai-foundry/observability/how-to/trace-agent-framework?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+- [Tracing integrations](https://learn.microsoft.com/en-us/azure/ai-foundry/observability/how-to/trace-agent-framework?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Tool catalog (preview)
+
+- [Tool catalog (preview)](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/concepts/tool-catalog?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Create a private tool catalog (preview)
+
+- [Create a private tool catalog (preview)](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/private-tool-catalog?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Tool best practices
+
+- [Tool best practices](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/concepts/tool-best-practice?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Tool governance
+
+- [Tool governance](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/governance?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Code interpreter
+
+- [Code interpreter](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/code-interpreter?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Custom code interpreter (preview)
+
+- [Custom code interpreter (preview)](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/custom-code-interpreter?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Browser automation (preview)
+
+- [Browser automation (preview)](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/browser-automation?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Computer Use (preview)
+
+- [Computer Use (preview)](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/computer-use?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Image generation (preview)
+
+- [Image generation (preview)](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/image-generation?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## What is memory?
+
+- [What is memory?](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/concepts/what-is-memory?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Create and use memory
+
+- [Create and use memory](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/memory-usage?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Retrieval Augmented Generation (RAG) overview
+
+- [Retrieval Augmented Generation (RAG) overview](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/retrieval-augmented-generation?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Azure AI Search
+
+- [Azure AI Search](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/ai-search?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## File search
+
+- [File search](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/file-search?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Vector stores for file search
+
+- [Vector stores for file search](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/concepts/vector-stores?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## SharePoint (preview)
+
+- [SharePoint (preview)](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/sharepoint?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Web search overview
+
+- [Web search overview](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/web-overview?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Web search tool (preview)
+
+- [Web search tool (preview)](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/web-search?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Grounding with Bing tools
+
+- [Grounding with Bing tools](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/bing-tools?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Fabric data agent (preview)
+
+- [Fabric data agent (preview)](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/fabric?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## What is Foundry IQ?
+
+- [What is Foundry IQ?](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/concepts/what-is-foundry-iq?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Connect knowledge base to agents
+
+- [Connect knowledge base to agents](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/foundry-iq-connect?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Azure Speech in Foundry Tools
+
+- [Azure Speech in Foundry Tools](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/azure-ai-speech?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Azure Language tools and agents
+
+- [Azure Language tools and agents](https://learn.microsoft.com/azure/ai-services/language-service/concepts/foundry-tools-agents?context=/azure/ai-foundry/context/context?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Try CLU multi-turn conversations
+
+- [Try CLU multi-turn conversations](https://learn.microsoft.com/azure/ai-services/language-service/conversational-language-understanding/how-to/quickstart-multi-turn-conversations?context=/azure/ai-foundry/context/context?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Detect Personally Identifiable Information (PII)
+
+- [Detect Personally Identifiable Information (PII)](https://learn.microsoft.com/azure/ai-services/language-service/personally-identifiable-information/quickstart?context=/azure/ai-foundry/context/context?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Try Azure Language detection
+
+- [Try Azure Language detection](https://learn.microsoft.com/azure/ai-services/language-service/language-detection/quickstart?context=/azure/ai-foundry/context/context?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Azure text translation
+
+- [Azure text translation](https://learn.microsoft.com/azure/ai-services/translator/text-translation/overview?context=/azure/ai-foundry/context/context?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Azure document translation
+
+- [Azure document translation](https://learn.microsoft.com/azure/ai-services/translator/document-translation/overview?context=/azure/ai-foundry/context/context?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Connect to MCP server
+
+- [Connect to MCP server](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/model-context-protocol?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## MCP authentication
+
+- [MCP authentication](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/mcp-authentication?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Build your own MCP server
+
+- [Build your own MCP server](https://learn.microsoft.com/en-us/azure/ai-foundry/mcp/build-your-own-mcp-server?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Agent2Agent (A2A) tool (preview)
+
+- [Agent2Agent (A2A) tool (preview)](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/agent-to-agent?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Agent2Agent (A2A) authentication (preview)
+
+- [Agent2Agent (A2A) authentication (preview)](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/concepts/agent-to-agent-authentication?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## OpenAPI tool
+
+- [OpenAPI tool](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/openapi?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Function calling
+
+- [Function calling](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/function-calling?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+- [Function calling](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/function-calling?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Foundry Models sold directly by Azure
+
+- [Foundry Models sold directly by Azure](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/concepts/models-sold-directly-by-azure?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Foundry Models from partners and community
+
+- [Foundry Models from partners and community](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/concepts/models-from-partners?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Model versions
+
+- [Model versions](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/concepts/model-versions?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Marketplace configuration for partner models
+
+- [Marketplace configuration for partner models](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/how-to/configure-marketplace?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## GPT-5 vs GPT-4.1
+
+- [GPT-5 vs GPT-4.1](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/how-to/model-choice-guide?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Automatic model updates
+
+- [Automatic model updates](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/working-with-models?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Legacy models
+
+- [Legacy models](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/legacy-models?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
 
 ## Overview
 
-- [What is Microsoft Foundry (new)?](https://learn.microsoft.com/en-us/azure/ai-foundry/what-is-foundry?view=foundry)
-
-## Getting Started
-
-- [Quickstart: Chat with an agent](https://learn.microsoft.com/en-us/azure/ai-foundry/quickstarts/get-started-code?view=foundry)
-
-## Tutorials
-
-- [Quickstart: Create resources](https://learn.microsoft.com/en-us/azure/ai-foundry/tutorials/quickstart-create-foundry-resources?view=foundry)
-- [Tutorial: Idea to prototype](https://learn.microsoft.com/en-us/azure/ai-foundry/tutorials/developer-journey-idea-to-prototype?view=foundry)
-- [Use Microsoft Foundry with a screen reader](https://learn.microsoft.com/en-us/azure/ai-foundry/tutorials/screen-reader?view=foundry)
-
-## Concepts
-
-- [Ask AI](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/ask-ai?view=foundry)
-- [Retrieval Augmented Generation (RAG) overview](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/retrieval-augmented-generation?view=foundry)
-- [Playgrounds and quick evaluation](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/concept-playgrounds?view=foundry)
-- [Model leaderboards](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/model-benchmarks?view=foundry)
-- [Observability basics](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/observability?view=foundry)
-- [Transparency Note for safety evaluations](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/safety-evaluations-transparency-note?view=foundry)
-- [General purpose evaluators](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/evaluation-evaluators/general-purpose-evaluators?view=foundry)
-- [Textual similarity evaluators](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/evaluation-evaluators/textual-similarity-evaluators?view=foundry)
-- [Retrieval Augmented Generation (RAG) evaluators](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/evaluation-evaluators/rag-evaluators?view=foundry)
-- [Risk and safety evaluators](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/evaluation-evaluators/risk-safety-evaluators?view=foundry)
-- [Agent evaluators](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/evaluation-evaluators/agent-evaluators?view=foundry)
-- [Azure OpenAI evaluators](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/evaluation-evaluators/azure-openai-graders?view=foundry)
-- [Custom evaluators](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/evaluation-evaluators/custom-evaluators?view=foundry)
-- [AI red teaming agent overview](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/ai-red-teaming-agent?view=foundry)
-- [Playgrounds and quick evaluation](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/concept-playgrounds?view=foundry)
-- [Plan rollout](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/planning?view=foundry)
-- [Authentication and authorization](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/authentication-authorization-foundry?view=foundry)
-- [Disable preview features with role-based access control](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/disable-preview-features-with-rbac?view=foundry)
-- [Role-based access control](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/rbac-foundry?view=foundry)
-- [Configure customer-managed keys](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/encryption-keys-portal?view=foundry)
-- [Plan and manage costs](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/manage-costs?view=foundry)
-- [Service architecture](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/architecture?view=foundry)
-- [Model lifecycle and retirement](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/model-lifecycle-retirement?view=foundry)
-
-## Agent Development
-
-- [Agent development overview](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/overview?view=foundry)
-- [FAQ](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/faq?view=foundry)
-- [Quotas, limits, models and region support](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/concepts/limits-quotas-regions?view=foundry)
-- [Development lifecycle](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/concepts/development-lifecycle?view=foundry)
-- [Agent runtime components](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/concepts/runtime-components?view=foundry)
-- [Agent identity](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/concepts/agent-identity?view=foundry)
-- [Hosted agents](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/concepts/hosted-agents?view=foundry)
-- [Capability hosts](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/concepts/capability-hosts?view=foundry)
-- [Create a workflow](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/concepts/workflow?view=foundry)
-- [Quickstart - Deploy your first hosted agent](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/quickstarts/quickstart-hosted-agent?view=foundry)
-- [Deploy a hosted agent](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/deploy-hosted-agent?view=foundry)
-- [Manage hosted agent lifecycle](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/manage-hosted-agent?view=foundry)
-- [Publish and share agents](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/publish-agent?view=foundry)
-- [Publish to Microsoft 365 Copilot and Teams](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/publish-copilot?view=foundry)
-- [Agent 365](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/agent-365?view=foundry)
-- [Service monitoring](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/metrics?view=foundry)
-- [Tool catalog (preview)](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/concepts/tool-catalog?view=foundry)
-- [Create a private tool catalog (preview)](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/private-tool-catalog?view=foundry)
-- [Tool best practices](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/concepts/tool-best-practice?view=foundry)
-- [Tool governance](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/governance?view=foundry)
-- [Code interpreter](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/code-interpreter?view=foundry)
-- [Custom code interpreter (preview)](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/custom-code-interpreter?view=foundry)
-- [Browser automation (preview)](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/browser-automation?view=foundry)
-- [Computer Use (preview)](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/computer-use?view=foundry)
-- [Image generation (preview)](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/image-generation?view=foundry)
-- [What is memory?](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/concepts/what-is-memory?view=foundry)
-- [Create and use memory](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/memory-usage?view=foundry)
-- [Azure AI Search](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/ai-search?view=foundry)
-- [File search](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/file-search?view=foundry)
-- [Vector stores for file search](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/concepts/vector-stores?view=foundry)
-- [SharePoint (preview)](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/sharepoint?view=foundry)
-- [Web search overview](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/web-overview?view=foundry)
-- [Web search tool (preview)](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/web-search?view=foundry)
-- [Grounding with Bing tools](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/bing-tools?view=foundry)
-- [Fabric data agent (preview)](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/fabric?view=foundry)
-- [What is Foundry IQ?](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/concepts/what-is-foundry-iq?view=foundry)
-- [FAQ](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/concepts/foundry-iq-faq?view=foundry)
-- [Connect knowledge base to agents](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/foundry-iq-connect?view=foundry)
-- [Azure Speech in Foundry Tools](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/azure-ai-speech?view=foundry)
-- [Connect to MCP server](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/model-context-protocol?view=foundry)
-- [MCP authentication](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/mcp-authentication?view=foundry)
-- [Agent2Agent (A2A) tool (preview)](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/agent-to-agent?view=foundry)
-- [Agent2Agent (A2A) authentication (preview)](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/concepts/agent-to-agent-authentication?view=foundry)
-- [OpenAPI tool](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/openapi?view=foundry)
-- [Function calling](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/function-calling?view=foundry)
-- [Use declarative agent workflows in the Visual Studio Code extension](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/vs-code-agents-workflow-low-code?view=foundry)
-- [Use hosted agent workflows in the Visual Studio Code extension](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/vs-code-agents-workflow-pro-code?view=foundry)
-- [Set up your agent resources](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/environment-setup?view=foundry)
-- [Standard agent setup](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/concepts/standard-agent-setup?view=foundry)
-- [Use your own Azure resources](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/use-your-own-resources?view=foundry)
-- [Migrate agents](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/migrate?view=foundry)
-- [Virtual networks](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/virtual-networks?view=foundry)
-- [Use an AI Gateway](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/ai-gateway?view=foundry)
-- [Manage Grounding with Bing](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/manage-grounding-with-bing?view=foundry)
-
-## Foundry Models
-
-- [Foundry Models sold directly by Azure](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/concepts/models-sold-directly-by-azure?view=foundry)
-- [Foundry Models from partners and community](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/concepts/models-from-partners?view=foundry)
-- [Model versions](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/concepts/model-versions?view=foundry)
-- [Marketplace configuration for partner models](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/how-to/configure-marketplace?view=foundry)
-- [GPT-5 vs GPT-4.1](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/how-to/model-choice-guide?view=foundry)
-- [What's new](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/whats-new-model-router?view=foundry)
-- [Responses API with Foundry Models](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/how-to/generate-responses?view=foundry)
-- [Deploy Foundry Models in the portal](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/how-to/deploy-foundry-models?view=foundry)
-- [Deploy Foundry Models using code](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/how-to/create-model-deployments?view=foundry)
-- [Deployment types](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/concepts/deployment-types?view=foundry)
-- [Upgrade GitHub Models to Foundry Models](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/how-to/quickstart-github-models?view=foundry)
-- [Claude in Foundry Models](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/how-to/use-foundry-models-claude?view=foundry)
-- [Monitor model deployments](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/how-to/monitor-models?view=foundry)
-- [Endpoints for Foundry Models](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/concepts/endpoints?view=foundry)
-- [Get started with DeepSeek-R1 reasoning model](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/tutorials/get-started-deepseek-r1?view=foundry)
-- [Foundry Models quotas and limits](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/quotas-limits?view=foundry)
-- [Configure keyless authentication](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/how-to/configure-entra-id?view=foundry)
-
-## Azure OpenAI
-
-- [System message design](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/advanced-prompt-engineering?view=foundry)
-- [Safety system messages](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/system-message?view=foundry)
-- [Safety system message templates](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/safety-system-message-templates?view=foundry)
-- [Automatic model updates](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/working-with-models?view=foundry)
-- [Legacy models](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/legacy-models?view=foundry)
 - [Overview](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/model-router?view=foundry)
-- [Get started with model router](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/model-router?view=foundry)
-- [Use blocklists](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/use-blocklists?view=foundry)
-- [Image generation](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/dall-e?view=foundry)
-- [Image generation quickstart](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/dall-e-quickstart?view=foundry)
-- [Video generation](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/video-generation-quickstart?view=foundry)
-- [Vision-enabled chats](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/gpt-with-vision?view=foundry)
-- [Image prompt engineering techniques](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/gpt-4-v-prompt-engineering?view=foundry)
-- [Realtime API for speech and audio](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/realtime-audio?view=foundry)
-- [Realtime API for speech and audio quickstart](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/realtime-audio-quickstart?view=foundry)
-- [Realtime API via WebRTC](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/realtime-audio-webrtc?view=foundry)
-- [Realtime API via WebSockets](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/realtime-audio-websockets?view=foundry)
-- [Realtime API via SIP](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/realtime-audio-sip?view=foundry)
-- [Speech to text with Whisper](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/whisper-quickstart?view=foundry)
-- [Azure OpenAI in Foundry Models](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/supported-languages?view=foundry)
-- [Priority processing](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/priority-processing?view=foundry)
-- [Provisioned Throughput offering (PTU)](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/provisioned-throughput?view=foundry)
-- [Understanding and calculating PTU costs](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/provisioned-throughput-onboarding?view=foundry)
-- [Get started with Provisioned Deployments](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/provisioned-get-started?view=foundry)
-- [Provisioned spillover](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/spillover-traffic-management?view=foundry)
-- [Chat completions API](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/chatgpt?view=foundry)
-- [Responses API](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/responses?view=foundry)
-- [Reasoning models](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/reasoning?view=foundry)
-- [Batch processing](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/batch?view=foundry)
-- [Deep research](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/deep-research?view=foundry)
-- [Function calling](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/function-calling?view=foundry)
-- [Structured outputs](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/structured-outputs?view=foundry)
-- [JSON mode](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/json-mode?view=foundry)
-- [Web search](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/web-search?view=foundry)
-- [Predicted outputs](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/predicted-outputs?view=foundry)
-- [Prompt caching](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/prompt-caching?view=foundry)
-- [Embeddings](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/embeddings?view=foundry)
-- [Embeddings tutorial](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/tutorials/embeddings?view=foundry)
-- [Audio generation](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/audio-completions-quickstart?view=foundry)
-- [Vision-enabled chats](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/gpt-v-quickstart?view=foundry)
-- [Image prompt engineering techniques](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/gpt-4-v-prompt-engineering?view=foundry)
-- [Image prompt transformation](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/prompt-transformation?view=foundry)
-- [Video generation (preview)](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/video-generation?view=foundry)
-- [Codex](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/codex?view=foundry)
-- [Webhooks](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/webhooks?view=foundry)
-- [When to use fine-tuning](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/fine-tuning-considerations?view=foundry)
-- [Fine-tune models](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/fine-tuning?view=foundry)
-- [Deploy your fine-tuned model](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/fine-tuning-deploy?view=foundry)
-- [Vision fine-tuning](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/fine-tuning-vision?view=foundry)
-- [Preference fine-tuning](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/fine-tuning-direct-preference-optimization?view=foundry)
-- [Reinforcement fine-tuning](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/reinforcement-fine-tuning?view=foundry)
-- [Tool calling](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/fine-tuning-functions?view=foundry)
-- [Safety evaluation](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/fine-tuning-safety-evaluation?view=foundry)
-- [Fine-tuning cost management](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/fine-tuning-cost-management?view=foundry)
-- [API lifecycle](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/api-version-lifecycle?view=foundry)
-- [Dataplane SDK language support](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/supported-languages?view=foundry)
-- [v1 API](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/latest?view=foundry)
-- [Chat](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/latest#create-chat-completion?view=foundry)
-- [Embeddings](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/latest#create-embedding?view=foundry)
-- [Evals (preview)](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/latest#list-evals?view=foundry)
-- [Files](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/latest#create-file?view=foundry)
-- [Fine-tuning](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/latest#create-fine-tuning-job?view=foundry)
-- [Models](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/latest#list-models?view=foundry)
-- [Responses](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/latest#create-response?view=foundry)
-- [Vector stores](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/latest#list-vector-stores?view=foundry)
-- [Azure OpenAI monitoring data reference](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/monitor-openai-reference?view=foundry)
-- [Audio events reference](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/realtime-audio-reference?view=foundry)
-- [Prompt shields](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/content-filter-prompt-shields?view=foundry)
-- [Sensitive data leakage](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/content-filter-personal-information?view=foundry)
-- [Groundedness detection](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/content-filter-groundedness?view=foundry)
-- [Protected material for text](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/content-filter-protected-material?view=foundry)
-- [Default safety policies](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/default-safety-policies?view=foundry)
-- [Safety system messages](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/safety-system-message-templates?view=foundry)
-- [Content streaming](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/content-streaming?view=foundry)
-- [Abuse monitoring](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/abuse-monitoring?view=foundry)
-- [Prompt engineering techniques](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/prompt-engineering?view=foundry)
-- [Performance & latency](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/latency?view=foundry)
-- [Red teaming large language models (LLMs)](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/red-teaming?view=foundry)
-- [Azure OpenAI quotas and limits](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/quotas-limits?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
 
-## How-To Guides
+- [Overview](https://learn.microsoft.com/en-us/azure/ai-foundry/guardrails/guardrails-overview?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+- [Overview](https://learn.microsoft.com/en-us/azure/ai-foundry/responsible-ai/openai/overview?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## What's new
+
+- [What's new](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/whats-new-model-router?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Get started with model router
+
+- [Get started with model router](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/model-router?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Responses API with Foundry Models
+
+- [Responses API with Foundry Models](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/how-to/generate-responses?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Use blocklists
+
+- [Use blocklists](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/use-blocklists?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Image generation
+
+- [Image generation](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/dall-e?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Image generation quickstart
+
+- [Image generation quickstart](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/dall-e-quickstart?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Video generation
+
+- [Video generation](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/video-generation-quickstart?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Vision-enabled chats
+
+- [Vision-enabled chats](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/gpt-with-vision?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+- [Vision-enabled chats](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/gpt-v-quickstart?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Image prompt engineering techniques
+
+- [Image prompt engineering techniques](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/gpt-4-v-prompt-engineering?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+- [Image prompt engineering techniques](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/gpt-4-v-prompt-engineering?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Realtime API for speech and audio
+
+- [Realtime API for speech and audio](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/realtime-audio?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Realtime API for speech and audio quickstart
+
+- [Realtime API for speech and audio quickstart](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/realtime-audio-quickstart?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Realtime API via WebRTC
+
+- [Realtime API via WebRTC](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/realtime-audio-webrtc?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Realtime API via WebSockets
+
+- [Realtime API via WebSockets](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/realtime-audio-websockets?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Realtime API via SIP
+
+- [Realtime API via SIP](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/realtime-audio-sip?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Speech to text with Whisper
+
+- [Speech to text with Whisper](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/whisper-quickstart?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Deploy Foundry Models in the portal
+
+- [Deploy Foundry Models in the portal](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/how-to/deploy-foundry-models?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Deploy Foundry Models using code
+
+- [Deploy Foundry Models using code](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/how-to/create-model-deployments?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Deployment types
+
+- [Deployment types](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/concepts/deployment-types?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Upgrade GitHub Models to Foundry Models
+
+- [Upgrade GitHub Models to Foundry Models](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/how-to/quickstart-github-models?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Azure OpenAI in Foundry Models
+
+- [Azure OpenAI in Foundry Models](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/supported-languages?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Claude in Foundry Models
+
+- [Claude in Foundry Models](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/how-to/use-foundry-models-claude?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Priority processing
+
+- [Priority processing](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/priority-processing?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Provisioned Throughput offering (PTU)
+
+- [Provisioned Throughput offering (PTU)](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/provisioned-throughput?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Understanding and calculating PTU costs
+
+- [Understanding and calculating PTU costs](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/provisioned-throughput-onboarding?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Get started with Provisioned Deployments
+
+- [Get started with Provisioned Deployments](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/provisioned-get-started?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Provisioned spillover
+
+- [Provisioned spillover](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/spillover-traffic-management?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Chat completions API
+
+- [Chat completions API](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/chatgpt?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Responses API
+
+- [Responses API](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/responses?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Reasoning models
+
+- [Reasoning models](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/reasoning?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Batch processing
+
+- [Batch processing](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/batch?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Deep research
+
+- [Deep research](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/deep-research?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Structured outputs
+
+- [Structured outputs](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/structured-outputs?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## JSON mode
+
+- [JSON mode](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/json-mode?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Web search
+
+- [Web search](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/web-search?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Predicted outputs
+
+- [Predicted outputs](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/predicted-outputs?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Prompt caching
+
+- [Prompt caching](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/prompt-caching?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Embeddings
+
+- [Embeddings](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/embeddings?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+- [Embeddings](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/latest#create-embedding?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Embeddings tutorial
+
+- [Embeddings tutorial](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/tutorials/embeddings?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Audio generation
+
+- [Audio generation](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/audio-completions-quickstart?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Speech to text
+
+- [Speech to text](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/get-started-speech-to-text?context=/azure/ai-foundry/context/context?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Text to speech
+
+- [Text to speech](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/get-started-text-to-speech?context=/azure/ai-foundry/context/context?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Text to speech avatar
+
+- [Text to speech avatar](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/text-to-speech-avatar/batch-synthesis-avatar?context=/azure/ai-foundry/context/context?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Voice Live
+
+- [Voice Live](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/voice-live-quickstart?context=/azure/ai-foundry/context/context?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Image prompt transformation
+
+- [Image prompt transformation](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/prompt-transformation?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Video generation (preview)
+
+- [Video generation (preview)](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/video-generation?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Video translation (preview)
+
+- [Video translation (preview)](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/video-translation-get-started?context=/azure/ai-foundry/context/context?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Codex
+
+- [Codex](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/codex?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Webhooks
+
+- [Webhooks](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/webhooks?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Playgrounds and quick evaluation
+
+- [Playgrounds and quick evaluation](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/concept-playgrounds?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+- [Playgrounds and quick evaluation](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/concept-playgrounds?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Model leaderboards
+
+- [Model leaderboards](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/model-benchmarks?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Compare models
 
 - [Compare models](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/benchmark-model-in-catalog?view=foundry)
-- [Run evaluations in the cloud](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/develop/cloud-evaluation?view=foundry)
-- [Evaluate your AI agents](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/develop/agent-evaluate-sdk?view=foundry)
-- [Run evaluations from the portal](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/evaluate-generative-ai-app?view=foundry)
-- [View evaluation results in the portal](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/evaluate-results?view=foundry)
-- [Run red teaming scans locally](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/develop/run-scans-ai-red-teaming-agent?view=foundry)
-- [Run red teaming scans in the cloud](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/develop/run-ai-red-teaming-cloud?view=foundry)
-- [Evaluation in GitHub Actions](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/evaluation-github-action?view=foundry)
-- [Evaluation in Azure DevOps](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/evaluation-azure-devops?view=foundry)
-- [Set up your developer environment](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/develop/install-cli-sdk?view=foundry)
-- [Work in VS Code](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/develop/get-started-projects-vs-code?view=foundry)
-- [Start with an AI template](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/develop/ai-template-get-started?view=foundry)
-- [Use the Visual Studio Code extension for agent development](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/develop/vs-code-agents?view=foundry)
-- [Use MCP Tools in the Visual Studio Code extension](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/develop/vs-code-agents-mcp?view=foundry)
-- [Microsoft Foundry SDKs](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/develop/sdk-overview?view=foundry)
-- [Create resources using Bicep template](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/create-resource-template?view=foundry)
-- [Manage resources using Terraform](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/create-resource-terraform?view=foundry)
-- [Upgrade from Azure OpenAI Service](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/upgrade-azure-openai?view=foundry)
-- [Create and manage projects](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/create-projects?view=foundry)
-- [Create a connection](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/connections-add?view=foundry)
-- [Connect to your own storage in Foundry](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/bring-your-own-azure-storage-foundry?view=foundry)
-- [Connect to your own storage for Speech/Language](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/bring-your-own-azure-storage-speech-language-services?view=foundry)
-- [Manage quotas for Foundry resources](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/quota?view=foundry)
-- [Configure private link](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/configure-private-link?view=foundry)
-- [Managed virtual network](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/managed-virtual-network?view=foundry)
-- [Network security perimeter](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/add-foundry-to-network-security-perimeter?view=foundry)
-- [Store secrets in your Azure Key Vault](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/set-up-key-vault-connection?view=foundry)
-- [Built-in policy for model deployment](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/model-deployment-policy?view=foundry)
-- [Create custom policy definitions](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/custom-policy-definition?view=foundry)
-- [High availability and resiliency](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/high-availability-resiliency?view=foundry)
-- [Disaster recovery for agent services](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/agent-service-disaster-recovery?view=foundry)
-- [Disaster recovery from a platform outage](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/agent-service-platform-disaster-recovery?view=foundry)
-- [Disaster recovery from resource and data loss](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/agent-service-operator-disaster-recovery?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
 
-## Observability & Evaluation
+## Upgrade/Switch Models with Ask AI
 
-- [Monitor agents in the dashboard](https://learn.microsoft.com/en-us/azure/ai-foundry/observability/how-to/how-to-monitor-agents-dashboard?view=foundry)
-- [Trace agent overview](https://learn.microsoft.com/en-us/azure/ai-foundry/observability/concepts/trace-agent-concept?view=foundry)
-- [Set up tracing](https://learn.microsoft.com/en-us/azure/ai-foundry/observability/how-to/trace-agent-setup?view=foundry)
-- [Tracing integrations](https://learn.microsoft.com/en-us/azure/ai-foundry/observability/how-to/trace-agent-framework?view=foundry)
 - [Upgrade/Switch Models with Ask AI](https://learn.microsoft.com/en-us/azure/ai-foundry/observability/how-to/optimization-model-upgrade?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## When to use fine-tuning
+
+- [When to use fine-tuning](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/fine-tuning-considerations?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Fine-tune models
+
+- [Fine-tune models](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/fine-tuning?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Deploy your fine-tuned model
+
+- [Deploy your fine-tuned model](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/fine-tuning-deploy?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Synthetic Data Generation
+
+- [Synthetic Data Generation](https://learn.microsoft.com/en-us/azure/ai-foundry/fine-tuning/data-generation?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Vision fine-tuning
+
+- [Vision fine-tuning](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/fine-tuning-vision?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Preference fine-tuning
+
+- [Preference fine-tuning](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/fine-tuning-direct-preference-optimization?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Reinforcement fine-tuning
+
+- [Reinforcement fine-tuning](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/reinforcement-fine-tuning?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Tool calling
+
+- [Tool calling](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/fine-tuning-functions?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Safety evaluation
+
+- [Safety evaluation](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/fine-tuning-safety-evaluation?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Fine-tuning cost management
+
+- [Fine-tuning cost management](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/fine-tuning-cost-management?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## What is the Foundry control plane?
+
+- [What is the Foundry control plane?](https://learn.microsoft.com/en-us/azure/ai-foundry/control-plane/overview?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Monitor fleet health and performance
+
+- [Monitor fleet health and performance](https://learn.microsoft.com/en-us/azure/ai-foundry/control-plane/monitoring-across-fleet?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Manage agents at scale
+
+- [Manage agents at scale](https://learn.microsoft.com/en-us/azure/ai-foundry/control-plane/how-to-manage-agents?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Register and manage custom agents
+
+- [Register and manage custom agents](https://learn.microsoft.com/en-us/azure/ai-foundry/control-plane/register-custom-agent?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Enforce token limits
+
+- [Enforce token limits](https://learn.microsoft.com/en-us/azure/ai-foundry/control-plane/how-to-enforce-limits-models?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Apply a guardrail policy for models
+
+- [Apply a guardrail policy for models](https://learn.microsoft.com/en-us/azure/ai-foundry/control-plane/quickstart-create-guardrail-policy?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Optimize cost and performance
+
+- [Optimize cost and performance](https://learn.microsoft.com/en-us/azure/ai-foundry/control-plane/how-to-optimize-cost-performance?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Manage compliance and security
+
+- [Manage compliance and security](https://learn.microsoft.com/en-us/azure/ai-foundry/control-plane/how-to-manage-compliance-security?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Configure AI Gateway
+
+- [Configure AI Gateway](https://learn.microsoft.com/en-us/azure/ai-foundry/configuration/enable-ai-api-management-gateway-portal?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Observability basics
+
+- [Observability basics](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/observability?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Transparency Note for safety evaluations
+
+- [Transparency Note for safety evaluations](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/safety-evaluations-transparency-note?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## General purpose evaluators
+
+- [General purpose evaluators](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/evaluation-evaluators/general-purpose-evaluators?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Textual similarity evaluators
+
+- [Textual similarity evaluators](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/evaluation-evaluators/textual-similarity-evaluators?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Retrieval Augmented Generation (RAG) evaluators
+
+- [Retrieval Augmented Generation (RAG) evaluators](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/evaluation-evaluators/rag-evaluators?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Risk and safety evaluators
+
+- [Risk and safety evaluators](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/evaluation-evaluators/risk-safety-evaluators?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Agent evaluators
+
+- [Agent evaluators](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/evaluation-evaluators/agent-evaluators?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Azure OpenAI evaluators
+
+- [Azure OpenAI evaluators](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/evaluation-evaluators/azure-openai-graders?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Custom evaluators
+
+- [Custom evaluators](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/evaluation-evaluators/custom-evaluators?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Run evaluations in the cloud
+
+- [Run evaluations in the cloud](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/develop/cloud-evaluation?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Evaluate your AI agents
+
+- [Evaluate your AI agents](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/develop/agent-evaluate-sdk?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Run evaluations from the portal
+
+- [Run evaluations from the portal](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/evaluate-generative-ai-app?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## View evaluation results in the portal
+
+- [View evaluation results in the portal](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/evaluate-results?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Evaluation Cluster Analysis
+
 - [Evaluation Cluster Analysis](https://learn.microsoft.com/en-us/azure/ai-foundry/observability/how-to/cluster-analysis?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Human evaluation for agents
+
 - [Human evaluation for agents](https://learn.microsoft.com/en-us/azure/ai-foundry/observability/how-to/human-evaluation?view=foundry)
-- [Monitor agents in the dashboard](https://learn.microsoft.com/en-us/azure/ai-foundry/observability/how-to/how-to-monitor-agents-dashboard?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## AI red teaming agent overview
+
+- [AI red teaming agent overview](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/ai-red-teaming-agent?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Run red teaming scans locally
+
+- [Run red teaming scans locally](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/develop/run-scans-ai-red-teaming-agent?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Run red teaming scans in the cloud
+
+- [Run red teaming scans in the cloud](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/develop/run-ai-red-teaming-cloud?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Evaluation in GitHub Actions
+
+- [Evaluation in GitHub Actions](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/evaluation-github-action?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Evaluation in Azure DevOps
+
+- [Evaluation in Azure DevOps](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/evaluation-azure-devops?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Monitoring dashboard insights with Foundry agent
+
 - [Monitoring dashboard insights with Foundry agent](https://learn.microsoft.com/en-us/azure/ai-foundry/observability/how-to/optimization-dashboard?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Monitor model deployments
+
+- [Monitor model deployments](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/how-to/monitor-models?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Agent tracing overview
+
 - [Agent tracing overview](https://learn.microsoft.com/en-us/azure/ai-foundry/observability/concepts/trace-agent-concept?view=foundry)
-- [Set up tracing](https://learn.microsoft.com/en-us/azure/ai-foundry/observability/how-to/trace-agent-setup?view=foundry)
-- [Tracing integrations](https://learn.microsoft.com/en-us/azure/ai-foundry/observability/how-to/trace-agent-framework?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Set up your developer environment
+
+- [Set up your developer environment](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/develop/install-cli-sdk?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Work in VS Code
+
+- [Work in VS Code](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/develop/get-started-projects-vs-code?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Start with an AI template
+
+- [Start with an AI template](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/develop/ai-template-get-started?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Use the Visual Studio Code extension for agent development
+
+- [Use the Visual Studio Code extension for agent development](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/develop/vs-code-agents?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Use MCP Tools in the Visual Studio Code extension
+
+- [Use MCP Tools in the Visual Studio Code extension](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/develop/vs-code-agents-mcp?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Use declarative agent workflows in the Visual Studio Code extension
+
+- [Use declarative agent workflows in the Visual Studio Code extension](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/vs-code-agents-workflow-low-code?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Use hosted agent workflows in the Visual Studio Code extension
+
+- [Use hosted agent workflows in the Visual Studio Code extension](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/vs-code-agents-workflow-pro-code?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Get started with Foundry MCP Server
+
+- [Get started with Foundry MCP Server](https://learn.microsoft.com/en-us/azure/ai-foundry/mcp/get-started?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Best practices and security guidance
+
+- [Best practices and security guidance](https://learn.microsoft.com/en-us/azure/ai-foundry/mcp/security-best-practices?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Available tools and sample prompts
+
+- [Available tools and sample prompts](https://learn.microsoft.com/en-us/azure/ai-foundry/mcp/available-tools?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Microsoft Foundry SDKs
+
+- [Microsoft Foundry SDKs](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/develop/sdk-overview?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Endpoints for Foundry Models
+
+- [Endpoints for Foundry Models](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/concepts/endpoints?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## C#
+
+- [C#](https://learn.microsoft.com/dotnet/api/overview/azure/ai.projects-readme?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## JavaScript
+
+- [JavaScript](https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme?view=azure-node-preview&preserve-view=true)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Python
+
+- [Python](https://learn.microsoft.com/python/api/overview/azure/ai-projects-readme?view=azure-python-preview&preserve-view=true)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## REST API
+
+- [REST API](https://learn.microsoft.com/rest/api/aifoundry/aiprojects/?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## REST API (preview)
+
+- [REST API (preview)](https://learn.microsoft.com/en-us/azure/ai-foundry/reference/foundry-project-rest-preview?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## API lifecycle
+
+- [API lifecycle](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/api-version-lifecycle?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Dataplane SDK language support
+
+- [Dataplane SDK language support](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/supported-languages?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## v1 API
+
+- [v1 API](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/latest?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Chat
+
+- [Chat](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/latest#create-chat-completion?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Evals (preview)
+
+- [Evals (preview)](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/latest#list-evals?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Files
+
+- [Files](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/latest#create-file?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
 
 ## Fine-tuning
 
-- [Synthetic Data Generation](https://learn.microsoft.com/en-us/azure/ai-foundry/fine-tuning/data-generation?view=foundry)
+- [Fine-tuning](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/latest#create-fine-tuning-job?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
 
-## Model Context Protocol
+## Models
 
-- [Build your own MCP server](https://learn.microsoft.com/en-us/azure/ai-foundry/mcp/build-your-own-mcp-server?view=foundry)
-- [Get started with Foundry MCP Server](https://learn.microsoft.com/en-us/azure/ai-foundry/mcp/get-started?view=foundry)
-- [Best practices and security guidance](https://learn.microsoft.com/en-us/azure/ai-foundry/mcp/security-best-practices?view=foundry)
-- [Available tools and sample prompts](https://learn.microsoft.com/en-us/azure/ai-foundry/mcp/available-tools?view=foundry)
+- [Models](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/latest#list-models?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
 
-## Control Plane
+## Responses
 
-- [What is the Foundry control plane?](https://learn.microsoft.com/en-us/azure/ai-foundry/control-plane/overview?view=foundry)
-- [Monitor fleet health and performance](https://learn.microsoft.com/en-us/azure/ai-foundry/control-plane/monitoring-across-fleet?view=foundry)
-- [Manage agents at scale](https://learn.microsoft.com/en-us/azure/ai-foundry/control-plane/how-to-manage-agents?view=foundry)
-- [Register and manage custom agents](https://learn.microsoft.com/en-us/azure/ai-foundry/control-plane/register-custom-agent?view=foundry)
-- [Enforce token limits](https://learn.microsoft.com/en-us/azure/ai-foundry/control-plane/how-to-enforce-limits-models?view=foundry)
-- [Apply a guardrail policy for models](https://learn.microsoft.com/en-us/azure/ai-foundry/control-plane/quickstart-create-guardrail-policy?view=foundry)
-- [Optimize cost and performance](https://learn.microsoft.com/en-us/azure/ai-foundry/control-plane/how-to-optimize-cost-performance?view=foundry)
-- [Manage compliance and security](https://learn.microsoft.com/en-us/azure/ai-foundry/control-plane/how-to-manage-compliance-security?view=foundry)
+- [Responses](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/latest#create-response?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
 
-## Guardrails & Safety
+## Vector stores
 
-- [Overview](https://learn.microsoft.com/en-us/azure/ai-foundry/guardrails/guardrails-overview?view=foundry)
-- [How to configure Guardrails and controls](https://learn.microsoft.com/en-us/azure/ai-foundry/guardrails/how-to-create-guardrails?view=foundry)
-- [Harm categories](https://learn.microsoft.com/en-us/azure/ai-foundry/guardrails/severity-levels?view=foundry)
-- [Intervention points](https://learn.microsoft.com/en-us/azure/ai-foundry/guardrails/intervention-points?view=foundry)
+- [Vector stores](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/latest#list-vector-stores?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
 
-## Configuration
+## REST API (resource creation & deployment)
 
-- [Configure AI Gateway](https://learn.microsoft.com/en-us/azure/ai-foundry/configuration/enable-ai-api-management-gateway-portal?view=foundry)
-
-## Responsible AI
-
-- [Overview](https://learn.microsoft.com/en-us/azure/ai-foundry/responsible-ai/openai/overview?view=foundry)
-- [Transparency note](https://learn.microsoft.com/en-us/azure/ai-foundry/responsible-ai/openai/transparency-note?view=foundry)
-- [Limited access](https://learn.microsoft.com/en-us/azure/ai-foundry/responsible-ai/openai/limited-access?view=foundry)
-- [Data, privacy, and security](https://learn.microsoft.com/en-us/azure/ai-foundry/responsible-ai/openai/data-privacy?view=foundry)
-- [Customer Copyright Commitment](https://learn.microsoft.com/en-us/azure/ai-foundry/responsible-ai/openai/customer-copyright-commitment?view=foundry)
-- [Transparency note](https://learn.microsoft.com/en-us/azure/ai-foundry/responsible-ai/agents/transparency-note?view=foundry)
-- [Data, privacy, and security for agents](https://learn.microsoft.com/en-us/azure/ai-foundry/responsible-ai/agents/data-privacy-security?view=foundry)
-- [Data, privacy, and security for Foundry Models sold directly by Azure](https://learn.microsoft.com/en-us/azure/ai-foundry/responsible-ai/openai/data-privacy?view=foundry)
-- [Data, privacy, and security for Claude models in Microsoft Foundry](https://learn.microsoft.com/en-us/azure/ai-foundry/responsible-ai/claude-models/data-privacy?view=foundry)
-
-## Reference
-
-- [REST API (preview)](https://learn.microsoft.com/en-us/azure/ai-foundry/reference/foundry-project-rest-preview?view=foundry)
-- [Known issues](https://learn.microsoft.com/en-us/azure/ai-foundry/reference/foundry-known-issues?view=foundry)
-- [Feature availability by region](https://learn.microsoft.com/en-us/azure/ai-foundry/reference/region-support?view=foundry)
-
-## General
-
-- [C#](https://learn.microsoft.com/dotnet/api/overview/azure/ai.projects-readme?view=foundry)
-- [JavaScript](https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme?view=azure-node-preview&preserve-view=true)
-- [Python](https://learn.microsoft.com/python/api/overview/azure/ai-projects-readme?view=azure-python-preview&preserve-view=true)
-- [REST API](https://learn.microsoft.com/rest/api/aifoundry/aiprojects/?view=foundry)
 - [REST API (resource creation & deployment)](https://learn.microsoft.com/rest/api/aiservices/accountmanagement/deployments/create-or-update?tabs=HTTP?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Azure OpenAI monitoring data reference
+
+- [Azure OpenAI monitoring data reference](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/monitor-openai-reference?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Audio events reference
+
+- [Audio events reference](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/realtime-audio-reference?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Foundry Tools SDKs
+
+- [Foundry Tools SDKs](https://learn.microsoft.com/en-us/azure/ai-services/reference/sdk-package-resources?context=/azure/ai-foundry/context/context?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Foundry Tools REST APIs
+
+- [Foundry Tools REST APIs](https://learn.microsoft.com/en-us/azure/ai-services/reference/rest-api-resources?context=/azure/ai-foundry/context/context?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Azure Resource Manager/Bicep/Terraform
+
 - [Azure Resource Manager/Bicep/Terraform](https://learn.microsoft.com/azure/templates/microsoft.cognitiveservices/accounts?pivots=deployment-language-bicep?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Azure CLI
+
 - [Azure CLI](https://learn.microsoft.com/cli/azure/cognitiveservices?view=azure-cli-latest&preserve-view=true)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Share via Facebook x.com LinkedIn Email Print Note Access to this page requires auth...
+
+## How to configure Guardrails and controls
+
+- [How to configure Guardrails and controls](https://learn.microsoft.com/en-us/azure/ai-foundry/guardrails/how-to-create-guardrails?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Harm categories
+
+- [Harm categories](https://learn.microsoft.com/en-us/azure/ai-foundry/guardrails/severity-levels?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Prompt shields
+
+- [Prompt shields](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/content-filter-prompt-shields?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Sensitive data leakage
+
+- [Sensitive data leakage](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/content-filter-personal-information?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Groundedness detection
+
+- [Groundedness detection](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/content-filter-groundedness?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Protected material for code
+
+- [Protected material for code](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/quickstart-protected-material-code?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Protected material for text
+
+- [Protected material for text](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/content-filter-protected-material?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Block lists
+
+- [Block lists](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/quickstart-blocklist?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Custom categories
+
+- [Custom categories](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/concepts/custom-categories?context=/azure/ai-foundry/context/context&view=foundry&preserve-view=true)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Intervention points
+
+- [Intervention points](https://learn.microsoft.com/en-us/azure/ai-foundry/guardrails/intervention-points?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Default safety policies
+
+- [Default safety policies](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/default-safety-policies?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Content streaming
+
+- [Content streaming](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/content-streaming?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Abuse monitoring
+
+- [Abuse monitoring](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/abuse-monitoring?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Responsible AI overview
+
 - [Responsible AI overview](https://learn.microsoft.com/en-us/azure/ai-foundry/responsible-use-of-ai-overview?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Limited access
+
+- [Limited access](https://learn.microsoft.com/en-us/azure/ai-services/cognitive-services-limited-access?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+- [Limited access](https://learn.microsoft.com/en-us/azure/ai-foundry/responsible-ai/openai/limited-access?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Transparency note
+
+- [Transparency note](https://learn.microsoft.com/en-us/azure/ai-foundry/responsible-ai/openai/transparency-note?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+- [Transparency note](https://learn.microsoft.com/en-us/azure/ai-foundry/responsible-ai/agents/transparency-note?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Code of conduct
+
 - [Code of conduct](https://learn.microsoft.com/legal/ai-code-of-conduct?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+- [Code of conduct](https://learn.microsoft.com/legal/ai-code-of-conduct?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Data, privacy, and security
+
+- [Data, privacy, and security](https://learn.microsoft.com/en-us/azure/ai-foundry/responsible-ai/openai/data-privacy?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Customer Copyright Commitment
+
+- [Customer Copyright Commitment](https://learn.microsoft.com/en-us/azure/ai-foundry/responsible-ai/openai/customer-copyright-commitment?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Data, privacy, and security for agents
+
+- [Data, privacy, and security for agents](https://learn.microsoft.com/en-us/azure/ai-foundry/responsible-ai/agents/data-privacy-security?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Get started with DeepSeek-R1 reasoning model
+
+- [Get started with DeepSeek-R1 reasoning model](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/tutorials/get-started-deepseek-r1?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Prompt engineering techniques
+
+- [Prompt engineering techniques](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/prompt-engineering?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Performance & latency
+
+- [Performance & latency](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/latency?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Red teaming large language models (LLMs)
+
+- [Red teaming large language models (LLMs)](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/red-teaming?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Plan rollout
+
+- [Plan rollout](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/planning?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Create your first resource
+
+- [Create your first resource](https://learn.microsoft.com/en-us/azure/ai-services/multi-service-resource?context=/azure/ai-foundry/context/context?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Create resources using Bicep template
+
+- [Create resources using Bicep template](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/create-resource-template?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Manage resources using Terraform
+
+- [Manage resources using Terraform](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/create-resource-terraform?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Recover or purge deleted resources
+
+- [Recover or purge deleted resources](https://learn.microsoft.com/en-us/azure/ai-services/recover-purge-resources?context=/azure/ai-foundry/context/context?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Upgrade from Azure OpenAI Service
+
+- [Upgrade from Azure OpenAI Service](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/upgrade-azure-openai?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Create and manage projects
+
+- [Create and manage projects](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/create-projects?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Set up your agent resources
+
+- [Set up your agent resources](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/environment-setup?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Standard agent setup
+
+- [Standard agent setup](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/concepts/standard-agent-setup?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Use your own Azure resources
+
+- [Use your own Azure resources](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/use-your-own-resources?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Migrate agents
+
+- [Migrate agents](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/migrate?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Virtual networks
+
+- [Virtual networks](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/virtual-networks?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Use an AI Gateway
+
+- [Use an AI Gateway](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/ai-gateway?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Create a connection
+
+- [Create a connection](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/connections-add?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Connect to your own storage in Foundry
+
+- [Connect to your own storage in Foundry](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/bring-your-own-azure-storage-foundry?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Connect to your own storage for Speech/Language
+
+- [Connect to your own storage for Speech/Language](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/bring-your-own-azure-storage-speech-language-services?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Manage Grounding with Bing
+
+- [Manage Grounding with Bing](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/manage-grounding-with-bing?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Manage quotas for Foundry resources
+
+- [Manage quotas for Foundry resources](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/quota?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Foundry Models quotas and limits
+
+- [Foundry Models quotas and limits](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/quotas-limits?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Azure OpenAI quotas and limits
+
+- [Azure OpenAI quotas and limits](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/quotas-limits?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Authentication and authorization
+
+- [Authentication and authorization](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/authentication-authorization-foundry?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Disable preview features with role-based access control
+
+- [Disable preview features with role-based access control](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/disable-preview-features-with-rbac?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Role-based access control
+
+- [Role-based access control](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/rbac-foundry?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Configure keyless authentication
+
+- [Configure keyless authentication](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/how-to/configure-entra-id?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Configure private link
+
+- [Configure private link](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/configure-private-link?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Managed virtual network
+
+- [Managed virtual network](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/managed-virtual-network?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Network security perimeter
+
+- [Network security perimeter](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/add-foundry-to-network-security-perimeter?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Configure customer-managed keys
+
+- [Configure customer-managed keys](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/encryption-keys-portal?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Store secrets in your Azure Key Vault
+
+- [Store secrets in your Azure Key Vault](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/set-up-key-vault-connection?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Rotate API access keys
+
+- [Rotate API access keys](https://learn.microsoft.com/azure/ai-services/rotate-keys?context=/azure/ai-foundry/context/context?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Built-in policy definitions
+
+- [Built-in policy definitions](https://learn.microsoft.com/en-us/azure/ai-services/policy-reference?context=/azure/ai-foundry/context/context?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Built-in policy for model deployment
+
+- [Built-in policy for model deployment](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/model-deployment-policy?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Create custom policy definitions
+
+- [Create custom policy definitions](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/custom-policy-definition?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## High availability and resiliency
+
+- [High availability and resiliency](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/high-availability-resiliency?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Disaster recovery for agent services
+
+- [Disaster recovery for agent services](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/agent-service-disaster-recovery?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Disaster recovery from a platform outage
+
+- [Disaster recovery from a platform outage](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/agent-service-platform-disaster-recovery?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Disaster recovery from resource and data loss
+
+- [Disaster recovery from resource and data loss](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/agent-service-operator-disaster-recovery?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Plan and manage costs
+
+- [Plan and manage costs](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/manage-costs?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Security baseline
+
 - [Security baseline](https://learn.microsoft.com/security/benchmark/azure/baselines/azure-ai-foundry-security-baseline?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Service architecture
+
+- [Service architecture](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/architecture?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Data, privacy, and security for Foundry Models sold directly by Azure
+
+- [Data, privacy, and security for Foundry Models sold directly by Azure](https://learn.microsoft.com/en-us/azure/ai-foundry/responsible-ai/openai/data-privacy?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Data, privacy, and security for Claude models in Microsoft Foundry
+
+- [Data, privacy, and security for Claude models in Microsoft Foundry](https://learn.microsoft.com/en-us/azure/ai-foundry/responsible-ai/claude-models/data-privacy?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## What's new in Microsoft Foundry
+
 - [What's new in Microsoft Foundry](https://learn.microsoft.com/en-us/azure/ai-foundry/whats-new-foundry?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Status dashboard
+
 - [Status dashboard](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-status-dashboard-documentation?view=foundry)
-- [Code of conduct](https://learn.microsoft.com/legal/ai-code-of-conduct?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
 
-## Optional
+## Use Microsoft Foundry with a screen reader
 
-- [Azure Security Baseline](https://learn.microsoft.com/en-us/security/benchmark/azure/baselines/azure-ai-foundry-security-baseline): Security baseline guidance for Azure AI Foundry
-- [Azure Compliance](https://aka.ms/AzureCompliance): Azure compliance documentation
-- [SLA for Online Services](https://www.microsoft.com/licensing/docs/view/Service-Level-Agreements-SLA-for-Online-Services): Service Level Agreement details
+- [Use Microsoft Foundry with a screen reader](https://learn.microsoft.com/en-us/azure/ai-foundry/tutorials/screen-reader?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Known issues
+
+- [Known issues](https://learn.microsoft.com/en-us/azure/ai-foundry/reference/foundry-known-issues?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Feature availability by region
+
+- [Feature availability by region](https://learn.microsoft.com/en-us/azure/ai-foundry/reference/region-support?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
+
+## Model lifecycle and retirement
+
+- [Model lifecycle and retirement](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/model-lifecycle-retirement?view=foundry)
+  Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Edit Share via Facebook x.com LinkedIn Email Print Note Access to this page requires...
