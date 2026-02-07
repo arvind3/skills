@@ -1,0 +1,11 @@
+{
+  "name": "deep-wiki",
+  "description": "AI-powered wiki generator for code repositories. Generates comprehensive, Mermaid-rich structured documentation with architecture diagrams, component analysis, and source citations. Inspired by OpenDeepWiki and deepwiki-open.",
+  "version": "1.0.0",
+  "author": {
+    "name": "thegovind"
+  },
+  "homepage": "https://github.com/thegovind/deep-wiki",
+  "repository": "https://github.com/thegovind/deep-wiki",
+  "license": "MIT"
+}
