@@ -19,6 +19,6 @@
     "noPropertyAccessFromIndexSignature": true,
     "exactOptionalPropertyTypes": true
   },
-  "include": ["harness/**/*.ts", "*.ts", "*.test.ts"],
+  "include": ["harness/**/*.ts", "plugins/**/*.ts", "*.ts", "*.test.ts"],
   "exclude": ["node_modules", "dist", ".venv", "__pycache__"]
 }
