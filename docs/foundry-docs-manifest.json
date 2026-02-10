@@ -378,6 +378,11 @@
         "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/function-calling?view=foundry"
       },
       {
+        "title": "Govern MCP tools by using an AI gateway",
+        "href": "agents/how-to/tools/governance",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/governance?view=foundry"
+      },
+      {
         "title": "Use declarative agent workflows in the Visual Studio Code extension",
         "href": "agents/how-to/vs-code-agents-workflow-low-code",
         "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/vs-code-agents-workflow-low-code?view=foundry"
@@ -758,6 +763,11 @@
         "title": "Audio events reference",
         "href": "openai/realtime-audio-reference",
         "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/openai/realtime-audio-reference?view=foundry"
+      },
+      {
+        "title": "Harm categories and severity levels",
+        "href": "openai/concepts/content-filter-severity-levels",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/content-filter-severity-levels?view=foundry"
       },
       {
         "title": "Prompt shields",
@@ -1209,7 +1219,7 @@
     ],
     "Configuration": [
       {
-        "title": "Configure AI Gateway",
+        "title": "Configure an AI gateway",
         "href": "configuration/enable-ai-api-management-gateway-portal",
         "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/configuration/enable-ai-api-management-gateway-portal?view=foundry"
       }
@@ -1310,11 +1320,6 @@
         "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/guardrails/how-to-create-guardrails?view=foundry"
       },
       {
-        "title": "Harm categories",
-        "href": "guardrails/severity-levels",
-        "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/guardrails/severity-levels?view=foundry"
-      },
-      {
         "title": "Intervention points",
         "href": "guardrails/intervention-points",
         "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/guardrails/intervention-points?view=foundry"
@@ -1368,6 +1373,6 @@
       }
     ]
   },
-  "total_pages": 266,
-  "generated_at": "2026-02-06T03:55:07Z"
+  "total_pages": 267,
+  "generated_at": "2026-02-10T04:04:27Z"
 }
