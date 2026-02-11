@@ -29,6 +29,7 @@ copilot --plugin-dir ./deep-wiki
 | `/deep-wiki:research <topic>` | Multi-turn deep investigation with evidence-based analysis |
 | `/deep-wiki:ask <question>` | Ask a question about the repository |
 | `/deep-wiki:onboard` | Generate Principal-Level + Zero-to-Hero onboarding guides |
+| `/deep-wiki:agents` | Generate `AGENTS.md` files for pertinent folders (only where missing) |
 | `/deep-wiki:build` | Package generated wiki as a VitePress site with dark theme |
 
 ## Agents
@@ -52,6 +53,7 @@ View available agents: `/agents`
 | `wiki-qa` | User asks a question about how something works in the repo |
 | `wiki-vitepress` | User asks to build a site or package wiki as VitePress |
 | `wiki-onboarding` | User asks for onboarding docs or getting-started guides |
+| `wiki-agents-md` | User asks to generate AGENTS.md files for coding agent context |
 
 ## Quick Start
 
@@ -91,6 +93,8 @@ Repository → Scan → Catalogue (JSON TOC) → Per-Section Pages → Assembled
                                          Onboarding Guides (Principal + Zero-to-Hero)
                                                     ↓
                                          VitePress Site (Dark Theme + Click-to-Zoom)
+                                                    ↓
+                                         AGENTS.md Files (Only If Missing)
 ```
 
 | Step | Component | What It Does |
@@ -102,6 +106,7 @@ Repository → Scan → Catalogue (JSON TOC) → Per-Section Pages → Assembled
 | 5 | `wiki-changelog` | Git commits → categorized changelog |
 | 6 | `wiki-researcher` | Multi-turn investigation with evidence standard |
 | 7 | `wiki-qa` | Q&A grounded in actual source code |
+| 8 | `wiki-agents-md` | Generates `AGENTS.md` files for pertinent folders (only if missing) |
 
 ## Design Principles
 
@@ -128,6 +133,7 @@ deep-wiki/
 │   ├── research.md          # 5-iteration deep research
 │   ├── ask.md               # Q&A about the repo
 │   ├── onboard.md           # Onboarding guide generation
+│   ├── agents.md            # AGENTS.md generation (only if missing)
 │   └── build.md             # VitePress site packaging
 ├── skills/                   # Auto-invoked based on context
 │   ├── wiki-architect/
@@ -142,8 +148,10 @@ deep-wiki/
 │   │   └── SKILL.md
 │   ├── wiki-vitepress/
 │   │   └── SKILL.md         # VitePress packaging + dark-mode Mermaid
-│   └── wiki-onboarding/
-│       └── SKILL.md         # Onboarding guide generation
+│   ├── wiki-onboarding/
+│   │   └── SKILL.md         # Onboarding guide generation
+│   └── wiki-agents-md/
+│       └── SKILL.md         # AGENTS.md generation for coding agents
 ├── agents/                   # Custom agents (visible in /agents)
 │   ├── wiki-architect.md
 │   ├── wiki-writer.md
