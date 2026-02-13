@@ -12,8 +12,16 @@ Before generating the workflow:
 
 1. **Verify wiki exists**: Check that `wiki/` directory and `wiki/package.json` exist
    - If not, tell the user: _"Run `/deep-wiki:build` first to scaffold the VitePress site."_
-2. **Check for existing workflow**: Look for `.github/workflows/deploy-wiki.yml`
-   - If it exists, ask the user if they want to overwrite it
+2. **Check for existing deployment workflows**: Search for ANY existing GitHub Pages workflow:
+   ```bash
+   # Check for exact file
+   ls .github/workflows/deploy-wiki.yml 2>/dev/null
+   # Check for any pages-related workflow
+   grep -rl "deploy-pages\|pages-artifact\|github-pages" .github/workflows/ 2>/dev/null
+   ```
+   - If `deploy-wiki.yml` exists → **STOP**. Tell the user: _"A deployment workflow already exists at `.github/workflows/deploy-wiki.yml`. No changes needed."_
+   - If a DIFFERENT pages workflow exists → **ASK the user**: _"I found an existing GitHub Pages workflow at `{path}`. Should I skip creating a new one, or create `deploy-wiki.yml` alongside it?"_
+   - If no pages workflow exists → proceed with generation
 
 ## Step 2: Generate Workflow File
 
@@ -142,6 +150,8 @@ After generating the workflow, output:
 
 ### What You Need To Do
 
+> ⚠️ IMPORTANT: GitHub Pages will NOT work until you complete step 2.
+
 1. **Commit the workflow file:**
    ```bash
    git add .github/workflows/deploy-wiki.yml wiki/package-lock.json
@@ -149,10 +159,11 @@ After generating the workflow, output:
    git push
    ```
 
-2. **Enable GitHub Pages in your repository settings:**
-   - Go to **Settings → Pages**
-   - Under **Build and deployment → Source**, select **GitHub Actions**
-   - That's it — no branch selection needed
+2. **Enable GitHub Pages (REQUIRED — deployments will fail without this):**
+   - Go to your repo on GitHub → **Settings** → **Pages**
+   - Under **Build and deployment**, change **Source** to **"GitHub Actions"**
+   - Click **Save**
+   - Without this step, the workflow runs but the site is NOT published
 
 3. **Your wiki will be live at:**
    - `https://{owner}.github.io/{repo-name}/` (project site)

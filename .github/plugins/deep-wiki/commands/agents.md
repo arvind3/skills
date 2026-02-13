@@ -125,7 +125,7 @@ For each folder where AGENTS.md is missing, generate a file covering the **six c
 - Should NOT repeat root-level content
 - Should be concise — the root AGENTS.md handles the big picture
 
-**Wiki AGENTS.md** (`wiki/AGENTS.md`) — ALWAYS generate for the wiki folder. Use this template:
+**Wiki AGENTS.md** (`wiki/AGENTS.md`) — Generate for the wiki folder if it doesn't already exist (same only-if-missing guard). Use this template:
 
 ```markdown
 # Wiki — Agent Instructions

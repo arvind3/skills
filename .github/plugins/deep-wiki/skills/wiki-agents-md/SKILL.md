@@ -284,7 +284,7 @@ Covers that specific subfolder:
 
 ### Wiki AGENTS.md (`wiki/AGENTS.md`)
 
-**ALWAYS generate this for the wiki folder.** The wiki is a VitePress project with its own `package.json` — it needs agent instructions.
+**ALWAYS check** if `wiki/AGENTS.md` exists before generating — same only-if-missing guard as all other folders. If it exists, skip it.
 
 Use this template (adapt to the actual project):
 

@@ -95,7 +95,7 @@ Scaffold a complete VitePress project in `wiki/` with:
 - Click-to-zoom for diagrams (custom SVG overlay with pan/zoom) and images (medium-zoom)
 - Dynamic sidebar from catalogue structure
 - Onboarding section first (uncollapsed)
-- **Proper `index.md` landing page** — NOT a placeholder. Must contain project title, overview, quick navigation table linking to all sections, and links to onboarding guides.
+- **Proper `index.md` landing page** — Developer-focused, NOT a marketing page. No `hero:` frontmatter. Must contain: Quick Start with runnable commands, architecture overview diagram, documentation map table linking to all sections, key files table with source citations, and tech stack summary. See `/deep-wiki:build` for full template.
 
 See `/deep-wiki:build` for full VitePress packaging details.
 
@@ -112,7 +112,7 @@ Generate `AGENTS.md` files for pertinent repository folders. These files provide
 3. **Generate tailored AGENTS.md** covering the six core areas: Build & Run Commands (first!), Testing, Project Structure, Code Style, Git Workflow, and Boundaries (✅ always / ⚠️ ask first / 🚫 never)
 4. **Generate CLAUDE.md companion** in every folder where AGENTS.md was created (only if `CLAUDE.md` doesn't already exist). Content is always: a heading, a generated-file comment, and a directive to read `AGENTS.md`.
 5. **Root AGENTS.md** covers the whole project (tech stack, architecture, global conventions). **Nested AGENTS.md** covers folder-specific details only — don't repeat the root.
-6. **Wiki AGENTS.md** (`wiki/AGENTS.md`) — ALWAYS generate this for the wiki folder. It must cover: VitePress build/dev/preview commands, wiki structure (sections, onboarding, llms.txt), content conventions (Mermaid dark-mode rules, citation format, frontmatter), and boundaries (don't delete generated pages, don't modify theme without testing). Reference `wiki/llms.txt` and `wiki/llms-full.txt` in the Documentation section.
+6. **Wiki AGENTS.md** (`wiki/AGENTS.md`) — Generate this for the wiki folder **only if it doesn't already exist** (same guard as all other AGENTS.md files). It must cover: VitePress build/dev/preview commands, wiki structure (sections, onboarding, llms.txt), content conventions (Mermaid dark-mode rules, citation format, frontmatter), and boundaries (don't delete generated pages, don't modify theme without testing). Reference `wiki/llms.txt` and `wiki/llms-full.txt` in the Documentation section.
 7. **Output a summary** listing which files were created, which were skipped (already exist), and which folders were not applicable.
 
 See `/deep-wiki:agents` for full AGENTS.md generation details.

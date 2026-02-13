@@ -45,17 +45,77 @@ wiki/
 
 ### index.md — Wiki Landing Page (CRITICAL)
 
-The `index.md` MUST be a proper, content-rich wiki home page — **NEVER a generic placeholder**. It serves as the main entry point for both VitePress and ADO Wiki exports.
+The `index.md` MUST be a developer-focused wiki home page — **NOT a marketing landing page**. No `hero:` frontmatter blocks, no taglines, no call-to-action buttons. This is a technical wiki, not a product page.
 
-Generate `index.md` with:
-- **Project title** as `# heading`
-- **Overview paragraph** — what the project does, its purpose, key technologies (1-2 sentences)
-- **Quick Navigation table** — Section, Description columns linking to all top-level wiki sections
-- **Links to onboarding guides** (if they exist) — prominently placed
-- **Architecture overview diagram** — a high-level Mermaid `graph LR` showing major system components (reuse from the architecture page)
-- **Key technologies table** — Technology, Purpose, Source columns
+Generate `index.md` with this structure:
 
-For VitePress, the `index.md` can optionally include a `hero:` block in front matter, but the markdown body below it must contain the full landing page content (so it survives ADO conversion which strips front matter).
+```markdown
+---
+title: Project Name — Documentation
+description: Technical documentation for Project Name
+---
+
+# Project Name
+
+Brief 1–2 sentence description of what the project does technically.
+
+## Quick Start
+
+\`\`\`bash
+# Clone, install, run (actual commands from the repo)
+git clone <repo-url>
+cd <repo>
+npm install && npm run dev
+\`\`\`
+
+## Architecture Overview
+
+\`\`\`mermaid
+graph LR
+  A[Component A] --> B[Component B]
+  B --> C[Component C]
+\`\`\`
+<!-- Sources: src/app.ts:1, src/server.ts:1 -->
+
+## Documentation Map
+
+| Section | Description |
+|---------|-------------|
+| [Onboarding](./onboarding/) | Guides for contributors, staff engineers, executives, and PMs |
+| [Getting Started](./01-getting-started/) | Setup, configuration, first steps |
+| [Architecture](./02-architecture/) | System design, data flow, components |
+| ... | ... |
+
+## Key Files
+
+| File | Purpose | Source |
+|------|---------|--------|
+| `src/main.ts` | Application entry point | [src/main.ts:1](REPO_URL/blob/BRANCH/src/main.ts#L1) |
+| `src/config.ts` | Configuration loader | [src/config.ts:1](REPO_URL/blob/BRANCH/src/config.ts#L1) |
+| ... | ... | ... |
+
+## Tech Stack
+
+| Technology | Purpose |
+|-----------|---------|
+| TypeScript | Primary language |
+| FastAPI | API framework |
+| ... | ... |
+```
+
+**DO NOT include:**
+- VitePress `hero:` frontmatter (no hero banners, no action buttons)
+- Marketing copy ("powerful", "blazing fast", "enterprise-grade")
+- Feature highlight cards or badges
+- "Get Started" call-to-action buttons
+- Any content that feels like a product landing page
+
+**DO include:**
+- Actual runnable commands in Quick Start
+- Architecture diagram with source citations
+- Documentation map table linking to all wiki sections
+- Key files table with source citations
+- Tech stack summary table
 
 ### package.json
 
@@ -159,7 +219,7 @@ Scan the generated markdown files and build sidebar config:
 
 ## Step 3: Theme Setup (theme/index.ts)
 
-Implement two zoom systems:
+Implement two zoom systems and a focus mode toggle:
 
 ### Image Zoom (medium-zoom)
 ```typescript
@@ -167,20 +227,204 @@ import mediumZoom from 'medium-zoom'
 // Apply to all images: mediumZoom('.vp-doc img:not(.no-zoom)', { background: 'rgba(0, 0, 0, 0.92)' })
 ```
 
-### Mermaid Diagram Zoom (custom SVG overlay)
+### Mermaid Diagram Zoom (custom SVG overlay — CRITICAL)
 
-Mermaid renders `<svg>`, not `<img>`, so medium-zoom won't work. Build a custom fullscreen overlay:
-- **Clone the SVG** (don't move it) into the overlay
-- **Zoom controls**: +, −, Reset buttons + keyboard shortcuts (+, -, 0)
-- **Scroll wheel zoom**: Passive-false wheel event listener
-- **Pan**: Mousedown drag on the content area
-- **Keyboard**: Escape to close
-- **Backdrop click**: Click outside to close
-- **ViewBox fix**: If SVG has no viewBox, compute one from `getBBox()`
+Mermaid renders `<svg>`, not `<img>`, so medium-zoom won't work. You MUST implement a custom fullscreen overlay. **This is the most common source of bugs — follow this implementation exactly.**
 
-**CRITICAL**: Use `setup()` with `onMounted` + route watcher, NOT `enhanceApp()` (DOM doesn't exist yet during SSR).
+```typescript
+// In setup() within enhanceApp or theme index.ts
+import { onMounted, watch, nextTick } from 'vue'
+import { useRoute } from 'vitepress'
+import DefaultTheme from 'vitepress/theme'
+import mediumZoom from 'medium-zoom'
+import './custom.css'
 
-**Mermaid async rendering**: Diagrams are rendered asynchronously by `vitepress-plugin-mermaid`. The SVGs don't exist when `onMounted` fires. **Poll for them** with retry (up to 20 attempts × 500ms).
+export default {
+  extends: DefaultTheme,
+  setup() {
+    const route = useRoute()
+
+    const initZoom = () => {
+      // Image zoom
+      mediumZoom('.vp-doc img:not(.no-zoom)', {
+        background: 'rgba(0, 0, 0, 0.92)',
+      })
+
+      // Mermaid diagram zoom — poll for async-rendered SVGs
+      const attachMermaidZoom = (retries = 0) => {
+        const diagrams = document.querySelectorAll('.mermaid')
+        if (diagrams.length === 0 && retries < 20) {
+          setTimeout(() => attachMermaidZoom(retries + 1), 500)
+          return
+        }
+
+        diagrams.forEach((container) => {
+          // Skip if already has zoom handler
+          if (container.getAttribute('data-zoom-attached')) return
+          container.setAttribute('data-zoom-attached', 'true')
+          container.style.cursor = 'pointer'
+
+          container.addEventListener('click', () => {
+            const svg = container.querySelector('svg')
+            if (!svg) return
+            openDiagramModal(svg)
+          })
+        })
+      }
+      attachMermaidZoom()
+    }
+
+    const openDiagramModal = (svg: SVGSVGElement) => {
+      // Create overlay
+      const overlay = document.createElement('div')
+      overlay.className = 'diagram-zoom-overlay'
+
+      // Create container with controls
+      const wrapper = document.createElement('div')
+      wrapper.className = 'diagram-zoom-wrapper'
+
+      // Controls bar
+      const controls = document.createElement('div')
+      controls.className = 'diagram-zoom-controls'
+      controls.innerHTML = `
+        <button class="zoom-btn" data-action="zoom-in" title="Zoom in (+)">+</button>
+        <button class="zoom-btn" data-action="zoom-out" title="Zoom out (-)">−</button>
+        <button class="zoom-btn" data-action="zoom-reset" title="Reset (0)">Reset</button>
+        <button class="zoom-btn zoom-close" data-action="close" title="Close (Esc)">✕</button>
+      `
+
+      // Clone SVG into scrollable content area
+      const content = document.createElement('div')
+      content.className = 'diagram-zoom-content'
+      const cloned = svg.cloneNode(true) as SVGSVGElement
+
+      // Fix viewBox if missing
+      if (!cloned.getAttribute('viewBox')) {
+        const bbox = svg.getBBox()
+        cloned.setAttribute('viewBox', `${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}`)
+      }
+      cloned.style.width = '100%'
+      cloned.style.height = 'auto'
+      cloned.style.maxHeight = 'none'
+
+      content.appendChild(cloned)
+      wrapper.appendChild(controls)
+      wrapper.appendChild(content)
+      overlay.appendChild(wrapper)
+      document.body.appendChild(overlay)
+      document.body.style.overflow = 'hidden'
+
+      // Zoom state
+      let scale = 1
+      let translateX = 0
+      let translateY = 0
+      const applyTransform = () => {
+        content.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`
+      }
+
+      // Control buttons
+      controls.addEventListener('click', (e) => {
+        const action = (e.target as HTMLElement).closest('[data-action]')?.getAttribute('data-action')
+        if (action === 'zoom-in') { scale = Math.min(scale * 1.3, 5); applyTransform() }
+        if (action === 'zoom-out') { scale = Math.max(scale / 1.3, 0.2); applyTransform() }
+        if (action === 'zoom-reset') { scale = 1; translateX = 0; translateY = 0; applyTransform() }
+        if (action === 'close') closeOverlay()
+      })
+
+      // Scroll wheel zoom
+      overlay.addEventListener('wheel', (e) => {
+        e.preventDefault()
+        const delta = e.deltaY > 0 ? 0.9 : 1.1
+        scale = Math.min(Math.max(scale * delta, 0.2), 5)
+        applyTransform()
+      }, { passive: false })
+
+      // Pan with mouse drag
+      let isPanning = false
+      let startX = 0, startY = 0
+      content.addEventListener('mousedown', (e) => {
+        isPanning = true; startX = e.clientX - translateX; startY = e.clientY - translateY
+        content.style.cursor = 'grabbing'
+      })
+      document.addEventListener('mousemove', (e) => {
+        if (!isPanning) return
+        translateX = e.clientX - startX; translateY = e.clientY - startY
+        applyTransform()
+      })
+      document.addEventListener('mouseup', () => {
+        isPanning = false; content.style.cursor = 'grab'
+      })
+
+      // Keyboard shortcuts
+      const keyHandler = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') closeOverlay()
+        if (e.key === '+' || e.key === '=') { scale = Math.min(scale * 1.3, 5); applyTransform() }
+        if (e.key === '-') { scale = Math.max(scale / 1.3, 0.2); applyTransform() }
+        if (e.key === '0') { scale = 1; translateX = 0; translateY = 0; applyTransform() }
+      }
+      document.addEventListener('keydown', keyHandler)
+
+      // Backdrop click to close
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closeOverlay()
+      })
+
+      const closeOverlay = () => {
+        document.removeEventListener('keydown', keyHandler)
+        document.body.style.overflow = ''
+        overlay.remove()
+      }
+    }
+
+    onMounted(() => initZoom())
+    watch(() => route.path, () => nextTick(() => initZoom()))
+  },
+}
+```
+
+**CRITICAL implementation notes:**
+- Use `setup()` with `onMounted` + route watcher — NOT `enhanceApp()` (DOM doesn't exist during SSR)
+- **Poll for Mermaid SVGs** with retry (up to 20 × 500ms) — `vitepress-plugin-mermaid` renders asynchronously, SVGs don't exist when `onMounted` fires
+- **Clone the SVG** (don't move it) — moving it breaks the page layout
+- **Fix missing viewBox** — compute from `getBBox()` so scaling works correctly
+- **Mark containers** with `data-zoom-attached` to prevent duplicate handlers on route changes
+
+### Focus Mode Toggle
+
+Add a reading focus mode that hides sidebar and navbar for distraction-free reading:
+
+```typescript
+// Add this inside setup(), after initZoom
+const initFocusMode = () => {
+  // Don't add if already exists
+  if (document.getElementById('focus-mode-toggle')) return
+
+  const btn = document.createElement('button')
+  btn.id = 'focus-mode-toggle'
+  btn.className = 'focus-mode-btn'
+  btn.title = 'Toggle focus mode (F)'
+  btn.textContent = '👁'
+  btn.addEventListener('click', toggleFocusMode)
+  document.body.appendChild(btn)
+
+  // Keyboard shortcut: F key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'f' && !e.ctrlKey && !e.metaKey && !e.altKey
+      && !['INPUT', 'TEXTAREA', 'SELECT'].includes((e.target as HTMLElement).tagName)) {
+      e.preventDefault()
+      toggleFocusMode()
+    }
+  })
+}
+
+const toggleFocusMode = () => {
+  document.body.classList.toggle('focus-mode')
+  const btn = document.getElementById('focus-mode-toggle')
+  if (btn) btn.textContent = document.body.classList.contains('focus-mode') ? '👁‍🗨' : '👁'
+}
+
+onMounted(() => { initZoom(); initFocusMode() })
+```
 
 ## Step 4: Dark Theme CSS (theme/custom.css)
 
@@ -238,6 +482,128 @@ Theme variables don't cover everything. Force dark fills on all SVG shapes:
 - Fullscreen overlay: backdrop blur, centered container, zoom controls, pan cursor
 - Image hover: subtle glow + scale on hover
 - medium-zoom overlay: dark background with blur
+
+```css
+/* === Mermaid Hover Hint === */
+.mermaid {
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
+  position: relative;
+}
+.mermaid:hover {
+  box-shadow: 0 0 0 2px #6d5dfc40, 0 0 20px #6d5dfc20;
+}
+.mermaid::after {
+  content: '🔍 Click to zoom';
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: #2d333b;
+  color: #8b949e;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+.mermaid:hover::after { opacity: 1; }
+
+/* === Diagram Zoom Overlay === */
+.diagram-zoom-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.diagram-zoom-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 90vw;
+  height: 90vh;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.diagram-zoom-controls {
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #161b22;
+  border-bottom: 1px solid #30363d;
+}
+.zoom-btn {
+  background: #2d333b;
+  color: #e6edf3;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 4px 12px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.zoom-btn:hover { background: #3d434b; border-color: #6d5dfc; }
+.zoom-close { margin-left: auto; }
+.diagram-zoom-content {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  transform-origin: center center;
+}
+.diagram-zoom-content svg { max-width: none; }
+
+/* === Focus Mode Button === */
+.focus-mode-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #2d333b;
+  border: 1px solid #30363d;
+  color: #e6edf3;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+.focus-mode-btn:hover {
+  background: #3d434b;
+  border-color: #6d5dfc;
+  transform: scale(1.1);
+}
+
+/* === Focus Mode Active State === */
+.focus-mode .VPSidebar,
+.focus-mode .VPNav,
+.focus-mode .VPLocalNav,
+.focus-mode .VPFooter,
+.focus-mode .VPDocAside {
+  display: none !important;
+}
+.focus-mode .VPDoc {
+  padding: 0 !important;
+}
+.focus-mode .VPDoc .container {
+  max-width: 900px !important;
+  margin: 0 auto !important;
+}
+.focus-mode .vp-doc {
+  padding: 40px 20px !important;
+}
+```
 
 ## Step 5: Post-Processing (Markdown Fixes)
 
