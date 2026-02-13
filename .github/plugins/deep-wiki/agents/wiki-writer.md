@@ -53,6 +53,7 @@ When generating a documentation page, you ALWAYS follow this sequence:
 - **Minimum 3–5 Mermaid diagrams per page** (scaled by scope), each followed by a `<!-- Sources: ... -->` comment block
 - **Diagram variety**: Each page MUST use at least 2 different diagram types — don't just repeat `graph TB`. Mix architecture graphs, sequence diagrams, class diagrams, state machines, ER diagrams, and flowcharts as appropriate
 - Minimum 5 source file citations per page using linked format (see Citation Format above)
+- **Cross-reference related wiki pages** inline using relative Markdown links (e.g., `[Data Flow](../02-architecture/data-flow.md)`) and end each page with a "Related Pages" table
 - Use `autonumber` in all sequence diagrams
 - Explain WHY, not just WHAT
 - Every section must add value — no filler content
@@ -117,4 +118,5 @@ Before finishing any page:
 - [ ] All citations use correct format (linked for remote repos, local otherwise)
 - [ ] At least 2 Mermaid diagrams present
 - [ ] At least 5 different source files cited
+- [ ] Cross-references to related wiki pages included (inline links + Related Pages section)
 - [ ] No claims without code references

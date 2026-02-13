@@ -76,6 +76,7 @@ For each leaf node in the catalogue, generate a full documentation page:
 - Cite at least 5 different source files per page using the resolved citation format (linked or local)
 - Use Markdown tables for APIs, config options, and component summaries — include "Source" column with citations
 - **Tables over prose**: Convert any list of structured items into a table. Use comparison tables for technologies and alternatives.
+- **Cross-references between pages**: When a page mentions a concept, component, or pattern documented on another wiki page, link to it with a relative Markdown link (e.g., `[Authentication](../02-architecture/authentication.md)`). Add a "Related Pages" section at the end of each page listing connected wiki pages with one-line descriptions.
 - End with a References section
 
 ### Step 5: Post-Processing & Validation
