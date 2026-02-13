@@ -65,6 +65,7 @@ Structure the page with:
 - **Implementation Details**: key algorithms, error handling, state management
 - **Configuration & Deployment**: use tables for config options (Key, Default, Description, Source)
 - **References**: inline citations throughout using resolved format
+- **Cross-references**: Link to related wiki pages using relative Markdown links (e.g., `[Data Flow](../02-architecture/data-flow.md)`). Whenever a concept, component, or pattern is covered in more depth on another wiki page, link to it inline. Also add a "Related Pages" section at the end listing connected wiki pages.
 
 ### Content Organization Rules
 

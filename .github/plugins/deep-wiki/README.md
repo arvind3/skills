@@ -33,6 +33,7 @@ copilot --plugin-dir ./deep-wiki
 | `/deep-wiki:llms` | Generate `llms.txt` and `llms-full.txt` for LLM-friendly project access |
 | `/deep-wiki:ado` | Generate a Node.js script to convert wiki to Azure DevOps Wiki-compatible format |
 | `/deep-wiki:build` | Package generated wiki as a VitePress site with dark theme |
+| `/deep-wiki:deploy` | Generate GitHub Actions workflow to deploy wiki to GitHub Pages |
 
 ## Agents
 
@@ -88,6 +89,9 @@ View available agents: `/agents`
 
 # Generate llms.txt for LLM-friendly access
 /deep-wiki:llms
+
+# Deploy wiki to GitHub Pages (optional)
+/deep-wiki:deploy
 ```
 
 ## How It Works
@@ -104,6 +108,8 @@ Repository → Scan → Catalogue (JSON TOC) → Per-Section Pages → Assembled
                                          AGENTS.md Files (Only If Missing)
                                                     ↓
                                          llms.txt + llms-full.txt (LLM-friendly)
+                                                    ↓
+                                         GitHub Pages Deployment (Optional)
 ```
 
 | Step | Component | What It Does |
@@ -169,6 +175,7 @@ deep-wiki/
 │   ├── onboard.md           # Onboarding guide generation
 │   ├── agents.md            # AGENTS.md generation (only if missing)
 │   ├── llms.md              # llms.txt generation for LLM-friendly access
+│   ├── deploy.md            # GitHub Pages deployment workflow generation
 │   ├── ado.md               # Azure DevOps Wiki export script generation
 │   └── build.md             # VitePress site packaging
 ├── skills/                   # Auto-invoked based on context

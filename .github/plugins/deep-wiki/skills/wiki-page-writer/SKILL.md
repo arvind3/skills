@@ -71,7 +71,7 @@ description: "One-line description"
 - **Tables**: Include a "Source" column with linked citations when listing components, APIs, or configurations
 
 ### Structure
-- Overview (explain WHY) → Architecture → Components → Data Flow → Implementation → References
+- Overview (explain WHY) → Architecture → Components → Data Flow → Implementation → References → Related Pages
 - **Use tables aggressively** — prefer tables over prose for any structured information (APIs, configs, components, comparisons)
 - **Summary tables first**: Start each major section with an at-a-glance summary table before details
 - Use comparison tables when introducing technologies or patterns — always compare side-by-side
@@ -79,6 +79,22 @@ description: "One-line description"
 - Use bold for key terms, inline code for identifiers and paths
 - Include pseudocode in a familiar language when explaining complex code paths
 - **Progressive disclosure**: Start with the big picture, then drill into specifics — don't front-load details
+
+### Cross-References Between Wiki Pages
+- **Inline links**: When mentioning a concept, component, or pattern covered on another wiki page, link to it inline using relative Markdown links: `[Component Name](../NN-section/page-name.md)` or `[Section Title](../NN-section/page-name.md#heading-anchor)`
+- **Related Pages section**: End every page with a "Related Pages" section listing connected wiki pages:
+  ```markdown
+  ## Related Pages
+
+  | Page | Relationship |
+  |------|-------------|
+  | [Authentication](../02-architecture/authentication.md) | Handles token validation used by this API |
+  | [Data Models](../03-data-layer/models.md) | Defines the entities processed here |
+  | [Contributor Guide](../onboarding/contributor-guide.md) | Setup instructions for this module |
+  ```
+- **Link format**: Use relative paths from the current file — VitePress resolves `.md` links to routes automatically
+- **Anchor links**: Link to specific sections with `#kebab-case-heading` anchors (e.g., `[error handling](../02-architecture/overview.md#error-handling)`)
+- **Bidirectional where possible**: If page A links to page B, page B should link back to page A
 
 ### VitePress Compatibility
 - Escape bare generics outside code fences: `` `List<T>` `` not bare `List<T>`
