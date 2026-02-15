@@ -1,6 +1,12 @@
 ---
 name: robot-framework-py
-description: Robot Framework skill for Python-centric test automation. USE FOR: creating or refactoring .robot suites, .resource files, RequestsLibrary API tests, and custom Python keyword libraries; enforcing valid Robot Framework sections, reusable resource layering, tags/variables strategy, and BuiltIn or OperatingSystem usage. DO NOT USE FOR: Selenium, Browser, Appium, or other UI automation stacks unless the user explicitly requests those libraries.
+description: >-
+  Robot Framework skill for Python-centric test automation. USE FOR: creating
+  or refactoring .robot suites, .resource files, RequestsLibrary API tests, and
+  custom Python keyword libraries; enforcing valid Robot Framework sections,
+  reusable resource layering, tags/variables strategy, and BuiltIn or
+  OperatingSystem usage. DO NOT USE FOR: Selenium, Browser, Appium, or other UI
+  automation stacks unless the user explicitly requests those libraries.
 ---
 
 # Robot Framework (Python)
